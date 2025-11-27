@@ -2,20 +2,22 @@ XType:
   - string # including `string`, `number`, `boolean`, `undefined`, `any`, and string literals
   - number # literal numbers
   - boolean # literal booleans
-  - null # literal null value
+  - null # literal `null` value
   - $ref: '#/Or'
   - $ref: '#/And'
   - $ref: '#/Array'
-  - $ref: '#/Record'
+  - $ref: '#/Object'
+Ref:
+  $literal:$ref: string::uri
 Or:
-  array:
+  $array:
     $ref: '#/XType'
 And:
   $literal:$and:
     $ref: '#/Or'
 Array:
-  $literal:array:
+  $literal:$array:
     $ref: '#/XType'
-Record:
-  string::pattern(^(?!\$and$)(?!array$).*$): # including `string` and any string literals, but excluding `$and` and `array`.
+Object:
+  $record: # including `$record` and any string literals, but excluding defined above: `$ref`, `$and`, and `$array`.
     $ref: '#/XType'

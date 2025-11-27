@@ -18,15 +18,26 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 
 ## Structural keywords
 
-| Keyword                       | Description                                  |
-| ----------------------------- | -------------------------------------------- |
-| $record ([🔗](#records))      | Record type for dynamic object properties.   |
-| $array ([🔗](#array-types))   | Array type for collections.                  |
-| $and ([🔗](#types-combining)) | Represents the combination of array members. |
-| $ref ([🔗](#references))      | Reference to another **JSON X-Type**.        |
+| Keyword                          | Description                                  |
+| -------------------------------- | -------------------------------------------- |
+| $record ([🔗](#records))         | Record type for dynamic object properties.   |
+| $array ([🔗](#array-types))      | Array type for collections.                  |
+| $and ([🔗](#intersection-types)) | Represents the combination of array members. |
+| $ref ([🔗](#references))         | Reference to another **JSON X-Type**.        |
 
 The list can be extended with other `$`-prefixed keywords.
 So it's necessary to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
+
+Note, that `$`-prefixed keys cannot be combined with each other at the same level:
+
+```json
+{
+  "$array": "string",
+  "$record": "boolean"
+}
+```
+
+This should result in the `undefined` type.
 
 ## Objects
 
@@ -91,9 +102,11 @@ This defines an array of strings.
 
 A TypeScript analogy for `$array` is `Array<T>` or `T[]`.
 
-## Union types
+## Types combining
 
-Array literals define multiple options, one of which is applicable (`OR` types):
+### Union types
+
+Array literals define multiple options, one of which is applicable:
 
 ```json
 ["string", "undefined"]
@@ -104,13 +117,20 @@ Note that this is different from array types (see [Array Types](#array-types)).
 
 The equivalent TypeScript notation uses the pipe (`|`) operator to express unions.
 
-## Types combining
+### Intersection types
 
-It is possible to combine several types into one using the `$and` keyword (`AND` types):
+It is possible to combine several types (mainly existing object types) into one using the `$and` keyword:
 
 ```json
 {
-  "$and": [{"foo": "string"}, {"bar": "number"}]
+  "$and": [
+    {
+      "foo": "string"
+    },
+    {
+      "bar": "number"
+    }
+  ]
 }
 ```
 
@@ -141,7 +161,14 @@ Note that it doesn't make sense to combine primitive types or objects that have 
 
 ```json
 {
-  "$and": [{"foo": "string"}, {"foo": "number"}]
+  "$and": [
+    {
+      "foo": "string"
+    },
+    {
+      "foo": "number"
+    }
+  ]
 }
 ```
 
@@ -181,7 +208,9 @@ It is possible to refer to other **JSON X-Types** using the [JSON Pointer](https
 
 ```json
 {
-  "foo": {"$ref": "#/bar"},
+  "foo": {
+    "$ref": "#/bar"
+  },
   "bar": ["string", "number", "boolean"]
 }
 ```

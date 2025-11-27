@@ -104,7 +104,9 @@ If a field needs to be validated against its context, the validation function ca
 ```json
 {
   "country": ["🇺🇦", "🇺🇸"],
-  "age": "(age, {country}) => (country === '🇺🇸' && age < 21 || country === '🇺🇦' && age < 18) && 'Too young for 🍺'"
+  "age": {
+    "$validate": "(age, {country}) => (country === '🇺🇸' && age < 21 || country === '🇺🇦' && age < 18) && 'Too young for 🍺'"
+  }
 }
 ```
 
