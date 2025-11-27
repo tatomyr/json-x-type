@@ -5,22 +5,28 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 
 **JSON X-Type** can be described by itself ([🔗](./x-types.yaml)).
 
-## Reserved Keywords
+## Primitive types
 
-| Keyword                       | Description                                                         | Usage      |
-| ----------------------------- | ------------------------------------------------------------------- | ---------- |
-| string                        | String type.                                                        | key, value |
-| number                        | Number type.                                                        | value      |
-| boolean                       | Boolean type.                                                       | value      |
-| `null`                        | The `null` value. (Note: The string "null" has no special meaning.) | value      |
-| undefined                     | Indicates that the value is not set.                                | value      |
-| array                         | Array generic.                                                      | key        |
-| any                           | Any value (not validated).                                          | value      |
-| $and ([🔗](#types-combining)) | Represents the combination of array members.                        | key        |
-| $ref ([🔗](#references))      | Reference to another **JSON X-Type**.                               | key\*      |
+| Keyword   | Description                                                         |
+| --------- | ------------------------------------------------------------------- |
+| string    | String type.                                                        |
+| number    | Number type.                                                        |
+| boolean   | Boolean type.                                                       |
+| `null`    | The `null` value. (Note: The string "null" has no special meaning.) |
+| undefined | Indicates that the value is not set.                                |
+| any       | Any value (not validated).                                          |
+
+## Structural keywords
+
+| Keyword                       | Description                                  |
+| ----------------------------- | -------------------------------------------- |
+| $record ([🔗](#records))      | Record type for dynamic object properties.   |
+| $array ([🔗](#array-types))   | Array type for collections.                  |
+| $and ([🔗](#types-combining)) | Represents the combination of array members. |
+| $ref ([🔗](#references))      | Reference to another **JSON X-Type**.        |
 
 The list can be extended with other `$`-prefixed keywords.
-So it's a good idea to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
+So it's necessary to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
 
 ## Objects
 
@@ -35,35 +41,72 @@ Object literals define object-like schemas:
 
 The example above defines an object with two required properties.
 
-It's also possible to use the `string` type as a key to describe records:
+## Records
+
+Record types allow you to define objects with dynamic properties using the `$record` keyword:
 
 ```json
 {
-  "string": "boolean"
+  "$record": "boolean"
 }
 ```
+
+This defines an object where any property has a boolean value.
+
+A TypeScript analogy for `$record` is `Record<string, T>`.
+
+You can also combine specific properties with dynamic ones, although it's not recommended:
+
+```json
+{
+  "name": "string",
+  "$record": "any"
+}
+```
+
+This defines an object with a required `name` property of type string, plus any number of additional properties of any type.
+The `$record` key puts constraints on all properties, including defined ones.
 
 <!-- TODO: consider validating tuples as objects with integer-like keys, e.g.:
 
 ```json
 {
-  "0": "number",
-  "1": "number"
+  "$0": "number",
+  "$1": "number"
 }
 ```
 -->
 
-## Arrays
+## Array types
 
-Array literals define multiple options, one of which is applicable:
+Array types define collections using the `$array` keyword:
+
+```json
+{
+  "$array": "string"
+}
+```
+
+This defines an array of strings.
+
+A TypeScript analogy for `$array` is `Array<T>` or `T[]`.
+
+## Union types
+
+Array literals define multiple options, one of which is applicable (`OR` types):
 
 ```json
 ["string", "undefined"]
 ```
 
-## Types Combining
+This defines a value that can be either a string or undefined.
+Note that this is different from array types (see [Array Types](#array-types)).
 
-It is possible to combine several types into one using the `$and` keyword:
+The equivalent TypeScript notation uses the pipe (`|`) operator to express unions.
+
+## Types combining
+
+It is possible to combine several types into one using the `$and` keyword (`AND` types):
 
 ```json
 {
@@ -106,21 +149,29 @@ The above example results in `foo` being both `string` and `number`, which is ef
 
 Impossible combinations should result in the `undefined` type.
 
-## Literals Escaping
+## Literals escaping
 
 Whenever there is a need to use a literal string value instead of a reserved keyword, it must be prepended with the `$literal:` prefix:
 
 ```json
 {
-  "$literal:string": "boolean"
+  "$literal:$record": "boolean"
 }
 ```
 
-This checks for an object with the `string` key of a `boolean` value, e.g.:
+This checks for an object with the `$record` key of a `boolean` value, e.g.:
 
 ```json
 {
-  "string": true
+  "$record": true
+}
+```
+
+Similarly, you can escape type values like `'string'`:
+
+```json
+{
+  "foo": "$literal:string"
 }
 ```
 
@@ -139,7 +190,7 @@ A reference must be resolved relative to the file it appears in.
 The `$ref` expression must be replaced with the value of the field it refers to.
 Any other properties alongside the `$ref` must be ignored.
 
-Alternatively, the `$ref` keyword can be used as a prefix, which is easier to write and read (though support depends on the implementation):
+Alternatively, the `$ref` keyword can be used as a prefix, which is easier to write and read (although the support depends on the tooling):
 
 ```json
 {
@@ -147,10 +198,8 @@ Alternatively, the `$ref` keyword can be used as a prefix, which is easier to wr
 }
 ```
 
-<!-- Q: Could it be used as a key? Does that even make sense? -->
-
 If a reference cannot be resolved, it should be treated as `any`.
 
-## Types Extending
+## Types extending
 
 Possible extensions are described [here](./extensions.md).

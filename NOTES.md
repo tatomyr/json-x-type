@@ -184,6 +184,31 @@ x-type:
 
 ---
 
+It's easy to get confused when composing objects/arrays with properties named like the type JSON Schema keywords, for instance:
+
+```yaml
+schema:
+  type: object
+  properties:
+    items:
+      type: array
+      items:
+        $ref: '#/components/schemas/Item'
+  required:
+    - items
+```
+
+The same in X-Types looks much more readable:
+
+```yaml
+x-type:
+  items:
+    $array:
+      $ref: '#/components/x-types/Item'
+```
+
+All keys in X-Types start with `$` prefix, so it's generally easier to distinguish them from the type values.
+
 ## X-Types issues
 
 How to compose and object type and a record?

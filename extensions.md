@@ -1,17 +1,17 @@
-# Types Extending
+# Types extending
 
-It is possible to add additional context to types and values using other reserved keys and suffixes.
+It is possible to add additional context to types and values using extension keywords and suffixes.
 
-## Reserved Keywords
+## Extension keywords
 
-| Keyword                                           | Description                                                        | Usage |
-| ------------------------------------------------- | ------------------------------------------------------------------ | ----- |
-| $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level. | key   |
-| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a field that can only appear in requests.                | key   |
-| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a field that can only appear in responses.               | key   |
-| $discriminator [🔗](#discriminator)               | Represents an OpenAPI discriminator.                               | key   |
+| Keyword                                           | Description                                                        |
+| ------------------------------------------------- | ------------------------------------------------------------------ |
+| $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level. |
+| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a field that can only appear in requests.                |
+| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a field that can only appear in responses.               |
+| $discriminator [🔗](#discriminator)               | Represents an OpenAPI discriminator.                               |
 
-Those keywords can be helpful for describing OpenAPI-compatible types.
+These keywords extend the core type system and are helpful for describing OpenAPI-compatible types.
 
 ### Descriptions
 
@@ -29,7 +29,7 @@ They can only be used in objects:
 
 Descriptions are propagated to the OpenAPI schema as the `description` fields of the corresponding properties.
 
-### Read-only and Write-only Fields
+### Read-only and write-only fields
 
 The `$writeonly` and `$readonly` fields contain properties that should be present only in requests or responses respectively.
 Consider this example:
@@ -60,7 +60,7 @@ They are denoted by the double colon notation.
 There should be no more than one format specified.
 Suffixes can be sequentially chained.
 
-### String Formats and Modifiers
+### String formats and modifiers
 
 String formats include, among others, `date-time`, `email`, `uuid`, `uri`.
 The list of possible string formats should correspond to the one described in [JSON Schema string formats](https://json-schema.org/understanding-json-schema/reference/string.html#format).
@@ -68,42 +68,34 @@ The list of possible string formats should correspond to the one described in [J
 Example:
 
 ```json
-{
-  "id": "string::uuid",
-  "string::pattern(^[a-z]+$)": "string::min(1)"
-}
+"string::uuid"
 ```
 
 The modifiers are `min`, `max` (for minimal and maximal length respectively), and `pattern`.
 The corresponding values are passed in parentheses:
 
 ```json
-{
-  "name": "string::min(3)::max(30)::pattern([A-Za-z]+)"
-}
+"string::min(3)::max(30)::pattern([A-Za-z]+)"
 ```
 
-The `pattern` modifier cannot be used in conjunction with anything else.
-Using suffixes in keys is restricted to the `pattern` modifier only.
+The `pattern` modifier can be also used with the `$record` keyword.
 
-### Number Formats and Modifiers
+### Number formats and modifiers
 
 The only supported number format is `integer`, and the modifiers are: `min`, `max`, `x-min` (for exclusive minimum), `x-max` (for exclusive maximum).
 The range modifiers require a number value in parenthesis:
 
 ```json
-{
-  "age": "number::integer::min(18)"
-}
+"number::integer::min(18)"
 ```
 
 <!-- TODO: consider this syntax:
-{"array::min(1)": "any"}
+{"$array::min(1)": "any"}
 Alternatively:
-{"array": "any", "minItems": 1}
+{"$array": "any", "minItems": 1}
 -->
 
-## Free Form Validation
+## Free form validation
 
 > Under consideration.
 

@@ -1,6 +1,6 @@
 {
   "name": "json-types",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "type": "module",
   "description": "This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way. Any [valid JSON](https://www.json.org/) could be validated against an **JSON X-Types** definition.",
   "main": "index.js",

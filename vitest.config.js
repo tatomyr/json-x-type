@@ -5,6 +5,7 @@ export default defineConfig({
     environment: 'node',
     coverage: {
       reporter: ['text', 'json-summary', 'json'],
+      reportOnFailure: true,
       extension: ['.js'],
       all: true,
       include: ['applications/**/*.js'],
