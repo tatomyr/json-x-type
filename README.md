@@ -18,12 +18,12 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 
 ## Structural keywords
 
-| Keyword                          | Description                                  |
-| -------------------------------- | -------------------------------------------- |
-| $record ([🔗](#records))         | Record type for dynamic object properties.   |
-| $array ([🔗](#array-types))      | Array type for collections.                  |
-| $and ([🔗](#intersection-types)) | Represents the combination of array members. |
-| $ref ([🔗](#references))         | Reference to another **JSON X-Type**.        |
+| Keyword | Description                                                              |
+| ------- | ------------------------------------------------------------------------ |
+| $record | Record type for dynamic object properties ([🔗](#objects-and-records)).  |
+| $array  | Array type for collections ([🔗](#array-types)).                         |
+| $and    | Represents the combination of array members ([🔗](#intersection-types)). |
+| $ref    | Reference to another **JSON X-Type** ([🔗](#references)).                |
 
 The list can be extended with other `$`-prefixed keywords.
 So it's necessary to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
@@ -39,9 +39,9 @@ Note, that `$`-prefixed keys cannot be combined with each other at the same leve
 
 This should result in the `undefined` type.
 
-## Objects
+## Objects and records
 
-Object literals define object-like schemas:
+Object literals define object-like structures:
 
 ```json
 {
@@ -51,8 +51,6 @@ Object literals define object-like schemas:
 ```
 
 The example above defines an object with two required properties.
-
-## Records
 
 Record types allow you to define objects with dynamic properties using the `$record` keyword:
 

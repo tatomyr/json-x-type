@@ -1,8 +1,11 @@
 XType:
-  - string # including `string`, `number`, `boolean`, `undefined`, `any`, and string literals
+  - undefined
+  - any
   - number # literal numbers
   - boolean # literal booleans
+  - string # including `string` and string literals
   - null # literal `null` value
+  - $ref: '#/Ref'
   - $ref: '#/Or'
   - $ref: '#/And'
   - $ref: '#/Array'

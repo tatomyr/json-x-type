@@ -209,6 +209,60 @@ x-type:
 
 All keys in X-Types start with `$` prefix, so it's generally easier to distinguish them from the type values.
 
+---
+
+Enums in JSON Schema come with redundancy:
+
+```yaml
+schema:
+  type: string
+  enum:
+    - foo
+    - bar
+```
+
+You can easily infer that the enum is of string type just looking at the enum options.
+In X-Types it's just a matter of composition:
+
+```yaml
+x-type:
+  - foo
+  - bar
+```
+
+Even more, you can use literals of different types if needed:
+
+```yaml
+x-type:
+  - 100
+  - '100'
+```
+
+In JSON Schema, you have to write something like this:
+
+```yaml
+schema:
+  type:
+    - integer
+    - string
+  enum:
+    - 100
+    - '100'
+```
+
+Or this:
+
+```yaml
+schema:
+  oneOf:
+    - type: integer
+      enum:
+        - 100
+    - type: string
+      enum:
+        - '100'
+```
+
 ## X-Types issues
 
 How to compose and object type and a record?

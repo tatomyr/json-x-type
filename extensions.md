@@ -4,12 +4,12 @@ It is possible to add additional context to types and values using extension key
 
 ## Extension keywords
 
-| Keyword                                           | Description                                                        |
-| ------------------------------------------------- | ------------------------------------------------------------------ |
-| $descriptions [🔗](#descriptions)                 | An object containing descriptions of the fields at the same level. |
-| $writeonly [🔗](#read-only-and-write-only-fields) | Describes a field that can only appear in requests.                |
-| $readonly [🔗](#read-only-and-write-only-fields)  | Describes a field that can only appear in responses.               |
-| $discriminator [🔗](#discriminator)               | Represents an OpenAPI discriminator.                               |
+| Keyword        | Description                                                                                   |
+| -------------- | --------------------------------------------------------------------------------------------- |
+| $descriptions  | An object containing descriptions of the fields at the same level ([🔗](#descriptions)).      |
+| $writeonly     | Describes a field that can only appear in requests ([🔗](#read-only-and-write-only-fields)).  |
+| $readonly      | Describes a field that can only appear in responses ([🔗](#read-only-and-write-only-fields)). |
+| $discriminator | Represents an OpenAPI discriminator ([🔗](#discriminator)).                                   |
 
 These keywords extend the core type system and are helpful for describing OpenAPI-compatible types.
 
