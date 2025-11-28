@@ -5,5 +5,5 @@ publishedDate:
   - undefined
 author: $ref:user-profile.x-type.yaml
 tags:
-  - array: string
+  - $array: string
   - undefined

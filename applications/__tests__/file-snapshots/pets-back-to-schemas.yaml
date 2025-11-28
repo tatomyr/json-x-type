@@ -194,12 +194,12 @@ paths:
                   - undefined
                 name: string
                 photoUrls:
-                  array: string::url
+                  $array: string::url
                 friend:
                   - $ref: '#/components/x-types/Pet'
                   - undefined
                 tags:
-                  - array:
+                  - $array:
                       $ref: '#/components/x-types/Tag'
                   - undefined
                 status:
@@ -469,12 +469,12 @@ paths:
                   - undefined
                 name: string
                 photoUrls:
-                  array: string::url
+                  $array: string::url
                 friend:
                   - $ref: '#/components/x-types/Pet'
                   - undefined
                 tags:
-                  - array:
+                  - $array:
                       $ref: '#/components/x-types/Tag'
                   - undefined
                 status:
@@ -874,7 +874,7 @@ paths:
           required: true
           style: form
           x-type:
-            array:
+            $array:
               - available
               - pending
               - sold
@@ -892,7 +892,7 @@ paths:
           content:
             application/json:
               x-type:
-                array:
+                $array:
                   id:
                     - $ref: '#/components/x-types/Id'
                     - undefined
@@ -901,12 +901,12 @@ paths:
                     - undefined
                   name: string
                   photoUrls:
-                    array: string::url
+                    $array: string::url
                   friend:
                     - $ref: '#/components/x-types/Pet'
                     - undefined
                   tags:
-                    - array:
+                    - $array:
                         $ref: '#/components/x-types/Tag'
                     - undefined
                   status:
@@ -1170,7 +1170,7 @@ paths:
                       bee: '#/components/schemas/HoneyBee'
             application/xml:
               x-type:
-                array:
+                $array:
                   id:
                     - $ref: '#/components/x-types/Id'
                     - undefined
@@ -1179,12 +1179,12 @@ paths:
                     - undefined
                   name: string
                   photoUrls:
-                    array: string::url
+                    $array: string::url
                   friend:
                     - $ref: '#/components/x-types/Pet'
                     - undefined
                   tags:
-                    - array:
+                    - $array:
                         $ref: '#/components/x-types/Tag'
                     - undefined
                   status:
@@ -1467,7 +1467,7 @@ paths:
           required: true
           style: form
           x-type:
-            array: string
+            $array: string
           schema:
             type: array
             items:
@@ -1478,7 +1478,7 @@ paths:
           content:
             application/json:
               x-type:
-                array:
+                $array:
                   id:
                     - $ref: '#/components/x-types/Id'
                     - undefined
@@ -1487,12 +1487,12 @@ paths:
                     - undefined
                   name: string
                   photoUrls:
-                    array: string::url
+                    $array: string::url
                   friend:
                     - $ref: '#/components/x-types/Pet'
                     - undefined
                   tags:
-                    - array:
+                    - $array:
                         $ref: '#/components/x-types/Tag'
                     - undefined
                   status:
@@ -1756,7 +1756,7 @@ paths:
                       bee: '#/components/schemas/HoneyBee'
             application/xml:
               x-type:
-                array:
+                $array:
                   id:
                     - $ref: '#/components/x-types/Id'
                     - undefined
@@ -1765,12 +1765,12 @@ paths:
                     - undefined
                   name: string
                   photoUrls:
-                    array: string::url
+                    $array: string::url
                   friend:
                     - $ref: '#/components/x-types/Pet'
                     - undefined
                   tags:
-                    - array:
+                    - $array:
                         $ref: '#/components/x-types/Tag'
                     - undefined
                   status:
@@ -2051,7 +2051,7 @@ paths:
           content:
             application/json:
               x-type:
-                string: number::integer
+                $record: number::integer
               schema:
                 type: object
                 properties: {}
@@ -4057,12 +4057,12 @@ x-webhooks:
                 - undefined
               name: string
               photoUrls:
-                array: string::url
+                $array: string::url
               friend:
                 - $ref: '#/components/x-types/Pet'
                 - undefined
               tags:
-                - array:
+                - $array:
                     $ref: '#/components/x-types/Tag'
                 - undefined
               status:
@@ -4762,7 +4762,7 @@ components:
       content:
         application/json:
           x-type:
-            array:
+            $array:
               id:
                 $readonly: number::integer
               pet:
@@ -5138,12 +5138,12 @@ components:
         - undefined
       name: string
       photoUrls:
-        array: string::url
+        $array: string::url
       friend:
         - $ref: '#/components/x-types/Pet'
         - undefined
       tags:
-        - array:
+        - $array:
             $ref: '#/components/x-types/Tag'
         - undefined
       status:

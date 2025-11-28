@@ -1,9 +1,7 @@
 XType:
-  - undefined
-  - any
+  - string # including `string`, `number`, `boolean`, `undefined`, `any`, and string literals
   - number # literal numbers
   - boolean # literal booleans
-  - string # including `string` and string literals
   - null # literal `null` value
   - $ref: '#/Ref'
   - $ref: '#/Or'
@@ -22,5 +20,5 @@ Array:
   $literal:$array:
     $ref: '#/XType'
 Object:
-  $record: # including `$record` and any string literals, but excluding defined above: `$ref`, `$and`, and `$array`.
+  $record::pattern(^(?!\$and$)(?!\$array$)(?!\$ref$).*$): # including `$record` and any string literals, but excluding the defined above: `$ref`, `$and`, and `$array`.
     $ref: '#/XType'

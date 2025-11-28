@@ -277,7 +277,7 @@ I'd assume the following:
 x-type:
   $and:
     - az: string
-    - string: number
+    - $record: number
 ```
 
 to equal
@@ -285,12 +285,12 @@ to equal
 ```yaml
 x-type:
   az: string
-  string: number
+  $record: number
 ```
 
 to represent an object type that has `az` as a string and every other property as a number.
 
-(BTW, check if `{$and: [{az: string}, {string: number}]}` produces `{az: string, string: number}`.)
+(BTW, check if `{$and: [{az: string}, {$record: number}]}` produces `{az: string, $record: number}`.)
 
 As an option, we can only allow to combine objects with records of the same or a wider type, like this:
 
@@ -298,7 +298,7 @@ As an option, we can only allow to combine objects with records of the same or a
 x-type:
   $and:
     - az: string
-    - string: any # any > string
+    - $record: any # any > string
 ```
 
 But if the `$and` composition leads to a merged object, then the record notation alongside another properties should be a wider type, so this should produce an error:
@@ -307,7 +307,7 @@ But if the `$and` composition leads to a merged object, then the record notation
 x-type:
   $and:
     - az: string
-    - string: number # number !== string
+    - $record: number # number !== string
 ```
 
 This means we have to implement the types comparison logic.

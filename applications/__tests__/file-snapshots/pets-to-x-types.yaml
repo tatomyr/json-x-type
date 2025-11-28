@@ -284,7 +284,7 @@ paths:
           required: true
           style: form
           x-type:
-            array:
+            $array:
               - available
               - pending
               - sold
@@ -294,11 +294,11 @@ paths:
           content:
             application/json:
               x-type:
-                array:
+                $array:
                   $ref: '#/components/x-types/Pet'
             application/xml:
               x-type:
-                array:
+                $array:
                   $ref: '#/components/x-types/Pet'
         '400':
           description: Invalid status value
@@ -321,18 +321,18 @@ paths:
           required: true
           style: form
           x-type:
-            array: string
+            $array: string
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               x-type:
-                array:
+                $array:
                   $ref: '#/components/x-types/Pet'
             application/xml:
               x-type:
-                array:
+                $array:
                   $ref: '#/components/x-types/Pet'
         '400':
           description: Invalid tag value
@@ -353,7 +353,7 @@ paths:
           content:
             application/json:
               x-type:
-                string: number::integer
+                $record: number::integer
       security:
         - api_key: []
   /store/order:
@@ -1037,7 +1037,7 @@ components:
       content:
         application/json:
           x-type:
-            array:
+            $array:
               $ref: '#/components/x-types/User'
       description: List of user object
       required: true
@@ -1138,12 +1138,12 @@ components:
         - undefined
       name: string
       photoUrls:
-        array: string::url
+        $array: string::url
       friend:
         - $ref: '#/components/x-types/Pet'
         - undefined
       tags:
-        - array:
+        - $array:
             $ref: '#/components/x-types/Tag'
         - undefined
       status:

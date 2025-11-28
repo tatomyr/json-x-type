@@ -2,18 +2,22 @@ import {describe, expect, test} from 'vitest'
 import {translateXTypeToSchema} from '../x-types-adapter.js'
 
 describe('adapter', () => {
-  test('translates primitive strings', () => {
+  test('translates primitive types', () => {
     expect(translateXTypeToSchema('string')).toEqual({type: 'string'})
+    expect(translateXTypeToSchema('number')).toEqual({type: 'number'})
+    expect(translateXTypeToSchema('boolean')).toEqual({type: 'boolean'})
+    expect(translateXTypeToSchema(null)).toEqual({type: 'null'})
+    expect(translateXTypeToSchema('any')).toEqual({})
   })
 
   test('literals', () => {
     expect(
-      translateXTypeToSchema({'$literal:string': '$literal:boolean'})
+      translateXTypeToSchema({'$literal:$record': '$literal:boolean'})
     ).toEqual({
       type: 'object',
-      properties: {string: {type: 'string', enum: ['boolean']}},
+      properties: {$record: {type: 'string', enum: ['boolean']}},
       additionalProperties: false,
-      required: ['string'],
+      required: ['$record'],
     })
   })
 
@@ -52,14 +56,14 @@ describe('adapter', () => {
   })
 
   test('arrays', () => {
-    expect(translateXTypeToSchema({array: 'string'})).toEqual({
+    expect(translateXTypeToSchema({$array: 'string'})).toEqual({
       type: 'array',
       items: {type: 'string'},
     })
   })
 
   test('records', () => {
-    expect(translateXTypeToSchema({string: 'number'})).toEqual({
+    expect(translateXTypeToSchema({$record: 'number'})).toEqual({
       type: 'object',
       properties: {},
       additionalProperties: {type: 'number'},
@@ -74,7 +78,7 @@ describe('adapter', () => {
     })
     expect(
       translateXTypeToSchema({
-        'string::pattern(some pattern)': 'string::min(10)::max(100)',
+        '$record::pattern(some pattern)': 'string::min(10)::max(100)',
       })
     ).toEqual({
       type: 'object',
