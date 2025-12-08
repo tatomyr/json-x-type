@@ -99,7 +99,7 @@ Alternatively:
 
 ## Free form validation
 
-> **Note:** This feature is under consideration and may not be fully implemented.
+**Note:** This feature is under consideration.
 
 If a field needs to be validated against its context, a validation function can be used with the `$validate` keyword:
 
