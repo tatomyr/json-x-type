@@ -13,13 +13,13 @@ paths:
               x-type:
                 Plain: string
                 Complex:
-                  array:
-                    string: boolean # cannot have description
-                    $literal:string: # will this conflict with string: boolean? theoretically, it should
+                  $array:
+                    $record: boolean # cannot have description
+                    $literal:$record: # will this conflict with $record: boolean? theoretically, it should
                       - $literal:number
                       - $literal:string
                     $descriptions:
-                      string: |
+                      $record: |
                         An example of using literals.
                 Conditional:
                   - az

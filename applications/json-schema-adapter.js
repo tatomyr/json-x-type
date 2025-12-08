@@ -55,9 +55,9 @@ export function translateJSONSchemaToXType(schema, ctx) {
       schema.additionalProperties === undefined ||
       schema.additionalProperties === true
     ) {
-      return {string: 'any'}
+      return {$record: 'any'}
     } else if (schema.additionalProperties === false) {
-      return {string: 'undefined'}
+      return {$record: 'undefined'}
     }
   }
 
@@ -133,11 +133,7 @@ function extractObjectLikeNode(schema, ctx) {
   const $descriptions = {}
   for (const [name, property] of Object.entries(schema.properties || {})) {
     let realName = name
-    if (
-      name.includes('string', 'array' /* TODO: add more */) ||
-      name.startsWith('$') ||
-      !isNaN(name)
-    ) {
+    if (name.startsWith('$') || !isNaN(name)) {
       realName = '$literal:' + name
     }
     if (Array.isArray(schema.required) && !schema.required.includes(name)) {
@@ -155,7 +151,7 @@ function extractObjectLikeNode(schema, ctx) {
   }
 
   if (isPlainObject(schema.additionalProperties)) {
-    properties['string'] = translateJSONSchemaToXType(
+    properties['$record'] = translateJSONSchemaToXType(
       schema.additionalProperties,
       ctx
     )
@@ -178,7 +174,7 @@ function extractObjectLikeNode(schema, ctx) {
     return properties
   }
   if (items) {
-    return {array: items}
+    return {$array: items}
   }
 
   throw new Error('Invalid object-like schema')

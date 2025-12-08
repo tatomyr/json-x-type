@@ -26,20 +26,20 @@ paths:
                       - {Bukh: string}
                 WrongArrayUsage:
                   value:
-                    array: string
-                    wrong: should not ne defined along the `array` keyword!
+                    $array: string
+                    wrong: should not be defined along the `$array` keyword!
                 CorrectArrayUsage:
                   value:
-                    array: string
+                    $array: string
                 CorrectPrimitive:
                   value: some-string-literal
                 CorrectRecord:
                   value:
                     Az:
                       Bukh:
-                        Vidh: # will this conflict with string: boolean? theoretically it should
+                        Vidh: # will this conflict with $record: boolean? theoretically it should
                           Glagol: number
-                        string: boolean
+                        $record: boolean
                 CorrectOr:
                   value:
                     - Az

@@ -18,7 +18,7 @@ describe('resolver', () => {
     expect(resolveAndMerge({$and: []}, {})).toEqual('undefined')
 
     expect(
-      resolveAndMerge({$and: [{az: 'string'}, {array: 'string'}]}, {})
+      resolveAndMerge({$and: [{az: 'string'}, {$array: 'string'}]}, {})
     ).toEqual('undefined')
 
     expect(resolveAndMerge({$and: {}}, {})).toEqual('undefined')
@@ -141,10 +141,10 @@ describe('resolver', () => {
             'boolean',
             null,
             {$ref: '#/Record'},
-            {array: {$ref: '#/Json'}},
+            {$array: {$ref: '#/Json'}},
           ],
           Record: {
-            string: {$ref: '#/Json'},
+            $record: {$ref: '#/Json'},
           },
         },
         {
@@ -157,14 +157,14 @@ describe('resolver', () => {
                     'number',
                     'boolean',
                     null,
-                    {string: {$ref: '#/Json'}},
-                    {array: {$ref: '#/Json'}},
+                    {$record: {$ref: '#/Json'}},
+                    {$array: {$ref: '#/Json'}},
                   ],
                   location: {source: {absoluteRef: '#/Json'}},
                 }
               case '#/Record':
                 return {
-                  node: {string: {$ref: '#/Json'}},
+                  node: {$record: {$ref: '#/Json'}},
                   location: {source: {absoluteRef: '#/Record'}},
                 }
               default:
@@ -181,34 +181,34 @@ describe('resolver', () => {
         'boolean',
         null,
         {
-          string: [
+          $record: [
             'string',
             'number',
             'boolean',
             null,
-            {string: 'any'},
-            {array: 'any'},
+            {$record: 'any'},
+            {$array: 'any'},
           ],
         },
         {
-          array: [
+          $array: [
             'string',
             'number',
             'boolean',
             null,
-            {string: 'any'},
-            {array: 'any'},
+            {$record: 'any'},
+            {$array: 'any'},
           ],
         },
       ],
       Record: {
-        string: [
+        $record: [
           'string',
           'number',
           'boolean',
           null,
-          {string: 'any'},
-          {array: 'any'},
+          {$record: 'any'},
+          {$array: 'any'},
         ],
       },
     })

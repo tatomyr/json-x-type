@@ -66,4 +66,4 @@ components:
       - az
       - bukh
     Bar:
-      array: $ref:#/components/x-types/Foo
+      $array: $ref:#/components/x-types/Foo

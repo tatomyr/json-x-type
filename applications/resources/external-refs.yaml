@@ -1,5 +1,5 @@
 Az:
-  array:
+  $array:
     $ref: '#/Bukh'
 Bukh:
   - boolean

@@ -5,7 +5,7 @@ info:
 components:
   x-types:
     MixedTypeArray:
-      array: string
+      $array: string
       neighbour: not-allowed
     MixedAnd:
       $and:
@@ -17,4 +17,4 @@ components:
       neighbour: not-allowed
     Allowed:
       foo: boolean
-      string: number # will this conflict with foo: boolean?
+      $record: number # will this conflict with foo: boolean?

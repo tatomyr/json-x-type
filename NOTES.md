@@ -184,6 +184,85 @@ x-type:
 
 ---
 
+It's easy to get confused when composing objects/arrays with properties named like the type JSON Schema keywords, for instance:
+
+```yaml
+schema:
+  type: object
+  properties:
+    items:
+      type: array
+      items:
+        $ref: '#/components/schemas/Item'
+  required:
+    - items
+```
+
+The same in X-Types looks much more readable:
+
+```yaml
+x-type:
+  items:
+    $array:
+      $ref: '#/components/x-types/Item'
+```
+
+All keys in X-Types start with `$` prefix, so it's generally easier to distinguish them from the type values.
+
+---
+
+Enums in JSON Schema come with redundancy:
+
+```yaml
+schema:
+  type: string
+  enum:
+    - foo
+    - bar
+```
+
+You can easily infer that the enum is of string type just looking at the enum options.
+In X-Types it's just a matter of composition:
+
+```yaml
+x-type:
+  - foo
+  - bar
+```
+
+Even more, you can use literals of different types if needed:
+
+```yaml
+x-type:
+  - 100
+  - '100'
+```
+
+In JSON Schema, you have to write something like this:
+
+```yaml
+schema:
+  type:
+    - integer
+    - string
+  enum:
+    - 100
+    - '100'
+```
+
+Or this:
+
+```yaml
+schema:
+  oneOf:
+    - type: integer
+      enum:
+        - 100
+    - type: string
+      enum:
+        - '100'
+```
+
 ## X-Types issues
 
 How to compose and object type and a record?
@@ -198,7 +277,7 @@ I'd assume the following:
 x-type:
   $and:
     - az: string
-    - string: number
+    - $record: number
 ```
 
 to equal
@@ -206,12 +285,12 @@ to equal
 ```yaml
 x-type:
   az: string
-  string: number
+  $record: number
 ```
 
 to represent an object type that has `az` as a string and every other property as a number.
 
-(BTW, check if `{$and: [{az: string}, {string: number}]}` produces `{az: string, string: number}`.)
+(BTW, check if `{$and: [{az: string}, {$record: number}]}` produces `{az: string, $record: number}`.)
 
 As an option, we can only allow to combine objects with records of the same or a wider type, like this:
 
@@ -219,7 +298,7 @@ As an option, we can only allow to combine objects with records of the same or a
 x-type:
   $and:
     - az: string
-    - string: any # any > string
+    - $record: any # any > string
 ```
 
 But if the `$and` composition leads to a merged object, then the record notation alongside another properties should be a wider type, so this should produce an error:
@@ -228,7 +307,7 @@ But if the `$and` composition leads to a merged object, then the record notation
 x-type:
   $and:
     - az: string
-    - string: number # number !== string
+    - $record: number # number !== string
 ```
 
 This means we have to implement the types comparison logic.

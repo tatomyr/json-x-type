@@ -112,9 +112,9 @@ export const translateXTypeToSchema = xType => {
   }
 
   // Handle array types
-  if (typeof xType.array !== 'undefined') {
+  if (typeof xType.$array !== 'undefined') {
     // TODO: handle array modifiers
-    return {type: 'array', items: translateXTypeToSchema(xType.array)}
+    return {type: 'array', items: translateXTypeToSchema(xType.$array)}
   }
 
   // Handle $literal types
@@ -172,20 +172,17 @@ export const translateXTypeToSchema = xType => {
     let properties = {}
     let patternProperties = {}
     let required = []
-    const {string, $descriptions, $discriminator, ...props} = xType
+    const {$record, $descriptions, $discriminator, ...props} = xType
 
     const additionalProperties =
-      typeof string === 'undefined' ? false : translateXTypeToSchema(string)
+      typeof $record === 'undefined' ? false : translateXTypeToSchema($record)
 
     for (const key in props) {
-      // Remove all unknown $-prefixed fields
-      if (key.startsWith('$') && !key.startsWith('$literal:')) continue
-
-      if (key.startsWith('string::pattern(') && key.endsWith(')')) {
+      if (key.startsWith('$record::pattern(') && key.endsWith(')')) {
         // Handle patternProperties
-        const pattern = key.slice('string::pattern('.length, -1)
+        const pattern = key.slice('$record::pattern('.length, -1)
         patternProperties[pattern] = translateXTypeToSchema(props[key])
-      } else {
+      } else if (!key.startsWith('$') || key.startsWith('$literal:')) {
         // Handle regular properties
         const realKey = key.startsWith('$literal:')
           ? key.slice('$literal:'.length)

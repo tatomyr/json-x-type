@@ -36,7 +36,7 @@ const getType = value => {
     }
 
     if (isObject(value)) {
-      if (typeof value.array !== 'undefined') {
+      if (typeof value.$array !== 'undefined') {
         return 'XTypeArray'
       }
 
@@ -69,7 +69,7 @@ const getType = value => {
 
 const XTypeArray = {
   properties: {
-    array: getType,
+    $array: getType,
     // TODO: allow minItems, maxItems, uniqueItems, etc.?
   },
 }
@@ -86,7 +86,7 @@ const XTypeAND = {
 
 const XTypeObject = {
   properties: {
-    string: getType,
+    $record: getType,
   },
   additionalProperties: getType,
 }

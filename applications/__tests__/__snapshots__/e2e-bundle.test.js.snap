@@ -19,18 +19,19 @@ paths:
                   - number
                   - boolean
                 ArrayOfEnums:
-                  array:
+                  $array:
                     - foo
                     - bar
                 OpenObject:
                   required: boolean
-                  string: boolean
+                  $record: boolean
                 Ref: number
                 RefObject:
                   somekey:
                     - true
                     - 42.1
-                  $literal:string: $literal:number
+                  $literal:$record: $literal:number
+                  string: $record
                 ConditionalRef:
                   - $ref: '#/components/x-types/Bar'
                   - undefined
@@ -50,7 +51,8 @@ paths:
                     RefObject:
                       foo: not expected here
                       somekey: 42.1
-                      string: number
+                      $record: number
+                      string: $record
               schema:
                 type: object
                 properties:
@@ -89,12 +91,17 @@ paths:
                           - type: number
                             enum:
                               - 42.1
-                      string:
+                      $record:
                         type: string
                         enum:
                           - number
+                      string:
+                        type: string
+                        enum:
+                          - $record
                     required:
                       - somekey
+                      - $record
                       - string
                     additionalProperties: false
                   ConditionalRef:
@@ -108,12 +115,17 @@ paths:
                           - type: number
                             enum:
                               - 42.1
-                      string:
+                      $record:
                         type: string
                         enum:
                           - number
+                      string:
+                        type: string
+                        enum:
+                          - $record
                     required:
                       - somekey
+                      - $record
                       - string
                     additionalProperties: false
                 required:
@@ -131,7 +143,8 @@ components:
       somekey:
         - true
         - 42.1
-      $literal:string: $literal:number
+      $literal:$record: $literal:number
+      string: $record
 "
 `;
 
@@ -151,13 +164,13 @@ paths:
               x-type:
                 Plain: string
                 Complex:
-                  array:
-                    string: boolean
-                    $literal:string:
+                  $array:
+                    $record: boolean
+                    $literal:$record:
                       - $literal:number
                       - $literal:string
                     $descriptions:
-                      string: |
+                      $record: |
                         An example of using literals.
                 Conditional:
                   - az
@@ -188,7 +201,7 @@ paths:
                     items:
                       type: object
                       properties:
-                        string:
+                        $record:
                           description: |
                             An example of using literals.
                           type: string
@@ -196,7 +209,7 @@ paths:
                             - number
                             - string
                       required:
-                        - string
+                        - $record
                       additionalProperties:
                         type: boolean
                   Conditional:
@@ -975,8 +988,8 @@ paths:
                   $and: []
                 ImpossibleArraysCombination:
                   $and:
-                    - array: string
-                    - array: number
+                    - $array: string
+                    - $array: number
               examples:
                 Correct:
                   value: {}
@@ -1079,7 +1092,7 @@ paths:
           content:
             application/json:
               x-type:
-                array:
+                $array:
                   - az
                   - bukh
               examples:
@@ -1117,7 +1130,7 @@ components:
       - az
       - bukh
     Bar:
-      array:
+      $array:
         - az
         - bukh
 "

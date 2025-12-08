@@ -16,12 +16,12 @@ paths:
                   - number
                   - boolean
                 ArrayOfEnums:
-                  array:
+                  $array:
                     - foo
                     - bar
                 OpenObject:
                   required: boolean
-                  string: boolean
+                  $record: boolean
                 Ref:
                   $ref: '#/components/x-types/Foo'
                 RefObject:
@@ -45,10 +45,12 @@ paths:
                     RefObject:
                       foo: not expected here
                       somekey: 42.10
-                      string: number
+                      $record: number
+                      string: $record # FIXME: should be required!
 components:
   x-types:
     Foo: number
     Bar:
       somekey: [true, 42.1]
-      $literal:string: $literal:number
+      $literal:$record: $literal:number
+      string: $record # should be allowed without escaping

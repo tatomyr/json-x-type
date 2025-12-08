@@ -46,10 +46,10 @@ const deepMergeTwo = (first, second) => {
   }
 
   if (
-    typeof first.array !== 'undefined' ||
-    typeof second.array !== 'undefined'
+    typeof first.$array !== 'undefined' ||
+    typeof second.$array !== 'undefined'
   ) {
-    console.error("ERROR! Cannot merge 'array' types.")
+    console.error('ERROR! Cannot merge array types.')
     return 'undefined'
   }
 

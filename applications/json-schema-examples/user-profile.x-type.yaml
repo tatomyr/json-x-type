@@ -10,5 +10,5 @@ location:
   - string
   - undefined
 interests:
-  - array: string
+  - $array: string
   - undefined
