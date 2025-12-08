@@ -1,22 +1,24 @@
-# Types extending
+# Type extensions
 
-It is possible to add additional context to types and values using extension keywords and suffixes.
+It is possible to add additional context to types and values using extension keywords and type suffixes.
 
 ## Extension keywords
 
 | Keyword        | Description                                                                                   |
 | -------------- | --------------------------------------------------------------------------------------------- |
-| $descriptions  | An object containing descriptions of the fields at the same level ([🔗](#descriptions)).      |
-| $writeonly     | Describes a field that can only appear in requests ([🔗](#read-only-and-write-only-fields)).  |
-| $readonly      | Describes a field that can only appear in responses ([🔗](#read-only-and-write-only-fields)). |
+| $descriptions  | An object mapping field names to their descriptions at the same level ([🔗](#descriptions)).  |
+| $writeonly     | Indicates a field that can only appear in requests ([🔗](#read-only-and-write-only-fields)).  |
+| $readonly      | Indicates a field that can only appear in responses ([🔗](#read-only-and-write-only-fields)). |
 | $discriminator | Represents an OpenAPI discriminator ([🔗](#discriminator)).                                   |
 
-These keywords extend the core type system and are helpful for describing OpenAPI-compatible types.
+These keywords extend the **JSON X-Type** system and are helpful for describing OpenAPI-compatible types.
 
 ### Descriptions
 
-Descriptions provide additional information about the fields.
-They can only be used in objects:
+<!-- TODO: consider adding $type keyword instead, which would allow to specify $description along with the type -->
+
+The `$descriptions` keyword provides additional information about object fields.
+It must be an object at the same level as the fields it describes, mapping field names to their description strings:
 
 ```json
 {
@@ -31,8 +33,8 @@ Descriptions are propagated to the OpenAPI schema as the `description` fields of
 
 ### Read-only and write-only fields
 
-The `$writeonly` and `$readonly` fields contain properties that should be present only in requests or responses respectively.
-Consider this example:
+The `$writeonly` and `$readonly` keywords wrap type definitions to indicate fields that should be present only in requests or responses, respectively.
+These keywords are used as wrapper objects around the type definition:
 
 ```json
 {
@@ -50,15 +52,14 @@ The `name` field is expected in both requests and responses.
 
 Represents the OpenAPI discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)).
 Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
-It should contain the `propertyName` field and, optionally, the `mapping` field.
+The discriminator object should contain the `propertyName` field and, optionally, the `mapping` field.
 The `mapping` field must contain links to the corresponding schemas (not to x-types).
 
-## Suffixes
+## Type suffixes
 
-Suffixes are intended to specify different formats or other properties of the basic types.
-They are denoted by the double colon notation.
-There should be no more than one format specified.
-Suffixes can be sequentially chained.
+Type suffixes specify formats or modifiers for basic types.
+They are denoted by the double colon notation (`::`).
+A type can have at most one format suffix, but multiple modifier suffixes can be chained sequentially.
 
 ### String formats and modifiers
 
@@ -71,19 +72,20 @@ Example:
 "string::uuid"
 ```
 
-The modifiers are `min`, `max` (for minimal and maximal length respectively), and `pattern`.
+String modifiers are `min`, `max` (for minimal and maximal length respectively), and `pattern`.
 The corresponding values are passed in parentheses:
 
 ```json
 "string::min(3)::max(30)::pattern([A-Za-z]+)"
 ```
 
-The `pattern` modifier can be also used with the `$record` keyword.
+The `pattern` modifier can also be used with the `$record` keyword to constrain dynamic object property names.
 
 ### Number formats and modifiers
 
-The only supported number format is `integer`, and the modifiers are: `min`, `max`, `x-min` (for exclusive minimum), `x-max` (for exclusive maximum).
-The range modifiers require a number value in parenthesis:
+For number types, the `integer` format suffix can be used to restrict values to whole numbers.
+The number modifiers are: `min`, `max`, `x-min` (for exclusive minimum), and `x-max` (for exclusive maximum).
+All range modifiers require a number value in parentheses:
 
 ```json
 "number::integer::min(18)"
@@ -97,9 +99,9 @@ Alternatively:
 
 ## Free form validation
 
-> Under consideration.
+> **Note:** This feature is under consideration and may not be fully implemented.
 
-If a field needs to be validated against its context, the validation function can be used:
+If a field needs to be validated against its context, a validation function can be used with the `$validate` keyword:
 
 ```json
 {
@@ -110,4 +112,5 @@ If a field needs to be validated against its context, the validation function ca
 }
 ```
 
-A validation function is a JavaScript function that accepts the value itself and its parents up to the root of the object and returns either a string with an error message or a falsy value if the field is valid.
+A validation function is a JavaScript function that accepts the value itself and its parent objects up to the root of the object.
+It returns either a string with an error message (if validation fails) or a falsy value (if the field is valid).

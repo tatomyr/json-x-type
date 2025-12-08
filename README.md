@@ -1,6 +1,6 @@
 # JSON X-Type
 
-**JSON X-Type** is a data type format for describing JSON-like structures in a simple and natural way.
+**JSON X-Type** is a data type notation for describing JSON-like structures in a simple and natural way.
 Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type** definition.
 
 **JSON X-Type** can be described by itself ([🔗](./x-types.yaml)).
@@ -18,17 +18,17 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 
 ## Structural keywords
 
-| Keyword | Description                                                              |
-| ------- | ------------------------------------------------------------------------ |
-| $record | Record type for dynamic object properties ([🔗](#objects-and-records)).  |
-| $array  | Array type for collections ([🔗](#array-types)).                         |
-| $and    | Represents the combination of array members ([🔗](#intersection-types)). |
-| $ref    | Reference to another **JSON X-Type** ([🔗](#references)).                |
+| Keyword | Description                                                             |
+| ------- | ----------------------------------------------------------------------- |
+| $record | Record type for dynamic object properties ([🔗](#objects-and-records)). |
+| $array  | Array type for collections ([🔗](#array-types)).                        |
+| $and    | Intersection type combining multiple types ([🔗](#intersection-types)). |
+| $ref    | Reference to another **JSON X-Type** ([🔗](#references)).               |
 
 The list can be extended with other `$`-prefixed keywords.
-So it's necessary to escape any custom keys that start with `$` using the `$literal` prefix ([🔗](#literals-escaping)).
+To use a literal key starting with `$`, escape it with the `$literal` prefix ([🔗](#literals-escaping)).
 
-Note, that `$`-prefixed keys cannot be combined with each other at the same level:
+Note that `$`-prefixed keys cannot be combined with each other at the same level:
 
 ```json
 {
@@ -113,7 +113,7 @@ Array literals define multiple options, one of which is applicable:
 This defines a value that can be either a string or undefined.
 Note that this is different from array types (see [Array Types](#array-types)).
 
-The equivalent TypeScript notation uses the pipe (`|`) operator to express unions.
+The equivalent TypeScript notation uses the pipe operator (`|`) to express unions.
 
 ### Intersection types
 
@@ -141,7 +141,7 @@ The result is an object that includes all of the properties of all the items:
 }
 ```
 
-A TypeScript analogy of the `$and` operator is the following:
+A TypeScript analogy for `$and` is the following:
 
 ```ts
 type And<U> = (U extends any ? (k: U) => void : never) extends (
@@ -192,7 +192,7 @@ This checks for an object with the `$record` key of a `boolean` value, e.g.:
 }
 ```
 
-Similarly, you can escape type values like `'string'`:
+Similarly, you can escape type values like `"string"`:
 
 ```json
 {
