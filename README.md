@@ -28,7 +28,7 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 The list can be extended with other `$`-prefixed keywords.
 To use a literal key starting with `$`, escape it with the `$literal` prefix ([🔗](#literals-escaping)).
 
-Note that `$`-prefixed keys cannot be combined with each other at the same level:
+Note that `$`-prefixed keys mostly cannot be combined with each other at the same level:
 
 ```json
 {
