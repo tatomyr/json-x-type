@@ -7,7 +7,7 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 
 ## Primitive types
 
-| Keyword   | Description                                                         |
+| Value     | Description                                                         |
 | --------- | ------------------------------------------------------------------- |
 | string    | String type.                                                        |
 | number    | Number type.                                                        |
@@ -16,17 +16,23 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 | undefined | Indicates that the value is not set.                                |
 | any       | Any value (not validated).                                          |
 
-## Structural keywords
+Primitive types are the basic building blocks of **JSON X-Type** and can be used in JSON values.
+Any other values are considered literals.
+To use a reserved keyword as a literal (rather than its special meaning), it must be escaped with the `$literal:` prefix ([🔗](#literals-escaping)).
 
-| Keyword | Description                                                             |
-| ------- | ----------------------------------------------------------------------- |
-| $record | Record type for dynamic object properties ([🔗](#objects-and-records)). |
-| $array  | Array type for collections ([🔗](#array-types)).                        |
-| $and    | Intersection type combining multiple types ([🔗](#intersection-types)). |
-| $ref    | Reference to another **JSON X-Type** ([🔗](#references)).               |
+## Special keywords
+
+Special keywords are used to compose complex types and can be used in JSON keys.
+
+| Key     | Description                                               |
+| ------- | --------------------------------------------------------- |
+| $record | Record generic ([🔗](#objects-and-records)).              |
+| $array  | Array generic ([🔗](#array-types)).                       |
+| $and    | Types intersection ([🔗](#intersection-types)).           |
+| $ref    | Reference to another **JSON X-Type** ([🔗](#references)). |
 
 The list can be extended with other `$`-prefixed keywords.
-To use a literal key starting with `$`, escape it with the `$literal` prefix ([🔗](#literals-escaping)).
+To use a literal key that starts with `$`, it must be escaped with the `$literal:` prefix ([🔗](#literals-escaping)).
 
 Note that `$`-prefixed keys mostly cannot be combined with each other at the same level:
 
@@ -111,7 +117,7 @@ Array literals define multiple options, one of which is applicable:
 ```
 
 This defines a value that can be either a string or undefined.
-Note that this is different from array types (see [Array Types](#array-types)).
+Note that this is different from array types (see [Array types](#array-types)).
 
 The equivalent TypeScript notation uses the pipe operator (`|`) to express unions.
 

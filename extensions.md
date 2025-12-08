@@ -53,7 +53,7 @@ The `name` field is expected in both requests and responses.
 Represents the OpenAPI discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)).
 Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
 The discriminator object should contain the `propertyName` field and, optionally, the `mapping` field.
-The `mapping` field must contain links to the corresponding schemas (not to x-types).
+The `mapping` field must contain links to the corresponding schemas (not to **X-Types**).
 
 ## Type suffixes
 
