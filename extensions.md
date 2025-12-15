@@ -1,23 +1,15 @@
 # Type extensions
 
 It is possible to add additional context to types and values using extension keywords and type suffixes.
+Main use cases include describing OpenAPI-compatible types.
 
 ## Extension keywords
 
-| Keyword        | Description                                                                                   |
-| -------------- | --------------------------------------------------------------------------------------------- |
-| $descriptions  | An object mapping field names to their descriptions at the same level ([🔗](#descriptions)).  |
-| $writeonly     | Indicates a field that can only appear in requests ([🔗](#read-only-and-write-only-fields)).  |
-| $readonly      | Indicates a field that can only appear in responses ([🔗](#read-only-and-write-only-fields)). |
-| $discriminator | Represents an OpenAPI discriminator ([🔗](#discriminator)).                                   |
+### $descriptions
 
-These keywords extend the **JSON X-Type** system and are helpful for describing OpenAPI-compatible types.
+<!-- Consider adding $type (or $primitive) keyword instead, which would allow to specify $description along with the (primitive) type -->
 
-### Descriptions
-
-<!-- TODO: consider adding $type keyword instead, which would allow to specify $description along with the type -->
-
-The `$descriptions` keyword provides additional information about object fields.
+The `$descriptions` keyword provides additional information about the object fields.
 It must be an object at the same level as the fields it describes, mapping field names to their description strings:
 
 ```json
@@ -31,26 +23,22 @@ It must be an object at the same level as the fields it describes, mapping field
 
 Descriptions are propagated to the OpenAPI schema as the `description` fields of the corresponding properties.
 
-### Read-only and write-only fields
+<!--
+Consider adding $readOnly and $writeOnly keywords back, but in a different way:
 
-The `$writeonly` and `$readonly` keywords wrap type definitions to indicate fields that should be present only in requests or responses, respectively.
-These keywords are used as wrapper objects around the type definition:
-
-```json
-{
-  "name": "string",
-  "password": {"$writeonly": "string"},
-  "id": {"$readonly": "string"},
-  "createdAt": {"$readonly": "string::date-time"}
-}
+```yaml
+foo: string
+bar: number
+$readOnly:
+  - foo
 ```
 
-The `password` field is only expected in requests, while `id` and `createdAt` are expected in responses.
-The `name` field is expected in both requests and responses.
+This won't work for primitive type though.
+-->
 
-### Discriminator
+### $discriminator
 
-Represents the OpenAPI discriminator ([🔗](https://spec.openapis.org/oas/latest.html#discriminator-object)).
+Represents the OpenAPI [discriminator](https://spec.openapis.org/oas/latest.html#discriminator-object).
 Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
 The discriminator object should contain the `propertyName` field and, optionally, the `mapping` field.
 The `mapping` field must contain links to the corresponding schemas (not to **X-Types**).
@@ -97,9 +85,10 @@ Alternatively:
 {"$array": "any", "minItems": 1}
 -->
 
+<!--
 ## Free form validation
 
-**Note:** This feature is under consideration.
+**Note: This feature is under consideration.**
 
 If a field needs to be validated against its context, a validation function can be used with the `$validate` keyword:
 
@@ -114,3 +103,4 @@ If a field needs to be validated against its context, a validation function can 
 
 A validation function is a JavaScript function that accepts the value itself and its parent objects up to the root of the object.
 It returns either a string with an error message (if validation fails) or a falsy value (if the field is valid).
+-->

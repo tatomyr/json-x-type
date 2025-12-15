@@ -17,7 +17,6 @@ export class Context {
 
   resolve({$ref}, from) {
     const {uri, pointer} = parseRef($ref)
-    console.log(11111, {uri, pointer})
     const absoluteRef = this.document.source.absoluteRef
 
     let document

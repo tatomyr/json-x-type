@@ -181,9 +181,6 @@ paths:
             application/json:
               x-type:
                 $ref: '#/components/x-types/Pet'
-            application/xml:
-              x-type:
-                $ref: '#/components/x-types/Pet'
         '400':
           description: Invalid ID supplied
         '404':
@@ -296,10 +293,6 @@ paths:
               x-type:
                 $array:
                   $ref: '#/components/x-types/Pet'
-            application/xml:
-              x-type:
-                $array:
-                  $ref: '#/components/x-types/Pet'
         '400':
           description: Invalid status value
       security:
@@ -327,10 +320,6 @@ paths:
           description: successful operation
           content:
             application/json:
-              x-type:
-                $array:
-                  $ref: '#/components/x-types/Pet'
-            application/xml:
               x-type:
                 $array:
                   $ref: '#/components/x-types/Pet'
@@ -370,9 +359,8 @@ paths:
             application/json:
               x-type:
                 $ref: '#/components/x-types/Order'
-            application/xml:
-              x-type:
-                $ref: '#/components/x-types/Order'
+                $omit:
+                  - requestId
         '400':
           description: Invalid Order
           content:
@@ -385,6 +373,10 @@ paths:
           application/json:
             x-type:
               $ref: '#/components/x-types/Order'
+              $omit:
+                - id
+                - petId
+                - complete
         description: order placed for purchasing the pet
         required: true
   /store/order/{orderId}:
@@ -407,9 +399,8 @@ paths:
             application/json:
               x-type:
                 $ref: '#/components/x-types/Order'
-            application/xml:
-              x-type:
-                $ref: '#/components/x-types/Order'
+                $omit:
+                  - requestId
         '400':
           description: Invalid ID supplied
         '404':
@@ -477,16 +468,6 @@ paths:
                       orderId: string
                       timestamp: string::date-time
                       status: string
-                  application/xml:
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
-                    x-type:
-                      orderId: string
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -541,16 +522,6 @@ paths:
                       orderId: string
                       timestamp: string::date-time
                       status: string
-                  application/xml:
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
-                    x-type:
-                      orderId: string
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -609,6 +580,8 @@ paths:
           application/json:
             x-type:
               $ref: '#/components/x-types/User'
+              $omit:
+                - id
         description: Created user object
         required: true
   /user/{username}:
@@ -629,9 +602,6 @@ paths:
           description: successful operation
           content:
             application/json:
-              x-type:
-                $ref: '#/components/x-types/User'
-            application/xml:
               x-type:
                 $ref: '#/components/x-types/User'
         '400':
@@ -660,6 +630,8 @@ paths:
           application/json:
             x-type:
               $ref: '#/components/x-types/User'
+              $omit:
+                - id
         description: Updated user object
         required: true
     delete:
@@ -775,6 +747,8 @@ x-webhooks:
           application/json:
             x-type:
               $ref: '#/components/x-types/Pet'
+              $omit:
+                - id
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
@@ -1023,22 +997,17 @@ components:
       content:
         application/json:
           x-type:
-            $and:
-              - any
-              - $ref: '#/components/x-types/Pet'
-        application/xml:
-          x-type:
-            name: string
-            $descriptions:
-              name: hooray
-      description: Pet object that needs to be added to the store
-      required: true
+            $ref: '#/components/x-types/Pet'
+            $omit:
+              - id
     UserArray:
       content:
         application/json:
           x-type:
             $array:
               $ref: '#/components/x-types/User'
+              $omit:
+                - id
       description: List of user object
       required: true
   securitySchemes:
@@ -1082,8 +1051,7 @@ components:
           $descriptions:
             huntingSkill: The measured skill for hunting
     Category:
-      id:
-        $readonly: number::integer
+      id: number::integer
       name: string::min(1)
       sub:
         prop1: string
@@ -1105,23 +1073,18 @@ components:
         - honeyPerDay: number
           $descriptions:
             honeyPerDay: Average amount of honey produced per day in ounces
-    Id:
-      $readonly: number::integer
+    Id: number::integer
     Order:
-      id:
-        $readonly: number::integer
-      petId:
-        $readonly: number::integer
+      id: number::integer
+      petId: number::integer
       quantity: number::integer::min(1)
       shipDate: string::date-time
       status:
         - placed
         - approved
         - delivered
-      complete:
-        $readonly: boolean
-      requestId:
-        $writeonly: string
+      complete: boolean
+      requestId: string
       $descriptions:
         id: Order ID
         petId: Pet ID
@@ -1169,15 +1132,13 @@ components:
         status: Pet status in the store
         petType: Type of a pet
     Tag:
-      id:
-        $readonly: number::integer
+      id: number::integer
       name: string::min(1)
       $descriptions:
         id: Tag ID
         name: Tag name
     User:
-      id:
-        $readonly: number::integer
+      id: number::integer
       pet:
         - $ref: '#/components/x-types/Pet'
         - $ref: '#/components/x-types/Tag'

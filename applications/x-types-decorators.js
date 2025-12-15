@@ -1,6 +1,6 @@
-import {cleanupSchema, isObject} from './x-types-utils.js'
+import {cleanupSchema} from './x-types-utils.js'
 import {translateXTypeToSchema} from './x-types-adapter.js'
-import {resolveAndMerge, transformInlineRefs} from './x-types-resolver.js'
+import {resolveAndMerge} from './x-types-resolver.js'
 import {translateJSONSchemaToXType} from './json-schema-adapter.js'
 
 export const generateSchemas = opts => {
@@ -81,16 +81,40 @@ export const generateNamedXTypes = opts => {
 // TODO: WIP
 export const generateXTypes = opts => {
   return {
-    MediaType: {
-      leave(mediaType, ctx) {
-        const original = mediaType.schema
-        if (typeof original === 'undefined') {
-          return
-        }
-        const xType = translateJSONSchemaToXType(original, ctx)
-        mediaType['x-type'] = xType
-        delete mediaType.schema
+    RequestBody: {
+      // Same as in the Response but different _mode.
+      MediaType: {
+        leave(mediaType, ctx) {
+          const original = mediaType.schema
+          if (typeof original === 'undefined') {
+            return
+          }
+          const xType = translateJSONSchemaToXType(original, {
+            ...ctx,
+            _mode: 'request',
+          })
+          mediaType['x-type'] = xType
+          delete mediaType.schema
+        },
       },
+    },
+    Response: {
+      // Same as in the RequestBody but different _mode.
+      MediaType: {
+        leave(mediaType, ctx) {
+          const original = mediaType.schema
+          if (typeof original === 'undefined') {
+            return
+          }
+          const xType = translateJSONSchemaToXType(original, {
+            ...ctx,
+            _mode: 'response',
+          })
+          mediaType['x-type'] = xType
+          delete mediaType.schema
+        },
+      },
+      // TODO: Header too?
     },
     Parameter: {
       leave(parameter, ctx) {
@@ -98,7 +122,10 @@ export const generateXTypes = opts => {
         if (typeof original === 'undefined') {
           return
         }
-        const xType = translateJSONSchemaToXType(original, ctx)
+        const xType = translateJSONSchemaToXType(original, {
+          ...ctx,
+          _mode: 'request',
+        })
         parameter['x-type'] = xType
         delete parameter.schema
       },
@@ -106,15 +133,27 @@ export const generateXTypes = opts => {
   }
 }
 
-export const createRefs = () => {
+// WIP
+export const removeXTypes = opts => {
   return {
-    any: {
-      enter: (node, ctx) => {
-        if (isObject(node) || Array.isArray(node)) {
-          for (const key in node) {
-            node[key] = transformInlineRefs(node[key])
-          }
-        }
+    MediaType: {
+      enter(mediaType, ctx) {
+        delete mediaType['x-type']
+      },
+    },
+    // TODO: Header too?
+    Parameter: {
+      enter(parameter, ctx) {
+        delete parameter['x-type']
+      },
+    },
+
+    Components: {
+      // RequestBodies(components) {
+
+      // },
+      enter(components) {
+        delete components['x-types']
       },
     },
   }

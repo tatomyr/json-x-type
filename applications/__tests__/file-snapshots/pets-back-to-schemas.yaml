@@ -2073,20 +2073,18 @@ paths:
           content:
             application/json:
               x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
+                $omit:
+                  - requestId
+                id: number::integer
+                petId: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
                   - placed
                   - approved
                   - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
+                complete: boolean
+                requestId: string
                 $descriptions:
                   id: Order ID
                   petId: Pet ID
@@ -2130,20 +2128,18 @@ paths:
                 additionalProperties: false
             application/xml:
               x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
+                $omit:
+                  - requestId
+                id: number::integer
+                petId: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
                   - placed
                   - approved
                   - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
+                complete: boolean
+                requestId: string
                 $descriptions:
                   id: Order ID
                   petId: Pet ID
@@ -2196,20 +2192,20 @@ paths:
         content:
           application/json:
             x-type:
-              id:
-                $readonly: number::integer
-              petId:
-                $readonly: number::integer
+              $omit:
+                - id
+                - petId
+                - complete
+              id: number::integer
+              petId: number::integer
               quantity: number::integer::min(1)
               shipDate: string::date-time
               status:
                 - placed
                 - approved
                 - delivered
-              complete:
-                $readonly: boolean
-              requestId:
-                $writeonly: string
+              complete: boolean
+              requestId: string
               $descriptions:
                 id: Order ID
                 petId: Pet ID
@@ -2268,20 +2264,18 @@ paths:
           content:
             application/json:
               x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
+                $omit:
+                  - requestId
+                id: number::integer
+                petId: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
                   - placed
                   - approved
                   - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
+                complete: boolean
+                requestId: string
                 $descriptions:
                   id: Order ID
                   petId: Pet ID
@@ -2325,20 +2319,18 @@ paths:
                 additionalProperties: false
             application/xml:
               x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
+                $omit:
+                  - requestId
+                id: number::integer
+                petId: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
                   - placed
                   - approved
                   - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
+                complete: boolean
+                requestId: string
                 $descriptions:
                   id: Order ID
                   petId: Pet ID
@@ -2697,8 +2689,9 @@ paths:
         content:
           application/json:
             x-type:
-              id:
-                $readonly: number::integer
+              $omit:
+                - id
+              id: number::integer
               pet:
                 - $ref: '#/components/x-types/Pet'
                 - $ref: '#/components/x-types/Tag'
@@ -2724,10 +2717,16 @@ paths:
                   anyOf:
                     - type: object
                       properties:
+                        id:
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id:
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -2743,6 +2742,7 @@ paths:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id
                             - name
                             - sub
                           additionalProperties: false
@@ -2758,10 +2758,16 @@ paths:
                         friend:
                           type: object
                           properties:
+                            id:
+                              description: Pet ID
+                              type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
+                                id:
+                                  description: Category ID
+                                  type: integer
                                 name:
                                   description: Category name
                                   type: string
@@ -2777,6 +2783,7 @@ paths:
                                     - prop1
                                   additionalProperties: false
                               required:
+                                - id
                                 - name
                                 - sub
                               additionalProperties: false
@@ -2792,10 +2799,16 @@ paths:
                             friend:
                               type: object
                               properties:
+                                id:
+                                  description: Pet ID
+                                  type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
+                                    id:
+                                      description: Category ID
+                                      type: integer
                                     name:
                                       description: Category name
                                       type: string
@@ -2811,6 +2824,7 @@ paths:
                                         - prop1
                                       additionalProperties: false
                                   required:
+                                    - id
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -2830,11 +2844,15 @@ paths:
                                   items:
                                     type: object
                                     properties:
+                                      id:
+                                        description: Tag ID
+                                        type: integer
                                       name:
                                         description: Tag name
                                         type: string
                                         minLength: 1
                                     required:
+                                      - id
                                       - name
                                     additionalProperties: false
                                 status:
@@ -2863,11 +2881,15 @@ paths:
                               items:
                                 type: object
                                 properties:
+                                  id:
+                                    description: Tag ID
+                                    type: integer
                                   name:
                                     description: Tag name
                                     type: string
                                     minLength: 1
                                 required:
+                                  - id
                                   - name
                                 additionalProperties: false
                             status:
@@ -2896,11 +2918,15 @@ paths:
                           items:
                             type: object
                             properties:
+                              id:
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id
                               - name
                             additionalProperties: false
                         status:
@@ -2925,11 +2951,15 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
+                        id:
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id
                         - name
                       additionalProperties: false
                 username:
@@ -2994,8 +3024,7 @@ paths:
           content:
             application/json:
               x-type:
-                id:
-                  $readonly: number::integer
+                id: number::integer
                 pet:
                   - $ref: '#/components/x-types/Pet'
                   - $ref: '#/components/x-types/Tag'
@@ -3310,8 +3339,7 @@ paths:
                 additionalProperties: false
             application/xml:
               x-type:
-                id:
-                  $readonly: number::integer
+                id: number::integer
                 pet:
                   - $ref: '#/components/x-types/Pet'
                   - $ref: '#/components/x-types/Tag'
@@ -3651,8 +3679,9 @@ paths:
         content:
           application/json:
             x-type:
-              id:
-                $readonly: number::integer
+              $omit:
+                - id
+              id: number::integer
               pet:
                 - $ref: '#/components/x-types/Pet'
                 - $ref: '#/components/x-types/Tag'
@@ -3678,10 +3707,16 @@ paths:
                   anyOf:
                     - type: object
                       properties:
+                        id:
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id:
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -3697,6 +3732,7 @@ paths:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id
                             - name
                             - sub
                           additionalProperties: false
@@ -3712,10 +3748,16 @@ paths:
                         friend:
                           type: object
                           properties:
+                            id:
+                              description: Pet ID
+                              type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
+                                id:
+                                  description: Category ID
+                                  type: integer
                                 name:
                                   description: Category name
                                   type: string
@@ -3731,6 +3773,7 @@ paths:
                                     - prop1
                                   additionalProperties: false
                               required:
+                                - id
                                 - name
                                 - sub
                               additionalProperties: false
@@ -3746,10 +3789,16 @@ paths:
                             friend:
                               type: object
                               properties:
+                                id:
+                                  description: Pet ID
+                                  type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
+                                    id:
+                                      description: Category ID
+                                      type: integer
                                     name:
                                       description: Category name
                                       type: string
@@ -3765,6 +3814,7 @@ paths:
                                         - prop1
                                       additionalProperties: false
                                   required:
+                                    - id
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -3784,11 +3834,15 @@ paths:
                                   items:
                                     type: object
                                     properties:
+                                      id:
+                                        description: Tag ID
+                                        type: integer
                                       name:
                                         description: Tag name
                                         type: string
                                         minLength: 1
                                     required:
+                                      - id
                                       - name
                                     additionalProperties: false
                                 status:
@@ -3817,11 +3871,15 @@ paths:
                               items:
                                 type: object
                                 properties:
+                                  id:
+                                    description: Tag ID
+                                    type: integer
                                   name:
                                     description: Tag name
                                     type: string
                                     minLength: 1
                                 required:
+                                  - id
                                   - name
                                 additionalProperties: false
                             status:
@@ -3850,11 +3908,15 @@ paths:
                           items:
                             type: object
                             properties:
+                              id:
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id
                               - name
                             additionalProperties: false
                         status:
@@ -3879,11 +3941,15 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
+                        id:
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id
                         - name
                       additionalProperties: false
                 username:
@@ -4049,6 +4115,8 @@ x-webhooks:
         content:
           application/json:
             x-type:
+              $omit:
+                - id
               id:
                 - $ref: '#/components/x-types/Id'
                 - undefined
@@ -4094,6 +4162,9 @@ x-webhooks:
                   description: Categories this pet belongs to
                   type: object
                   properties:
+                    id:
+                      description: Category ID
+                      type: integer
                     name:
                       description: Category name
                       type: string
@@ -4109,6 +4180,7 @@ x-webhooks:
                         - prop1
                       additionalProperties: false
                   required:
+                    - id
                     - name
                     - sub
                   additionalProperties: false
@@ -4124,10 +4196,16 @@ x-webhooks:
                 friend:
                   type: object
                   properties:
+                    id:
+                      description: Pet ID
+                      type: integer
                     category:
                       description: Categories this pet belongs to
                       type: object
                       properties:
+                        id:
+                          description: Category ID
+                          type: integer
                         name:
                           description: Category name
                           type: string
@@ -4143,6 +4221,7 @@ x-webhooks:
                             - prop1
                           additionalProperties: false
                       required:
+                        - id
                         - name
                         - sub
                       additionalProperties: false
@@ -4158,10 +4237,16 @@ x-webhooks:
                     friend:
                       type: object
                       properties:
+                        id:
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id:
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -4177,6 +4262,7 @@ x-webhooks:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id
                             - name
                             - sub
                           additionalProperties: false
@@ -4196,11 +4282,15 @@ x-webhooks:
                           items:
                             type: object
                             properties:
+                              id:
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id
                               - name
                             additionalProperties: false
                         status:
@@ -4229,11 +4319,15 @@ x-webhooks:
                       items:
                         type: object
                         properties:
+                          id:
+                            description: Tag ID
+                            type: integer
                           name:
                             description: Tag name
                             type: string
                             minLength: 1
                         required:
+                          - id
                           - name
                         additionalProperties: false
                     status:
@@ -4262,11 +4356,15 @@ x-webhooks:
                   items:
                     type: object
                     properties:
+                      id:
+                        description: Tag ID
+                        type: integer
                       name:
                         description: Tag name
                         type: string
                         minLength: 1
                     required:
+                      - id
                       - name
                     additionalProperties: false
                 status:
@@ -4540,6 +4638,8 @@ components:
             $and:
               - any
               - $ref: '#/components/x-types/Pet'
+                $omit:
+                  - id
           schema:
             type: object
             properties:
@@ -4547,6 +4647,9 @@ components:
                 description: Categories this pet belongs to
                 type: object
                 properties:
+                  id:
+                    description: Category ID
+                    type: integer
                   name:
                     description: Category name
                     type: string
@@ -4562,6 +4665,7 @@ components:
                       - prop1
                     additionalProperties: false
                 required:
+                  - id
                   - name
                   - sub
                 additionalProperties: false
@@ -4577,10 +4681,16 @@ components:
               friend:
                 type: object
                 properties:
+                  id:
+                    description: Pet ID
+                    type: integer
                   category:
                     description: Categories this pet belongs to
                     type: object
                     properties:
+                      id:
+                        description: Category ID
+                        type: integer
                       name:
                         description: Category name
                         type: string
@@ -4596,6 +4706,7 @@ components:
                           - prop1
                         additionalProperties: false
                     required:
+                      - id
                       - name
                       - sub
                     additionalProperties: false
@@ -4611,10 +4722,16 @@ components:
                   friend:
                     type: object
                     properties:
+                      id:
+                        description: Pet ID
+                        type: integer
                       category:
                         description: Categories this pet belongs to
                         type: object
                         properties:
+                          id:
+                            description: Category ID
+                            type: integer
                           name:
                             description: Category name
                             type: string
@@ -4630,6 +4747,7 @@ components:
                               - prop1
                             additionalProperties: false
                         required:
+                          - id
                           - name
                           - sub
                         additionalProperties: false
@@ -4649,11 +4767,15 @@ components:
                         items:
                           type: object
                           properties:
+                            id:
+                              description: Tag ID
+                              type: integer
                             name:
                               description: Tag name
                               type: string
                               minLength: 1
                           required:
+                            - id
                             - name
                           additionalProperties: false
                       status:
@@ -4682,11 +4804,15 @@ components:
                     items:
                       type: object
                       properties:
+                        id:
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id
                         - name
                       additionalProperties: false
                   status:
@@ -4715,11 +4841,15 @@ components:
                 items:
                   type: object
                   properties:
+                    id:
+                      description: Tag ID
+                      type: integer
                     name:
                       description: Tag name
                       type: string
                       minLength: 1
                   required:
+                    - id
                     - name
                   additionalProperties: false
               status:
@@ -4763,8 +4893,9 @@ components:
         application/json:
           x-type:
             $array:
-              id:
-                $readonly: number::integer
+              $omit:
+                - id
+              id: number::integer
               pet:
                 - $ref: '#/components/x-types/Pet'
                 - $ref: '#/components/x-types/Tag'
@@ -4792,10 +4923,16 @@ components:
                   anyOf:
                     - type: object
                       properties:
+                        id:
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id:
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -4811,6 +4948,7 @@ components:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id
                             - name
                             - sub
                           additionalProperties: false
@@ -4826,10 +4964,16 @@ components:
                         friend:
                           type: object
                           properties:
+                            id:
+                              description: Pet ID
+                              type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
+                                id:
+                                  description: Category ID
+                                  type: integer
                                 name:
                                   description: Category name
                                   type: string
@@ -4845,6 +4989,7 @@ components:
                                     - prop1
                                   additionalProperties: false
                               required:
+                                - id
                                 - name
                                 - sub
                               additionalProperties: false
@@ -4860,10 +5005,16 @@ components:
                             friend:
                               type: object
                               properties:
+                                id:
+                                  description: Pet ID
+                                  type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
+                                    id:
+                                      description: Category ID
+                                      type: integer
                                     name:
                                       description: Category name
                                       type: string
@@ -4879,6 +5030,7 @@ components:
                                         - prop1
                                       additionalProperties: false
                                   required:
+                                    - id
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -4898,11 +5050,15 @@ components:
                                   items:
                                     type: object
                                     properties:
+                                      id:
+                                        description: Tag ID
+                                        type: integer
                                       name:
                                         description: Tag name
                                         type: string
                                         minLength: 1
                                     required:
+                                      - id
                                       - name
                                     additionalProperties: false
                                 status:
@@ -4931,11 +5087,15 @@ components:
                               items:
                                 type: object
                                 properties:
+                                  id:
+                                    description: Tag ID
+                                    type: integer
                                   name:
                                     description: Tag name
                                     type: string
                                     minLength: 1
                                 required:
+                                  - id
                                   - name
                                 additionalProperties: false
                             status:
@@ -4964,11 +5124,15 @@ components:
                           items:
                             type: object
                             properties:
+                              id:
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id
                               - name
                             additionalProperties: false
                         status:
@@ -4993,11 +5157,15 @@ components:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
+                        id:
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id
                         - name
                       additionalProperties: false
                 username:
@@ -5082,8 +5250,7 @@ components:
           $descriptions:
             huntingSkill: The measured skill for hunting
     Category:
-      id:
-        $readonly: number::integer
+      id: number::integer
       name: string::min(1)
       sub:
         prop1: string
@@ -5105,23 +5272,18 @@ components:
         - honeyPerDay: number
           $descriptions:
             honeyPerDay: Average amount of honey produced per day in ounces
-    Id:
-      $readonly: number::integer
+    Id: number::integer
     Order:
-      id:
-        $readonly: number::integer
-      petId:
-        $readonly: number::integer
+      id: number::integer
+      petId: number::integer
       quantity: number::integer::min(1)
       shipDate: string::date-time
       status:
         - placed
         - approved
         - delivered
-      complete:
-        $readonly: boolean
-      requestId:
-        $writeonly: string
+      complete: boolean
+      requestId: string
       $descriptions:
         id: Order ID
         petId: Pet ID
@@ -5169,15 +5331,13 @@ components:
         status: Pet status in the store
         petType: Type of a pet
     Tag:
-      id:
-        $readonly: number::integer
+      id: number::integer
       name: string::min(1)
       $descriptions:
         id: Tag ID
         name: Tag name
     User:
-      id:
-        $readonly: number::integer
+      id: number::integer
       pet:
         - $ref: '#/components/x-types/Pet'
         - $ref: '#/components/x-types/Tag'

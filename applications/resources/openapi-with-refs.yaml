@@ -13,22 +13,20 @@ paths:
               x-type:
                 AFieldWithRegularRef:
                   $ref: '#/components/x-types/Foo'
-                AFieldWithInlineRef: $ref:#/components/x-types/Foo
               examples:
                 Correct:
                   value:
-                    AFieldWithInlineRef: az
                     AFieldWithRegularRef: bukh
                 Incorrect:
                   value:
-                    AFieldWithInlineRef: wrong
                     AFieldWithRegularRef: wrong
                     NonExistingField: wrong
         201:
           description: A bare ref
           content:
             application/json:
-              x-type: $ref:#/components/x-types/Foo
+              x-type:
+                $ref: '#/components/x-types/Foo'
               examples:
                 Correct:
                   value: az
@@ -36,7 +34,8 @@ paths:
           description: A file reference
           content:
             application/json:
-              x-type: $ref:number.json
+              x-type:
+                $ref: number.json
               examples:
                 Correct:
                   value: 42
@@ -46,7 +45,8 @@ paths:
           description: A transitive reference
           content:
             application/json:
-              x-type: $ref:#/components/x-types/Bar
+              x-type:
+                $ref: '#/components/x-types/Bar'
               examples:
                 Correct:
                   value: [az]
@@ -57,7 +57,8 @@ paths:
           content:
             application/json:
               x-type:
-                AWrongRef: $ref:wrong-file.yaml
+                AWrongRef:
+                  $ref: wrong-file.yaml
               example:
                 AWrongRef: Accepts anything
 components:
@@ -66,4 +67,5 @@ components:
       - az
       - bukh
     Bar:
-      $array: $ref:#/components/x-types/Foo
+      $array:
+        $ref: '#/components/x-types/Foo'

@@ -327,6 +327,60 @@ components: {}
 
 exports[`bundle > do not bundle an openapi with type never 1`] = `undefined`;
 
+exports[`bundle > generate x-types from JSON Schemas (readOnly and writeOnly) 1`] = `
+"openapi: 3.1.0
+info:
+  title: Test transform JSON Schema readOnly and writeOnly to $omit in X-Type
+  version: 1.0.0
+paths:
+  /user:
+    post:
+      requestBody:
+        content:
+          application/json:
+            x-type:
+              $ref: '#/components/x-types/User'
+              $omit:
+                - id
+                - createdAt
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              x-type:
+                $ref: '#/components/x-types/User'
+                $omit:
+                  - password
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        createdAt:
+          $ref: '#/components/schemas/Date'
+    Date:
+      type: string
+      format: date-time
+      readOnly: true
+  x-types:
+    User:
+      id: number::integer
+      name: string
+      password: string
+      createdAt: string::date-time
+    Date: string::date-time
+"
+`;
+
 exports[`bundle > openapi with $-prefixed fields 1`] = `
 "openapi: 3.1.0
 info:
@@ -498,6 +552,83 @@ components:
       best_friend:
         - $ref: '#/components/x-types/Person'
         - undefined
+"
+`;
+
+exports[`bundle > openapi with circular refs to writeOnly 1`] = `
+"openapi: 3.1.0
+info:
+  title: Circular refs with readOnly and writeOnly require creating additional Readonly X-Types with $omit
+  version: 1.0.0
+paths:
+  /user:
+    get:
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              x-type:
+                $and:
+                  - $ref: '#/components/x-types/User'
+                    $omit:
+                      - password
+                      - friend
+                  - friend:
+                      - $ref: '#/components/x-types/ReadonlyUser'
+                      - null
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  friend:
+                    anyOf:
+                      - type: object
+                        properties:
+                          name:
+                            type: string
+                          friend:
+                            anyOf:
+                              - type: object
+                                properties:
+                                  name:
+                                    type: string
+                                  friend:
+                                    anyOf:
+                                      - {}
+                                      - type: 'null'
+                                required:
+                                  - name
+                                  - friend
+                                additionalProperties: false
+                              - type: 'null'
+                        required:
+                          - name
+                          - friend
+                        additionalProperties: false
+                      - type: 'null'
+                required:
+                  - name
+                  - friend
+                additionalProperties: false
+components:
+  x-types:
+    User:
+      name: string
+      password: string
+      friend:
+        - $ref: '#/components/x-types/User'
+        - null
+    ReadonlyUser:
+      $and:
+        - $ref: '#/components/x-types/User'
+          $omit:
+            - password
+            - friend
+        - friend:
+            - $ref: '#/components/x-types/ReadonlyUser'
+            - null
 "
 `;
 
@@ -703,8 +834,6 @@ paths:
           description: Test discriminators.
           content:
             application/inheritance+json:
-              x-type:
-                $ref: '#/components/x-types/Az'
               examples:
                 Correct:
                   value:
@@ -714,9 +843,9 @@ paths:
                 Incorrect:
                   value:
                     bukh: dobro
-            application/polymorphism+json:
               x-type:
-                $ref: '#/components/x-types/Zelo'
+                $ref: '#/components/x-types/Az'
+            application/polymorphism+json:
               examples:
                 Correct:
                   value:
@@ -725,6 +854,8 @@ paths:
                 Incorrect:
                   value:
                     kako: wrong
+              x-type:
+                $ref: '#/components/x-types/Zelo'
 components:
   schemas:
     Az:
@@ -822,83 +953,70 @@ components:
 "
 `;
 
-exports[`bundle > openapi with writeOnly and readOnly fields 1`] = `
+exports[`bundle > openapi with omitting fields 1`] = `
 "openapi: 3.1.0
 info:
-  title: Test writeOnly/readOnly fields
+  title: Test $omit
   version: 1.0.0
 paths:
-  /test:
-    get:
+  /user:
+    post:
       requestBody:
         content:
           application/json:
             x-type:
-              id:
-                $readonly: string::uuid
-                not-allowed: $readonly and $writeonly must not have neighbours
-              name:
-                $readonly: string
-                $writeonly:
-                  first: string
-                  last: string
+              $omit:
+                - id
+              id: number::integer
+              name: string
+              password: string
             examples:
               Correct:
                 value:
-                  name:
-                    first: string
-                    last: string
+                  name: Test
+                  password: test-password
               Incorrect:
                 value:
-                  id: uuid-like-id
-                  name: First Last
+                  id: 42
+                  name: Test
+                  password: test-password
             schema:
               type: object
               properties:
                 name:
-                  type: object
-                  properties:
-                    first:
-                      type: string
-                    last:
-                      type: string
-                  required:
-                    - first
-                    - last
-                  additionalProperties: false
+                  type: string
+                password:
+                  type: string
               required:
                 - name
+                - password
               additionalProperties: false
       responses:
-        '200':
-          description: Test.
+        '201':
+          description: Created
           content:
             application/json:
               x-type:
-                id:
-                  $readonly: string::uuid
-                  not-allowed: $readonly and $writeonly must not have neighbours
-                name:
-                  $readonly: string
-                  $writeonly:
-                    first: string
-                    last: string
+                $omit:
+                  - password
+                id: number::integer
+                name: string
+                password: string
               examples:
                 Correct:
                   value:
-                    id: uuid-like-id
-                    name: First Last
+                    id: 42
+                    name: Test
                 Incorrect:
                   value:
-                    name:
-                      first: Wrong
-                      last: Wrong
+                    id: 42
+                    name: Test
+                    password: must be skipped!
               schema:
                 type: object
                 properties:
                   id:
-                    type: string
-                    format: uuid
+                    type: integer
                   name:
                     type: string
                 required:
@@ -907,23 +1025,10 @@ paths:
                 additionalProperties: false
 components:
   x-types:
-    Id:
-      $readonly: string::uuid
-      not-allowed: $readonly and $writeonly must not have neighbours
-    Name:
-      $readonly: string
-      $writeonly:
-        first: string
-        last: string
-    Person:
-      id:
-        $readonly: string::uuid
-        not-allowed: $readonly and $writeonly must not have neighbours
-      name:
-        $readonly: string
-        $writeonly:
-          first: string
-          last: string
+    User:
+      id: number::integer
+      name: string
+      password: string
 "
 `;
 
@@ -1030,17 +1135,12 @@ paths:
                 AFieldWithRegularRef:
                   - az
                   - bukh
-                AFieldWithInlineRef:
-                  - az
-                  - bukh
               examples:
                 Correct:
                   value:
-                    AFieldWithInlineRef: az
                     AFieldWithRegularRef: bukh
                 Incorrect:
                   value:
-                    AFieldWithInlineRef: wrong
                     AFieldWithRegularRef: wrong
                     NonExistingField: wrong
               schema:
@@ -1051,14 +1151,8 @@ paths:
                     enum:
                       - az
                       - bukh
-                  AFieldWithInlineRef:
-                    type: string
-                    enum:
-                      - az
-                      - bukh
                 required:
                   - AFieldWithRegularRef
-                  - AFieldWithInlineRef
                 additionalProperties: false
         '201':
           description: A bare ref

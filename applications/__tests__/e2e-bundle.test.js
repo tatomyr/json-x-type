@@ -18,7 +18,7 @@ describe('bundle', () => {
 
   test('resolve different type of $refs on different levels and ignore wrong $refs (with --force) when bundling', () => {
     const {stdout} = runCommand(
-      'redocly bundle applications/resources/openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml'
+      'redocly bundle applications/resources/openapi-with-refs.yaml --force --config=applications/x-redocly.yaml'
     )
     expect(stdout).toMatchSnapshot()
   })
@@ -79,23 +79,32 @@ describe('bundle', () => {
     expect(stdout).toMatchSnapshot()
   })
 
-  test('generate x-types from JSON Schemas and generate schemas back', () => {
+  test('generate x-types from JSON Schemas (petstore)', () => {
     const {stdout: toXTypes} = runCommand(
       'redocly bundle applications/resources/pets.yaml --config=applications/generate-x-types-redocly.yaml'
     )
     expect(toXTypes).toMatchFileSnapshot('file-snapshots/pets-to-x-types.yaml')
-    const {stdout: backToSchemas} = runCommand(
-      'redocly bundle applications/__tests__/file-snapshots/pets-to-x-types.yaml --config=applications/x-redocly.yaml'
-    )
-    expect(backToSchemas).toMatchFileSnapshot(
-      'file-snapshots/pets-back-to-schemas.yaml'
-    )
   })
 
-  test('openapi with writeOnly and readOnly fields', () => {
+  test('generate x-types from JSON Schemas (readOnly and writeOnly)', () => {
     const {stdout} = runCommand(
-      'redocly bundle applications/resources/openapi-with-writeonly-and-readonly.yaml --config=applications/x-redocly.yaml'
+      'redocly bundle applications/resources/openapi-from-readonly-writeonly-to-omit.yaml --config=applications/generate-x-types-redocly.yaml'
     )
+    expect(stdout).toMatchSnapshot()
+  })
+
+  test('openapi with circular refs to writeOnly', () => {
+    const {stdout} = runCommand(
+      'redocly bundle applications/resources/openapi-writeonly-circular.yaml --config=applications/x-redocly.yaml'
+    )
+    expect(stdout).toMatchSnapshot()
+  })
+
+  test('openapi with omitting fields', () => {
+    const {stdout} = runCommand(
+      'redocly bundle applications/resources/openapi-omit.yaml --config=applications/x-redocly.yaml'
+    )
+    // FIXME: the $omit field merges directly into the resolved object. this may cause issues if $ref is not an object
     expect(stdout).toMatchSnapshot()
   })
 

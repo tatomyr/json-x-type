@@ -1,51 +1,27 @@
 # JSON X-Type
 
-**JSON X-Type** is a data type notation for describing JSON-like structures in a simple and natural way.
+**JSON X-Type** is a type notation for describing JSON data with an emphasis on being intuitive to write and easy to read.
 Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type** definition.
 
-**JSON X-Type** can be described by itself ([🔗](./x-types.yaml)).
+**JSON X-Type** can be described by itself ([🔗](./x-type.yaml)).
 
 ## Primitive types
 
-| Value     | Description                                                         |
-| --------- | ------------------------------------------------------------------- |
-| string    | String type.                                                        |
-| number    | Number type.                                                        |
-| boolean   | Boolean type.                                                       |
-| `null`    | The `null` value. (Note: The string "null" has no special meaning.) |
-| undefined | Indicates that the value is not set.                                |
-| any       | Any value (not validated).                                          |
+| Keyword   | Description                          |
+| --------- | ------------------------------------ |
+| string    | String type.                         |
+| number    | Number type.                         |
+| boolean   | Boolean type.                        |
+| undefined | Indicates that the value is not set. |
+| any       | Any value (not validated).           |
 
 Primitive types are the basic building blocks of **JSON X-Type** and can be used in JSON values.
-Any other values are considered literals.
-To use a reserved keyword as a literal (rather than its special meaning), it must be escaped with the `$literal:` prefix ([🔗](#literals-escaping)).
+Any other primitive values (numbers, booleans, `null`, or strings) are considered literals.
+Note: To use a reserved keyword as a literal (rather than its special meaning), escape it with the [$literal:](#literals-escaping) prefix.
 
-## Special keywords
+## Structural types
 
-Special keywords are used to compose complex types and can be used in JSON keys.
-
-| Key     | Description                                               |
-| ------- | --------------------------------------------------------- |
-| $record | Record generic ([🔗](#objects-and-records)).              |
-| $array  | Array generic ([🔗](#array-types)).                       |
-| $and    | Types intersection ([🔗](#intersection-types)).           |
-| $ref    | Reference to another **JSON X-Type** ([🔗](#references)). |
-
-The list can be extended with other `$`-prefixed keywords.
-To use a literal key that starts with `$`, it must be escaped with the `$literal:` prefix ([🔗](#literals-escaping)).
-
-Note that `$`-prefixed keys mostly cannot be combined with each other at the same level:
-
-```json
-{
-  "$array": "string",
-  "$record": "boolean"
-}
-```
-
-This should result in the `undefined` type.
-
-## Objects and records
+### Objects and records
 
 Object literals define object-like structures:
 
@@ -58,7 +34,7 @@ Object literals define object-like structures:
 
 The example above defines an object with two required properties.
 
-Record types allow you to define objects with dynamic properties using the `$record` keyword:
+To describe objects with dynamic properties, use the `$record` keyword:
 
 ```json
 {
@@ -68,9 +44,9 @@ Record types allow you to define objects with dynamic properties using the `$rec
 
 This defines an object where any property has a boolean value.
 
-A TypeScript analogy for `$record` is `Record<string, T>`.
+TypeScript analogy: `Record<string, T>`.
 
-You can also combine specific properties with dynamic ones, although it's not recommended:
+Note: Specific properties can be combined with dynamic ones, although this approach is not generally recommended for data organization:
 
 ```json
 {
@@ -82,19 +58,9 @@ You can also combine specific properties with dynamic ones, although it's not re
 This defines an object with a required `name` property of type string, plus any number of additional properties of any type.
 The `$record` key puts constraints on all properties, including defined ones.
 
-<!-- TODO: consider validating tuples as objects with integer-like keys, e.g.:
+### Array type
 
-```json
-{
-  "$0": "number",
-  "$1": "number"
-}
-```
--->
-
-## Array types
-
-Array types define collections using the `$array` keyword:
+Arrays can be defined using the `$array` keyword:
 
 ```json
 {
@@ -104,9 +70,66 @@ Array types define collections using the `$array` keyword:
 
 This defines an array of strings.
 
-A TypeScript analogy for `$array` is `Array<T>` or `T[]`.
+TypeScript analogy: `Array<T>` or `T[]`.
 
-## Types combining
+<!--
+Under consideration.
+
+### Tuple types
+
+```json
+{
+  "$tuple": [
+    "number",
+    "number"
+  ]
+}
+```
+
+OR
+
+```json
+{
+  $0: "number",
+  $1: "number"
+}
+```
+
+The first one contradicts the exclusive use of arrays for unions.
+while the second is less intuitive.
+
+Another option is to use something in the middle:
+
+```json
+{
+  "$tuple": {
+    "0": "number",
+    "1": "number"
+  }
+}
+```
+-->
+
+## References
+
+Use `$ref` to refer to other **JSON X-Types** via [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901):
+
+```json
+{
+  "foo": {
+    "$ref": "#/bar"
+  },
+  "bar": ["string", "number"]
+}
+```
+
+The `foo` property resolves to the same type as `bar`, i.e., a union of string and number.
+
+References resolve relative to the file they appear in.
+If a reference cannot be resolved, it should be treated as `any`.
+Any other properties alongside the `$ref` must be ignored, except for [$omit](#omit).
+
+## Type composition
 
 ### Union types
 
@@ -116,14 +139,13 @@ Array literals define multiple options, one of which is applicable:
 ["string", "undefined"]
 ```
 
-This defines a value that can be either a string or undefined.
-Note that this is different from array types (see [Array types](#array-types)).
+This defines an optional string.
 
-The equivalent TypeScript notation uses the pipe operator (`|`) to express unions.
+TypeScript analogy: `A | B`.
 
 ### Intersection types
 
-It is possible to combine several types (mainly existing object types) into one using the `$and` keyword:
+Combine several types (mainly object types) into one using `$and`:
 
 ```json
 {
@@ -138,7 +160,7 @@ It is possible to combine several types (mainly existing object types) into one 
 }
 ```
 
-The result is an object that includes all of the properties of all the items:
+The result is an object that includes all properties from every member:
 
 ```json
 {
@@ -147,42 +169,30 @@ The result is an object that includes all of the properties of all the items:
 }
 ```
 
-A TypeScript analogy for `$and` is the following:
+TypeScript analogy: `{foo: string} & {bar: number}`.
 
-```ts
-type And<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
-  ? I
-  : never
+It does not make sense to intersect incompatible types (e.g., strings and booleans); such cases result in the `undefined` type.
 
-type Combined = And<{foo: string} | {bar: number}> // {"foo": "string"} & {"bar": "number"} ≡ {"foo": "string", "bar": "number"}
-```
+### Omit
 
-Effectively, it applies the `AND` relation between the array members, replacing the `OR` relation.
-
-Note that it doesn't make sense to combine primitive types or objects that have common properties with different types:
+Omits specific properties from a referenced type:
 
 ```json
 {
-  "$and": [
-    {
-      "foo": "string"
-    },
-    {
-      "foo": "number"
-    }
-  ]
+  "$ref": "user.json",
+  "$omit": ["id", "createdAt"]
 }
 ```
 
-The above example results in `foo` being both `string` and `number`, which is effectively equivalent to TypeScript's `never` type.
+The resulting type is the resolved type from `user.json` without the `id` and `createdAt` properties.
 
-Impossible combinations should result in the `undefined` type.
+Note: `$omit` applies to the final type resolved from the reference.
+
+<!-- Consider adding $partial at the same level as $omit -->
 
 ## Literals escaping
 
-Whenever there is a need to use a literal string value instead of a reserved keyword, it must be prepended with the `$literal:` prefix:
+Whenever there is a need to use a literal string value or key instead of a reserved keyword, prepend it with the `$literal:` prefix:
 
 ```json
 {
@@ -206,33 +216,14 @@ Similarly, you can escape type values like `"string"`:
 }
 ```
 
-## References
+## Extensions
 
-It is possible to refer to other **JSON X-Types** using the [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901) syntax:
+The vocabulary can be extended with other `$`-prefixed keywords or using type suffixes.
+To use a literal key that starts with `$`, escape it with the [$literal:](#literals-escaping) prefix.
 
-```json
-{
-  "foo": {
-    "$ref": "#/bar"
-  },
-  "bar": ["string", "number", "boolean"]
-}
-```
+See available [extensions](./extensions.md).
 
-A reference must be resolved relative to the file it appears in.
-The `$ref` expression must be replaced with the value of the field it refers to.
-Any other properties alongside the `$ref` must be ignored.
+## Credits
 
-Alternatively, the `$ref` keyword can be used as a prefix, which is easier to write and read (although the support depends on the tooling):
-
-```json
-{
-  "foo": "$ref:./path/to/file"
-}
-```
-
-If a reference cannot be resolved, it should be treated as `any`.
-
-## Types extending
-
-Possible extensions are described [here](./extensions.md).
+Thanks to [JSON Schema](https://json-schema.org/) for inspiration to use JSON-like syntax for type definitions,
+and to [TypeScript](https://www.typescriptlang.org/) for inspiring good types design.

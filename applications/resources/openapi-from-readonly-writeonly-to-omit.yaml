@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: Test transform JSON Schema readOnly and writeOnly to $omit in X-Type
+  version: 1.0.0
+paths:
+  /user:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+        createdAt:
+          $ref: '#/components/schemas/Date'
+    Date:
+      type: string
+      format: date-time
+      readOnly: true

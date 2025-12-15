@@ -1,11 +1,9 @@
 {
-  "name": "json-types",
-  "version": "0.1.0",
+  "name": "json-x-type",
+  "version": "0.2.0",
   "type": "module",
-  "description": "This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way. Any [valid JSON](https://www.json.org/) could be validated against an **JSON X-Types** definition.",
-  "main": "index.js",
+  "description": "This document describes data type notation using JSON. Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Type** definition.",
   "scripts": {
-    "refs": "redocly bundle applications/resources/openapi-with-refs.yaml -o=applications/outputs/x-openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml && redocly lint applications/outputs/x-openapi-with-refs.yaml --config=applications/x-inline-refs-config-redocly.yaml",
     "lint": "eslint .",
     "test": "vitest",
     "coverage": "vitest run --coverage",
@@ -14,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tatomyr/json-types.git"
+    "url": "git+https://github.com/tatomyr/json-x-type.git"
   },
   "keywords": [
     "json",
@@ -23,9 +21,9 @@
   "author": "tatomyr",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tatomyr/json-types/issues"
+    "url": "https://github.com/tatomyr/json-x-type/issues"
   },
-  "homepage": "https://github.com/tatomyr/json-types#readme",
+  "homepage": "https://github.com/tatomyr/json-x-type#readme",
   "devDependencies": {
     "@hyperjump/json-schema": "^1.9.9",
     "@redocly/cli": "1.25.5",

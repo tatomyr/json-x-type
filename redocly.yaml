@@ -1,2 +1,1 @@
-extends:
-  - applications/x-redocly.yaml
+$ref: applications/x-redocly.yaml

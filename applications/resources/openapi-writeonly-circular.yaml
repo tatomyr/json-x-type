@@ -1,0 +1,45 @@
+openapi: 3.1.0
+info:
+  title: Circular refs with readOnly and writeOnly require creating additional Readonly X-Types with $omit
+  version: 1.0.0
+paths:
+  /user:
+    get:
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              # schema:
+              #   $ref: '#/components/schemas/User'
+              x-type:
+                $ref: '#/components/x-types/ReadonlyUser'
+
+components:
+  # schemas:
+  #   User:
+  #     type: object
+  #     properties:
+  #       name:
+  #         type: string
+  #       password:
+  #         type: string
+  #         writeOnly: true
+  #       friend:
+  #         oneOf:
+  #           - $ref: '#/components/schemas/User'
+  #           - type: 'null'
+  x-types:
+    User:
+      name: string
+      password: string
+      friend:
+        - $ref: '#/components/x-types/User'
+        - null
+    ReadonlyUser:
+      $and:
+        - $ref: '#/components/x-types/User'
+          $omit: [password, friend]
+        - friend:
+            - $ref: '#/components/x-types/ReadonlyUser'
+            - null
