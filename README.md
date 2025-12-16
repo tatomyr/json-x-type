@@ -21,6 +21,20 @@ Note: To use a reserved keyword as a literal (rather than its special meaning), 
 
 ## Structural types
 
+### Array type
+
+Arrays can be defined using the `$array` keyword:
+
+```json
+{
+  "$array": "string"
+}
+```
+
+This defines an array of strings.
+
+TypeScript analogy: `Array<T>` or `T[]`.
+
 ### Objects and records
 
 Object literals define object-like structures:
@@ -58,24 +72,8 @@ Note: Specific properties can be combined with dynamic ones, although this appro
 This defines an object with a required `name` property of type string, plus any number of additional properties of any type.
 The `$record` key puts constraints on all properties, including defined ones.
 
-### Array type
-
-Arrays can be defined using the `$array` keyword:
-
-```json
-{
-  "$array": "string"
-}
-```
-
-This defines an array of strings.
-
-TypeScript analogy: `Array<T>` or `T[]`.
-
 <!--
-Under consideration.
-
-### Tuple types
+### Tuple types -- Under consideration
 
 ```json
 {
@@ -116,14 +114,19 @@ Use `$ref` to refer to other **JSON X-Types** via [JSON Pointer](https://datatra
 
 ```json
 {
-  "foo": {
-    "$ref": "#/bar"
+  "UserList": {
+    "$array": {
+      "$ref": "#/User"
+    }
   },
-  "bar": ["string", "number"]
+  "User": {
+    "name": "string",
+    "age": "number"
+  }
 }
 ```
 
-The `foo` property resolves to the same type as `bar`, i.e., a union of string and number.
+The `UserList` uses a reference to the `User` type for describing an array of users.
 
 References resolve relative to the file they appear in.
 If a reference cannot be resolved, it should be treated as `any`.
@@ -169,9 +172,10 @@ The result is an object that includes all properties from every member:
 }
 ```
 
-TypeScript analogy: `{foo: string} & {bar: number}`.
+Intersection of a wider and a narrower type results in the narrower one.
+Intersection of incompatible types (e.g., strings and booleans) must result in the `undefined` type.
 
-It does not make sense to intersect incompatible types (e.g., strings and booleans); such cases result in the `undefined` type.
+TypeScript analogy: `A & B`.
 
 ### Omit
 
@@ -208,7 +212,7 @@ This checks for an object with the `$record` key of a `boolean` value, e.g.:
 }
 ```
 
-Similarly, you can escape type values like `"string"`:
+Similarly, you can escape primitive types like `"string"`:
 
 ```json
 {
@@ -218,7 +222,7 @@ Similarly, you can escape type values like `"string"`:
 
 ## Extensions
 
-The vocabulary can be extended with other `$`-prefixed keywords or using type suffixes.
+The vocabulary can be extended with other `$`-prefixed object keys or using type suffixes.
 To use a literal key that starts with `$`, escape it with the [$literal:](#literals-escaping) prefix.
 
 See available [extensions](./extensions.md).

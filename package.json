@@ -2,11 +2,10 @@
   "name": "json-x-type",
   "version": "0.2.0",
   "type": "module",
-  "description": "This document describes data type notation using JSON. Any [valid JSON](https://www.json.org/) could be validated against a **JSON X-Type** definition.",
+  "description": "JSON X-Type is a JSON data type type notation with an emphasis on being intuitive to write and easy to read.",
   "scripts": {
     "lint": "eslint .",
-    "test": "vitest",
-    "coverage": "vitest run --coverage",
+    "test": "vitest run --coverage",
     "prettier:check": "npx prettier --check \"**/*.{js,html,yaml,css,md,json}\"",
     "prettier": "npx prettier --write \"**/*.{js,html,yaml,css,md,json}\""
   },

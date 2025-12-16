@@ -1,47 +1,7 @@
 # Type extensions
 
-It is possible to add additional context to types and values using extension keywords and type suffixes.
+It is possible to add additional context to types using extension keywords and type suffixes.
 Main use cases include describing OpenAPI-compatible types.
-
-## Extension keywords
-
-### $descriptions
-
-<!-- Consider adding $type (or $primitive) keyword instead, which would allow to specify $description along with the (primitive) type -->
-
-The `$descriptions` keyword provides additional information about the object fields.
-It must be an object at the same level as the fields it describes, mapping field names to their description strings:
-
-```json
-{
-  "name": "string",
-  "$descriptions": {
-    "name": "The name of the user."
-  }
-}
-```
-
-Descriptions are propagated to the OpenAPI schema as the `description` fields of the corresponding properties.
-
-<!--
-Consider adding $readOnly and $writeOnly keywords back, but in a different way:
-
-```yaml
-foo: string
-bar: number
-$readOnly:
-  - foo
-```
-
-This won't work for primitive type though.
--->
-
-### $discriminator
-
-Represents the OpenAPI [discriminator](https://spec.openapis.org/oas/latest.html#discriminator-object).
-Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
-The discriminator object should contain the `propertyName` field and, optionally, the `mapping` field.
-The `mapping` field must contain links to the corresponding schemas (not to **X-Types**).
 
 ## Type suffixes
 
@@ -67,6 +27,8 @@ The corresponding values are passed in parentheses:
 "string::min(3)::max(30)::pattern([A-Za-z]+)"
 ```
 
+<!-- FIXME: remove the following here and from the code: -->
+
 The `pattern` modifier can also be used with the `$record` keyword to constrain dynamic object property names.
 
 ### Number formats and modifiers
@@ -85,12 +47,52 @@ Alternatively:
 {"$array": "any", "minItems": 1}
 -->
 
+## Extension keywords
+
+### $descriptions
+
+<!-- Consider adding $type (or $primitive (although it won't work with literals...)) keyword instead, which would allow to specify $description along with the (primitive) type -->
+
+The `$descriptions` keyword provides additional information about the object fields.
+It must be an object at the same level as the fields it describes, mapping field names to their description strings:
+
+```json
+{
+  "name": "string",
+  "$descriptions": {
+    "name": "The name of the user."
+  }
+}
+```
+
+Descriptions are propagated to the OpenAPI schema as the `description` fields of the corresponding properties.
+
+### $discriminator
+
+Represents the OpenAPI [discriminator](https://spec.openapis.org/oas/latest.html#discriminator-object).
+Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
+The discriminator object should contain the `propertyName` field and, optionally, the `mapping` field.
+The `mapping` field must contain links to the corresponding schemas (not to **X-Types**).
+
 <!--
-## Free form validation
 
-**Note: This feature is under consideration.**
+### $readonly and $writeonly (under consideration)
 
-If a field needs to be validated against its context, a validation function can be used with the `$validate` keyword:
+```json
+{
+  "id": "string",
+  "name": "string",
+  "password": "string",
+  "$readonly": ["id"],
+  "$writeonly": ["password"]
+}
+```
+
+This won't work for primitive types though.
+
+### $validate (under consideration)
+
+Validates a field against its context:
 
 ```json
 {
