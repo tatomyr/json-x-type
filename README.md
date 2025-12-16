@@ -5,7 +5,7 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 
 **JSON X-Type** can be described by itself ([🔗](./x-type.yaml)).
 
-## Primitive types
+## Primitive types and literals
 
 | Keyword   | Description                          |
 | --------- | ------------------------------------ |
@@ -16,26 +16,12 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 | any       | Any value (not validated).           |
 
 Primitive types are the basic building blocks of **JSON X-Type** and can be used in JSON values.
-Any other primitive values (numbers, booleans, `null`, or strings) are considered literals.
+Any other primitive values (strings, numbers, booleans, or `null`) are considered literals.
 Note: To use a reserved keyword as a literal (rather than its special meaning), escape it with the [$literal:](#literals-escaping) prefix.
 
 ## Structural types
 
-### Array type
-
-Arrays can be defined using the `$array` keyword:
-
-```json
-{
-  "$array": "string"
-}
-```
-
-This defines an array of strings.
-
-TypeScript analogy: `Array<T>` or `T[]`.
-
-### Objects and records
+### Objects
 
 Object literals define object-like structures:
 
@@ -48,7 +34,12 @@ Object literals define object-like structures:
 
 The example above defines an object with two required properties.
 
-To describe objects with dynamic properties, use the `$record` keyword:
+Any `$`-prefixed keys in object literals are reserved for special keywords.
+To use a literal key that starts with `$`, escape it with the [$literal:](#literals-escaping) prefix.
+
+### Records
+
+To describe objects with dynamic properties, use special `$record` keyword:
 
 ```json
 {
@@ -60,7 +51,7 @@ This defines an object where any property has a boolean value.
 
 TypeScript analogy: `Record<string, T>`.
 
-Note: Specific properties can be combined with dynamic ones, although this approach is not generally recommended for data organization:
+Note: Literal properties can be combined with dynamic ones, although this approach is not generally recommended for data organization:
 
 ```json
 {
@@ -70,7 +61,22 @@ Note: Specific properties can be combined with dynamic ones, although this appro
 ```
 
 This defines an object with a required `name` property of type string, plus any number of additional properties of any type.
+
 The `$record` key puts constraints on all properties, including defined ones.
+
+### Array type
+
+Arrays can be defined using special `$array` keyword:
+
+```json
+{
+  "$array": "string"
+}
+```
+
+This defines an array of strings.
+
+TypeScript analogy: `Array<T>` or `T[]`.
 
 <!--
 ### Tuple types (under consideration)
@@ -173,7 +179,7 @@ The result is an object that includes all properties from every member:
 ```
 
 Intersection of a wider and a narrower type results in the narrower one.
-Intersection of incompatible types (e.g., strings and booleans) must result in the `undefined` type.
+Intersection of incompatible types (e.g., strings and booleans) must result in the undefined type.
 
 TypeScript analogy: `A & B`.
 
@@ -223,8 +229,6 @@ Similarly, you can escape primitive types like `"string"`:
 ## Extensions
 
 The vocabulary can be extended with other `$`-prefixed object keys or using type suffixes.
-To use a literal key that starts with `$`, escape it with the [$literal:](#literals-escaping) prefix.
-
 See available [extensions](./extensions.md).
 
 ## Credits
