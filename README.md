@@ -73,7 +73,7 @@ This defines an object with a required `name` property of type string, plus any 
 The `$record` key puts constraints on all properties, including defined ones.
 
 <!--
-### Tuple types -- Under consideration
+### Tuple types (under consideration)
 
 ```json
 {
