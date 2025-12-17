@@ -136,7 +136,7 @@ The `UserList` uses a reference to the `User` type for describing an array of us
 
 References resolve relative to the file they appear in.
 If a reference cannot be resolved, it should be treated as `any`.
-Any other properties alongside the `$ref` must be ignored, except for [$omit](#omit).
+Any other properties alongside the `$ref` must be ignored, except for [$omit](#omitting-properties).
 
 ## Type composition
 
