@@ -3,7 +3,7 @@ import {
   generateSchemas,
   generateXTypes,
   generateNamedXTypes,
-  createRefs,
+  removeXTypes,
 } from './x-types-decorators.js'
 import {noRefNeighbors, noUndefinedDescriptions} from './x-types-rules.js'
 import {isObject} from './x-types-utils.js'
@@ -45,19 +45,18 @@ const getType = value => {
       }
 
       if (isRef(value)) {
+        // return value // not sure what should it be, so returning as is
+
         // FIXME: when returning this, it fails on bundling when there are circular refs.
-        return {
-          properties: {type: 'string'},
-        }
+        // return {
+        //   properties: {type: 'string'},
+        // }
+
+        // Should be like this?
+        return {$ref: getType}
+
         // When returning this, it fails on linting when there are refs.
         // return undefined
-      }
-
-      if (
-        typeof value.$readonly !== 'undefined' ||
-        typeof value.$writeonly !== 'undefined'
-      ) {
-        return 'XTypeWriteOrReadOnly'
       }
 
       return 'XTypeObject'
@@ -91,22 +90,15 @@ const XTypeObject = {
   additionalProperties: getType,
 }
 
-const XTypeWriteOrReadOnly = {
-  properties: {
-    $readonly: getType,
-    $writeonly: getType,
-  },
-}
-
 export default () => ({
   id: 'x-types',
 
   decorators: {
     oas3: {
+      'remove-x-types': removeXTypes,
       'generate-schemas': generateSchemas,
       'generate-x-types': generateXTypes,
       'generate-named-x-types': generateNamedXTypes,
-      'create-$refs': createRefs,
     },
   },
 
@@ -133,7 +125,6 @@ export default () => ({
         XTypeArray,
         XTypeAND,
         XTypeObject,
-        XTypeWriteOrReadOnly,
         MediaType: {
           ...types.MediaType,
           properties: {

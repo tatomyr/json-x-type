@@ -5,8 +5,7 @@ info:
 components:
   x-types:
     Item:
-      id:
-        $readonly: string
+      id: string
       $descriptions:
         id: User identifier.
         wrong: Should be reported!

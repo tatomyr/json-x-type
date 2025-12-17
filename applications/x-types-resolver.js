@@ -1,17 +1,23 @@
 import {isRef} from '@redocly/openapi-core/lib/ref-utils.js'
 import {isObject, mergeAll} from './x-types-utils.js'
 
-export const transformInlineRefs = value => {
-  if (typeof value === 'string' && value.startsWith('$ref:')) {
-    const $ref = value.slice('$ref:'.length)
-    return {$ref}
-  } else return value
+const omit = (maybeObj, keys) => {
+  if (!isObject(maybeObj)) {
+    console.error(
+      `Cannot omit keys (${keys.join(', ')}) from non-object: ${JSON.stringify(maybeObj)}.`
+    )
+    return maybeObj
+  }
+
+  const obj = {...maybeObj}
+  for (const key of keys) {
+    delete obj[key]
+  }
+  return obj
 }
 
-export const resolveAndMerge = (_xType, ctx, parents = []) => {
+export const resolveAndMerge = (xType, ctx, parents = []) => {
   const maxDepth = ctx._circularRefsMaxDepth ?? 3
-
-  const xType = transformInlineRefs(_xType) // this is for another resolver, we still need to transform inline refs in preprocessors though for OAS files
 
   // Handle null types
   if (xType === null) {
@@ -32,7 +38,12 @@ export const resolveAndMerge = (_xType, ctx, parents = []) => {
       return 'any'
     }
     ctx._from = resolved.location.source.absoluteRef // this is needed for resolving $refs outside the main document
-    return resolveAndMerge(resolved.node, ctx, [...parents, xType])
+    const result = resolveAndMerge(resolved.node, ctx, [...parents, xType])
+    if (xType.$omit === undefined) {
+      return result
+    } else {
+      return omit(result, xType.$omit)
+    }
   }
 
   // Handle AND types
@@ -58,27 +69,6 @@ export const resolveAndMerge = (_xType, ctx, parents = []) => {
     return xType
       .map(type => resolveAndMerge(type, ctx, [...parents, xType]))
       .flat()
-  }
-
-  // Handle $writeonly and $readonly types
-  if (xType.$writeonly !== undefined || xType.$readonly !== undefined) {
-    if (ctx._mode === 'request') {
-      if (xType.$writeonly === undefined) return 'undefined'
-      return resolveAndMerge(xType.$writeonly, ctx, parents)
-    }
-    if (ctx._mode === 'response') {
-      if (xType.$readonly === undefined) return 'undefined'
-      return resolveAndMerge(xType.$readonly, ctx, parents)
-    }
-    // Otherwise, return both (using OR)
-    return [
-      xType.$writeonly === undefined
-        ? 'undefined'
-        : resolveAndMerge(xType.$writeonly, ctx, parents),
-      xType.$readonly === undefined
-        ? 'undefined'
-        : resolveAndMerge(xType.$readonly, ctx, parents),
-    ]
   }
 
   // Handle object types

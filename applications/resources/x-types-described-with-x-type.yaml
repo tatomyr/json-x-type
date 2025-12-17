@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Test X-Types described with X-Types
+  title: Test X-Types described with X-Type
   version: 1.0.0
 paths:
   /test:
@@ -11,7 +11,7 @@ paths:
           content:
             application/json:
               x-type:
-                $ref: ../../x-types.yaml#/XType
+                $ref: ../../x-type.yaml#/XType
               examples:
                 WrongAndUsage:
                   value:
@@ -47,4 +47,4 @@ paths:
 
 components:
   x-types:
-    $ref: ../../x-types.yaml # needed for using $refs outside the main document
+    $ref: ../../x-type.yaml # needed for using $refs outside the main document

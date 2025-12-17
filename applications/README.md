@@ -1,6 +1,6 @@
 # JSON X-Type applications
 
-With the help of a Redocly [plugin](./x-types-plugin.js), **JSON X-Type** could be used in regular OpenAPI descriptions where JSON Schema is expected.
-Instead of writing the `schema` keyword, you can use the `x-type` keyword with a **JSON X-Type** value.
+With the Redocly [plugin](./x-types-plugin.js), **JSON X-Type** can be used in OpenAPI descriptions wherever JSON Schema is expected.
+Use the `x-type` keyword instead of `schema`, providing a **JSON X-Type** value.
 
-See the examples in the [resources](./resources) directory.
+See examples in the [resources](./resources) directory.

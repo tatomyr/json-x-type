@@ -1,9 +1,0 @@
-extends:
-  - x-redocly.yaml
-
-preprocessors:
-  x-types/create-$refs: {}
-  x-types/generate-schemas: off # this conflicts with the `x-types/create-$refs` preprocessor
-
-decorators:
-  x-types/generate-schemas: {}

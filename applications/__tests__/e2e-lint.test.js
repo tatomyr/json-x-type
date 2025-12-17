@@ -9,16 +9,6 @@ describe('lint', () => {
     expect(stderr).toMatchSnapshot()
   })
 
-  test('inline refs in x-openapi-with-refs.yaml', () => {
-    const {stdout} = runCommand(
-      'redocly bundle applications/resources/openapi-with-refs.yaml -o=applications/outputs/x-openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml'
-    )
-    const {stderr} = runCommand(
-      'redocly lint applications/outputs/x-openapi-with-refs.yaml --config=applications/x-inline-refs-config-redocly.yaml'
-    )
-    expect(stripCWD(stderr)).toMatchSnapshot()
-  })
-
   test('openapi with mixed types', () => {
     const {stderr} = runCommand(
       'redocly lint applications/resources/openapi-mixed-types.yaml  --config=applications/x-redocly.yaml'
@@ -56,7 +46,7 @@ describe('lint', () => {
 
   test('x-types described with x-types themselves', () => {
     const {stderr} = runCommand(
-      'redocly lint applications/resources/x-types-described-with-x-types.yaml  --config=applications/x-redocly.yaml'
+      'redocly lint applications/resources/x-types-described-with-x-type.yaml  --config=applications/x-redocly.yaml'
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
@@ -68,9 +58,9 @@ describe('lint', () => {
     expect(stripCWD(stderr)).toMatchSnapshot()
   })
 
-  test('openapi with writeOnly and readOnly fields', () => {
+  test('openapi with omitting fields', () => {
     const {stderr} = runCommand(
-      'redocly lint applications/resources/openapi-with-writeonly-and-readonly.yaml --config=applications/x-redocly.yaml'
+      'redocly lint applications/resources/openapi-omit.yaml --config=applications/x-redocly.yaml'
     )
     expect(stripCWD(stderr)).toMatchSnapshot()
   })

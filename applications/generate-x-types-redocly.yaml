@@ -1,8 +1,11 @@
 extends:
-  - x-redocly.yaml
+  - x-types/all
+
+plugins:
+  - x-types-plugin.js
 
 preprocessors:
-  x-types/generate-schemas: off # overriding the default x-redocly.yaml setup
+  x-types/remove-x-types: {} # clear existing x-types
   x-types/generate-named-x-types: {}
 
 decorators:

@@ -1,0 +1,52 @@
+openapi: 3.1.0
+info:
+  title: Test $omit
+  version: 1.0.0
+paths:
+  /user:
+    post:
+      requestBody:
+        content:
+          application/json:
+            x-type:
+              $ref: '#/components/x-types/User' # $omit
+              $omit:
+                - id
+            examples:
+              Correct:
+                value:
+                  # id: must be skipped
+                  name: Test
+                  password: test-password
+              Incorrect:
+                value:
+                  id: 42 # must be skipped!
+                  name: Test
+                  password: test-password
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              x-type:
+                $ref: '#/components/x-types/User'
+                $omit:
+                  - password
+              examples:
+                Correct:
+                  value:
+                    id: 42
+                    name: Test
+                    # password: must be skipped
+                Incorrect:
+                  value:
+                    id: 42
+                    name: Test
+                    password: must be skipped!
+
+components:
+  x-types:
+    User:
+      id: number::integer # read-only
+      name: string
+      password: string # write-only

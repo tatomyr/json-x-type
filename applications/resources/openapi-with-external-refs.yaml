@@ -31,7 +31,7 @@ paths:
                   $ref: external-refs.yaml#/NotExistingField
               example:
                 AWrongRef: Accepts anything
-# TODO: investigate how does it works without referencing the external-refs.yaml in the components (compare to x-types-described-with-x-types.yaml)
+# TODO: investigate how does it works without referencing the external-refs.yaml in the components (compare to x-types-described-with-x-type.yaml)
 # components:
 #   x-types:
 #     $ref: external-refs.yaml

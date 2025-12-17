@@ -1,20 +1,19 @@
 {
-  "name": "json-types",
-  "version": "0.1.0",
+  "name": "json-x-type",
+  "version": "0.2.0",
   "type": "module",
-  "description": "This document attempts to describe data types (primarily aimed at JSON-like structures) in a simple and natural way. Any [valid JSON](https://www.json.org/) could be validated against an **JSON X-Types** definition.",
-  "main": "index.js",
+  "description": "JSON X-Type is a JSON data type type notation with an emphasis on being intuitive to write and easy to read.",
   "scripts": {
-    "refs": "redocly bundle applications/resources/openapi-with-refs.yaml -o=applications/outputs/x-openapi-with-refs.yaml --force --config=applications/x-inline-refs-config-redocly.yaml && redocly lint applications/outputs/x-openapi-with-refs.yaml --config=applications/x-inline-refs-config-redocly.yaml",
     "lint": "eslint .",
-    "test": "vitest",
-    "coverage": "vitest run --coverage",
+    "test": "vitest run --coverage",
     "prettier:check": "npx prettier --check \"**/*.{js,html,yaml,css,md,json}\"",
-    "prettier": "npx prettier --write \"**/*.{js,html,yaml,css,md,json}\""
+    "prettier": "npx prettier --write \"**/*.{js,html,yaml,css,md,json}\"",
+    "pets:to-x-types": "redocly bundle applications/resources/pets.yaml --config ./applications/generate-x-types-redocly.yaml -o applications/__tests__/file-snapshots/pets-to-x-types.yaml",
+    "pets:back-to-schemas": "redocly bundle applications/__tests__/file-snapshots/pets-to-x-types.yaml --config ./applications/x-redocly.yaml -o applications/__tests__/file-snapshots/pets-back-to-schemas.yaml"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tatomyr/json-types.git"
+    "url": "git+https://github.com/tatomyr/json-x-type.git"
   },
   "keywords": [
     "json",
@@ -23,9 +22,9 @@
   "author": "tatomyr",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tatomyr/json-types/issues"
+    "url": "https://github.com/tatomyr/json-x-type/issues"
   },
-  "homepage": "https://github.com/tatomyr/json-types#readme",
+  "homepage": "https://github.com/tatomyr/json-x-type#readme",
   "devDependencies": {
     "@hyperjump/json-schema": "^1.9.9",
     "@redocly/cli": "1.25.5",

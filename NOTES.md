@@ -21,18 +21,7 @@ It means that we expect `id` to be present only in responses while `name` is exp
 However, it means that `id` is optional in responses.
 If we put `id` in the `required` section, it will require it in the requests also? (NOT SURE)
 
-In JSON X-Type, you can't do this:
-
-```yaml
-x-type:
-  $readonly:
-    id:
-      - string
-      - undefined
-    name: string
-```
-
-This will produce an error.
+Also, it's possible to make `readOnly` and `writeOnly` true at the same time, which makes no sense.
 
 ---
 
@@ -172,7 +161,7 @@ This is invalid, you have to use `anyOf` instead.
 So you have to figure out the composition keyword based on the data shapes which is weird.
 (It's better to be shape-unaware. It actually doesn't matter for the validation -- if the data contains `foo` as a string, it's just a valid data.)
 
-Whilst in X-Types, it's just a matter of composition.
+Whilst in X-Type, it's just a matter of composition.
 
 ```yaml
 x-type:
@@ -181,6 +170,8 @@ x-type:
   - foo: string
     baz: number
 ```
+
+(`oneOf` vs `anyOf` confusion)
 
 ---
 
@@ -198,7 +189,7 @@ schema:
     - items
 ```
 
-The same in X-Types looks much more readable:
+The same in X-Type looks much more readable:
 
 ```yaml
 x-type:
@@ -207,7 +198,7 @@ x-type:
       $ref: '#/components/x-types/Item'
 ```
 
-All keys in X-Types start with `$` prefix, so it's generally easier to distinguish them from the type values.
+All keys in X-Type start with `$` prefix, so it's generally easier to distinguish them from the type values.
 
 ---
 
@@ -222,7 +213,7 @@ schema:
 ```
 
 You can easily infer that the enum is of string type just looking at the enum options.
-In X-Types it's just a matter of composition:
+In X-Type it's just a matter of composition:
 
 ```yaml
 x-type:
@@ -263,13 +254,13 @@ schema:
         - '100'
 ```
 
-## X-Types issues
+## X-Type issues
 
 How to compose and object type and a record?
 
 In TS, `{ az: string } & Record<string, number>` produces an error since `az` must be a string and a number simultaneously.
 
-How it reflects in X-Types?..
+How it reflects in X-Type?..
 
 I'd assume the following:
 

@@ -214,19 +214,7 @@ describe('resolver', () => {
     })
   })
 
-  test('$writeonly and $readonly without the _mode specified', () => {
-    expect(
-      resolveAndMerge(
-        {
-          az: {$writeonly: 'request', somethingElse: 'wrong, must be ignored'},
-          bukh: {$readonly: 'response', $writeonly: 'request'},
-        },
-        {}
-      )
-    ).toEqual({az: ['request', 'undefined'], bukh: ['request', 'response']})
-  })
-
-  test('$description in combination with $and', () => {
+  test('$descriptions in combination with $and', () => {
     expect(
       resolveAndMerge(
         {

@@ -4,13 +4,8 @@ import {isRef} from '@redocly/openapi-core'
 import {isPlainObject, isEmptyObject} from '@redocly/openapi-core/lib/utils.js'
 
 export function translateJSONSchemaToXType(schema, ctx) {
-  // Handle writeOnly/readOnly
-  const {writeOnly, readOnly, ...newSchema} = schema
-  if (writeOnly === true) {
-    return {$writeonly: translateJSONSchemaToXType(newSchema, ctx)}
-  }
-  if (readOnly === true) {
-    return {$readonly: translateJSONSchemaToXType(newSchema, ctx)}
+  if (schema.type === 'null') {
+    return null
   }
 
   if (
@@ -63,13 +58,51 @@ export function translateJSONSchemaToXType(schema, ctx) {
 
   if (isRef(schema)) {
     if (schema.$ref.startsWith('#/components/schemas/')) {
+      // 🐒 This is a dirty quick implementation of transforming readOnly/writeOnly -> $omit alongside $ref
+      const resolvedNode = ctx.resolve(schema)?.node
+
+      const elevateProp = prop => {
+        if (isRef(prop)) {
+          return elevateProp(ctx.resolve(prop)?.node)
+        }
+
+        if (prop?.allOf) {
+          let result = {}
+          for (const innerProp of prop?.allOf || []) {
+            result = {...result, ...elevateProp(innerProp)}
+          }
+          return result
+        }
+
+        return prop
+      }
+
+      let $omit
+      if (isPlainObject(resolvedNode?.properties)) {
+        $omit = Object.entries(resolvedNode.properties)
+          .filter(([key, value]) => {
+            const propNode = elevateProp(value)
+            return (
+              (propNode?.readOnly === true && ctx._mode === 'request') ||
+              (propNode?.writeOnly === true && ctx._mode === 'response')
+            )
+          })
+          .map(([key]) => key)
+        if ($omit.length === 0) {
+          $omit = undefined
+        }
+      }
+      // End of 🐒
+
       return {
         $ref: schema.$ref.replace(
           '#/components/schemas/',
           '#/components/x-types/'
         ),
+        $omit,
       }
     } else if (schema.$ref.startsWith('#/components/x-types/')) {
+      console.log('Already a x-type $ref:', schema.$ref)
       return schema
     }
 

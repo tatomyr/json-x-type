@@ -459,281 +459,6 @@ paths:
                     cat: '#/components/schemas/Cat'
                     dog: '#/components/schemas/Dog'
                     bee: '#/components/schemas/HoneyBee'
-            application/xml:
-              x-type:
-                id:
-                  - $ref: '#/components/x-types/Id'
-                  - undefined
-                category:
-                  - $ref: '#/components/x-types/Category'
-                  - undefined
-                name: string
-                photoUrls:
-                  $array: string::url
-                friend:
-                  - $ref: '#/components/x-types/Pet'
-                  - undefined
-                tags:
-                  - $array:
-                      $ref: '#/components/x-types/Tag'
-                  - undefined
-                status:
-                  - - available
-                    - pending
-                    - sold
-                  - undefined
-                petType:
-                  - string
-                  - undefined
-                $discriminator:
-                  propertyName: petType
-                  mapping:
-                    cat: '#/components/schemas/Cat'
-                    dog: '#/components/schemas/Dog'
-                    bee: '#/components/schemas/HoneyBee'
-                $descriptions:
-                  id: Pet ID
-                  category: Categories this pet belongs to
-                  name: The name given to a pet
-                  photoUrls: The list of URL to a cute photos featuring pet
-                  tags: Tags attached to the pet
-                  status: Pet status in the store
-                  petType: Type of a pet
-              schema:
-                type: object
-                properties:
-                  id:
-                    description: Pet ID
-                    type: integer
-                  category:
-                    description: Categories this pet belongs to
-                    type: object
-                    properties:
-                      id:
-                        description: Category ID
-                        type: integer
-                      name:
-                        description: Category name
-                        type: string
-                        minLength: 1
-                      sub:
-                        description: Test Sub Category
-                        type: object
-                        properties:
-                          prop1:
-                            description: Dumb Property
-                            type: string
-                        required:
-                          - prop1
-                        additionalProperties: false
-                    required:
-                      - id
-                      - name
-                      - sub
-                    additionalProperties: false
-                  name:
-                    description: The name given to a pet
-                    type: string
-                  photoUrls:
-                    description: The list of URL to a cute photos featuring pet
-                    type: array
-                    items:
-                      type: string
-                      format: url
-                  friend:
-                    type: object
-                    properties:
-                      id:
-                        description: Pet ID
-                        type: integer
-                      category:
-                        description: Categories this pet belongs to
-                        type: object
-                        properties:
-                          id:
-                            description: Category ID
-                            type: integer
-                          name:
-                            description: Category name
-                            type: string
-                            minLength: 1
-                          sub:
-                            description: Test Sub Category
-                            type: object
-                            properties:
-                              prop1:
-                                description: Dumb Property
-                                type: string
-                            required:
-                              - prop1
-                            additionalProperties: false
-                        required:
-                          - id
-                          - name
-                          - sub
-                        additionalProperties: false
-                      name:
-                        description: The name given to a pet
-                        type: string
-                      photoUrls:
-                        description: The list of URL to a cute photos featuring pet
-                        type: array
-                        items:
-                          type: string
-                          format: url
-                      friend:
-                        type: object
-                        properties:
-                          id:
-                            description: Pet ID
-                            type: integer
-                          category:
-                            description: Categories this pet belongs to
-                            type: object
-                            properties:
-                              id:
-                                description: Category ID
-                                type: integer
-                              name:
-                                description: Category name
-                                type: string
-                                minLength: 1
-                              sub:
-                                description: Test Sub Category
-                                type: object
-                                properties:
-                                  prop1:
-                                    description: Dumb Property
-                                    type: string
-                                required:
-                                  - prop1
-                                additionalProperties: false
-                            required:
-                              - id
-                              - name
-                              - sub
-                            additionalProperties: false
-                          name:
-                            description: The name given to a pet
-                            type: string
-                          photoUrls:
-                            description: The list of URL to a cute photos featuring pet
-                            type: array
-                            items:
-                              type: string
-                              format: url
-                          friend: {}
-                          tags:
-                            description: Tags attached to the pet
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  description: Tag ID
-                                  type: integer
-                                name:
-                                  description: Tag name
-                                  type: string
-                                  minLength: 1
-                              required:
-                                - id
-                                - name
-                              additionalProperties: false
-                          status:
-                            description: Pet status in the store
-                            type: string
-                            enum:
-                              - available
-                              - pending
-                              - sold
-                          petType:
-                            description: Type of a pet
-                            type: string
-                        required:
-                          - name
-                          - photoUrls
-                        additionalProperties: false
-                        discriminator:
-                          propertyName: petType
-                          mapping:
-                            cat: '#/components/schemas/Cat'
-                            dog: '#/components/schemas/Dog'
-                            bee: '#/components/schemas/HoneyBee'
-                      tags:
-                        description: Tags attached to the pet
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              description: Tag ID
-                              type: integer
-                            name:
-                              description: Tag name
-                              type: string
-                              minLength: 1
-                          required:
-                            - id
-                            - name
-                          additionalProperties: false
-                      status:
-                        description: Pet status in the store
-                        type: string
-                        enum:
-                          - available
-                          - pending
-                          - sold
-                      petType:
-                        description: Type of a pet
-                        type: string
-                    required:
-                      - name
-                      - photoUrls
-                    additionalProperties: false
-                    discriminator:
-                      propertyName: petType
-                      mapping:
-                        cat: '#/components/schemas/Cat'
-                        dog: '#/components/schemas/Dog'
-                        bee: '#/components/schemas/HoneyBee'
-                  tags:
-                    description: Tags attached to the pet
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        id:
-                          description: Tag ID
-                          type: integer
-                        name:
-                          description: Tag name
-                          type: string
-                          minLength: 1
-                      required:
-                        - id
-                        - name
-                      additionalProperties: false
-                  status:
-                    description: Pet status in the store
-                    type: string
-                    enum:
-                      - available
-                      - pending
-                      - sold
-                  petType:
-                    description: Type of a pet
-                    type: string
-                required:
-                  - name
-                  - photoUrls
-                additionalProperties: false
-                discriminator:
-                  propertyName: petType
-                  mapping:
-                    cat: '#/components/schemas/Cat'
-                    dog: '#/components/schemas/Dog'
-                    bee: '#/components/schemas/HoneyBee'
         '400':
           description: Invalid ID supplied
         '404':
@@ -891,284 +616,6 @@ paths:
           description: successful operation
           content:
             application/json:
-              x-type:
-                $array:
-                  id:
-                    - $ref: '#/components/x-types/Id'
-                    - undefined
-                  category:
-                    - $ref: '#/components/x-types/Category'
-                    - undefined
-                  name: string
-                  photoUrls:
-                    $array: string::url
-                  friend:
-                    - $ref: '#/components/x-types/Pet'
-                    - undefined
-                  tags:
-                    - $array:
-                        $ref: '#/components/x-types/Tag'
-                    - undefined
-                  status:
-                    - - available
-                      - pending
-                      - sold
-                    - undefined
-                  petType:
-                    - string
-                    - undefined
-                  $discriminator:
-                    propertyName: petType
-                    mapping:
-                      cat: '#/components/schemas/Cat'
-                      dog: '#/components/schemas/Dog'
-                      bee: '#/components/schemas/HoneyBee'
-                  $descriptions:
-                    id: Pet ID
-                    category: Categories this pet belongs to
-                    name: The name given to a pet
-                    photoUrls: The list of URL to a cute photos featuring pet
-                    tags: Tags attached to the pet
-                    status: Pet status in the store
-                    petType: Type of a pet
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      description: Pet ID
-                      type: integer
-                    category:
-                      description: Categories this pet belongs to
-                      type: object
-                      properties:
-                        id:
-                          description: Category ID
-                          type: integer
-                        name:
-                          description: Category name
-                          type: string
-                          minLength: 1
-                        sub:
-                          description: Test Sub Category
-                          type: object
-                          properties:
-                            prop1:
-                              description: Dumb Property
-                              type: string
-                          required:
-                            - prop1
-                          additionalProperties: false
-                      required:
-                        - id
-                        - name
-                        - sub
-                      additionalProperties: false
-                    name:
-                      description: The name given to a pet
-                      type: string
-                    photoUrls:
-                      description: The list of URL to a cute photos featuring pet
-                      type: array
-                      items:
-                        type: string
-                        format: url
-                    friend:
-                      type: object
-                      properties:
-                        id:
-                          description: Pet ID
-                          type: integer
-                        category:
-                          description: Categories this pet belongs to
-                          type: object
-                          properties:
-                            id:
-                              description: Category ID
-                              type: integer
-                            name:
-                              description: Category name
-                              type: string
-                              minLength: 1
-                            sub:
-                              description: Test Sub Category
-                              type: object
-                              properties:
-                                prop1:
-                                  description: Dumb Property
-                                  type: string
-                              required:
-                                - prop1
-                              additionalProperties: false
-                          required:
-                            - id
-                            - name
-                            - sub
-                          additionalProperties: false
-                        name:
-                          description: The name given to a pet
-                          type: string
-                        photoUrls:
-                          description: The list of URL to a cute photos featuring pet
-                          type: array
-                          items:
-                            type: string
-                            format: url
-                        friend:
-                          type: object
-                          properties:
-                            id:
-                              description: Pet ID
-                              type: integer
-                            category:
-                              description: Categories this pet belongs to
-                              type: object
-                              properties:
-                                id:
-                                  description: Category ID
-                                  type: integer
-                                name:
-                                  description: Category name
-                                  type: string
-                                  minLength: 1
-                                sub:
-                                  description: Test Sub Category
-                                  type: object
-                                  properties:
-                                    prop1:
-                                      description: Dumb Property
-                                      type: string
-                                  required:
-                                    - prop1
-                                  additionalProperties: false
-                              required:
-                                - id
-                                - name
-                                - sub
-                              additionalProperties: false
-                            name:
-                              description: The name given to a pet
-                              type: string
-                            photoUrls:
-                              description: The list of URL to a cute photos featuring pet
-                              type: array
-                              items:
-                                type: string
-                                format: url
-                            friend: {}
-                            tags:
-                              description: Tags attached to the pet
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  id:
-                                    description: Tag ID
-                                    type: integer
-                                  name:
-                                    description: Tag name
-                                    type: string
-                                    minLength: 1
-                                required:
-                                  - id
-                                  - name
-                                additionalProperties: false
-                            status:
-                              description: Pet status in the store
-                              type: string
-                              enum:
-                                - available
-                                - pending
-                                - sold
-                            petType:
-                              description: Type of a pet
-                              type: string
-                          required:
-                            - name
-                            - photoUrls
-                          additionalProperties: false
-                          discriminator:
-                            propertyName: petType
-                            mapping:
-                              cat: '#/components/schemas/Cat'
-                              dog: '#/components/schemas/Dog'
-                              bee: '#/components/schemas/HoneyBee'
-                        tags:
-                          description: Tags attached to the pet
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                description: Tag ID
-                                type: integer
-                              name:
-                                description: Tag name
-                                type: string
-                                minLength: 1
-                            required:
-                              - id
-                              - name
-                            additionalProperties: false
-                        status:
-                          description: Pet status in the store
-                          type: string
-                          enum:
-                            - available
-                            - pending
-                            - sold
-                        petType:
-                          description: Type of a pet
-                          type: string
-                      required:
-                        - name
-                        - photoUrls
-                      additionalProperties: false
-                      discriminator:
-                        propertyName: petType
-                        mapping:
-                          cat: '#/components/schemas/Cat'
-                          dog: '#/components/schemas/Dog'
-                          bee: '#/components/schemas/HoneyBee'
-                    tags:
-                      description: Tags attached to the pet
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            description: Tag ID
-                            type: integer
-                          name:
-                            description: Tag name
-                            type: string
-                            minLength: 1
-                        required:
-                          - id
-                          - name
-                        additionalProperties: false
-                    status:
-                      description: Pet status in the store
-                      type: string
-                      enum:
-                        - available
-                        - pending
-                        - sold
-                    petType:
-                      description: Type of a pet
-                      type: string
-                  required:
-                    - name
-                    - photoUrls
-                  additionalProperties: false
-                  discriminator:
-                    propertyName: petType
-                    mapping:
-                      cat: '#/components/schemas/Cat'
-                      dog: '#/components/schemas/Dog'
-                      bee: '#/components/schemas/HoneyBee'
-            application/xml:
               x-type:
                 $array:
                   id:
@@ -1754,284 +1201,6 @@ paths:
                       cat: '#/components/schemas/Cat'
                       dog: '#/components/schemas/Dog'
                       bee: '#/components/schemas/HoneyBee'
-            application/xml:
-              x-type:
-                $array:
-                  id:
-                    - $ref: '#/components/x-types/Id'
-                    - undefined
-                  category:
-                    - $ref: '#/components/x-types/Category'
-                    - undefined
-                  name: string
-                  photoUrls:
-                    $array: string::url
-                  friend:
-                    - $ref: '#/components/x-types/Pet'
-                    - undefined
-                  tags:
-                    - $array:
-                        $ref: '#/components/x-types/Tag'
-                    - undefined
-                  status:
-                    - - available
-                      - pending
-                      - sold
-                    - undefined
-                  petType:
-                    - string
-                    - undefined
-                  $discriminator:
-                    propertyName: petType
-                    mapping:
-                      cat: '#/components/schemas/Cat'
-                      dog: '#/components/schemas/Dog'
-                      bee: '#/components/schemas/HoneyBee'
-                  $descriptions:
-                    id: Pet ID
-                    category: Categories this pet belongs to
-                    name: The name given to a pet
-                    photoUrls: The list of URL to a cute photos featuring pet
-                    tags: Tags attached to the pet
-                    status: Pet status in the store
-                    petType: Type of a pet
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      description: Pet ID
-                      type: integer
-                    category:
-                      description: Categories this pet belongs to
-                      type: object
-                      properties:
-                        id:
-                          description: Category ID
-                          type: integer
-                        name:
-                          description: Category name
-                          type: string
-                          minLength: 1
-                        sub:
-                          description: Test Sub Category
-                          type: object
-                          properties:
-                            prop1:
-                              description: Dumb Property
-                              type: string
-                          required:
-                            - prop1
-                          additionalProperties: false
-                      required:
-                        - id
-                        - name
-                        - sub
-                      additionalProperties: false
-                    name:
-                      description: The name given to a pet
-                      type: string
-                    photoUrls:
-                      description: The list of URL to a cute photos featuring pet
-                      type: array
-                      items:
-                        type: string
-                        format: url
-                    friend:
-                      type: object
-                      properties:
-                        id:
-                          description: Pet ID
-                          type: integer
-                        category:
-                          description: Categories this pet belongs to
-                          type: object
-                          properties:
-                            id:
-                              description: Category ID
-                              type: integer
-                            name:
-                              description: Category name
-                              type: string
-                              minLength: 1
-                            sub:
-                              description: Test Sub Category
-                              type: object
-                              properties:
-                                prop1:
-                                  description: Dumb Property
-                                  type: string
-                              required:
-                                - prop1
-                              additionalProperties: false
-                          required:
-                            - id
-                            - name
-                            - sub
-                          additionalProperties: false
-                        name:
-                          description: The name given to a pet
-                          type: string
-                        photoUrls:
-                          description: The list of URL to a cute photos featuring pet
-                          type: array
-                          items:
-                            type: string
-                            format: url
-                        friend:
-                          type: object
-                          properties:
-                            id:
-                              description: Pet ID
-                              type: integer
-                            category:
-                              description: Categories this pet belongs to
-                              type: object
-                              properties:
-                                id:
-                                  description: Category ID
-                                  type: integer
-                                name:
-                                  description: Category name
-                                  type: string
-                                  minLength: 1
-                                sub:
-                                  description: Test Sub Category
-                                  type: object
-                                  properties:
-                                    prop1:
-                                      description: Dumb Property
-                                      type: string
-                                  required:
-                                    - prop1
-                                  additionalProperties: false
-                              required:
-                                - id
-                                - name
-                                - sub
-                              additionalProperties: false
-                            name:
-                              description: The name given to a pet
-                              type: string
-                            photoUrls:
-                              description: The list of URL to a cute photos featuring pet
-                              type: array
-                              items:
-                                type: string
-                                format: url
-                            friend: {}
-                            tags:
-                              description: Tags attached to the pet
-                              type: array
-                              items:
-                                type: object
-                                properties:
-                                  id:
-                                    description: Tag ID
-                                    type: integer
-                                  name:
-                                    description: Tag name
-                                    type: string
-                                    minLength: 1
-                                required:
-                                  - id
-                                  - name
-                                additionalProperties: false
-                            status:
-                              description: Pet status in the store
-                              type: string
-                              enum:
-                                - available
-                                - pending
-                                - sold
-                            petType:
-                              description: Type of a pet
-                              type: string
-                          required:
-                            - name
-                            - photoUrls
-                          additionalProperties: false
-                          discriminator:
-                            propertyName: petType
-                            mapping:
-                              cat: '#/components/schemas/Cat'
-                              dog: '#/components/schemas/Dog'
-                              bee: '#/components/schemas/HoneyBee'
-                        tags:
-                          description: Tags attached to the pet
-                          type: array
-                          items:
-                            type: object
-                            properties:
-                              id:
-                                description: Tag ID
-                                type: integer
-                              name:
-                                description: Tag name
-                                type: string
-                                minLength: 1
-                            required:
-                              - id
-                              - name
-                            additionalProperties: false
-                        status:
-                          description: Pet status in the store
-                          type: string
-                          enum:
-                            - available
-                            - pending
-                            - sold
-                        petType:
-                          description: Type of a pet
-                          type: string
-                      required:
-                        - name
-                        - photoUrls
-                      additionalProperties: false
-                      discriminator:
-                        propertyName: petType
-                        mapping:
-                          cat: '#/components/schemas/Cat'
-                          dog: '#/components/schemas/Dog'
-                          bee: '#/components/schemas/HoneyBee'
-                    tags:
-                      description: Tags attached to the pet
-                      type: array
-                      items:
-                        type: object
-                        properties:
-                          id:
-                            description: Tag ID
-                            type: integer
-                          name:
-                            description: Tag name
-                            type: string
-                            minLength: 1
-                        required:
-                          - id
-                          - name
-                        additionalProperties: false
-                    status:
-                      description: Pet status in the store
-                      type: string
-                      enum:
-                        - available
-                        - pending
-                        - sold
-                    petType:
-                      description: Type of a pet
-                      type: string
-                  required:
-                    - name
-                    - photoUrls
-                  additionalProperties: false
-                  discriminator:
-                    propertyName: petType
-                    mapping:
-                      cat: '#/components/schemas/Cat'
-                      dog: '#/components/schemas/Dog'
-                      bee: '#/components/schemas/HoneyBee'
         '400':
           description: Invalid tag value
       security:
@@ -2073,77 +1242,18 @@ paths:
           content:
             application/json:
               x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
+                $omit:
+                  - requestId
+                id: number::integer
+                petId: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
                   - placed
                   - approved
                   - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
-                $descriptions:
-                  id: Order ID
-                  petId: Pet ID
-                  shipDate: Estimated ship date
-                  status: Order Status
-                  complete: Indicates whenever order was completed or not
-                  requestId: Unique Request Id
-              schema:
-                type: object
-                properties:
-                  id:
-                    description: Order ID
-                    type: integer
-                  petId:
-                    description: Pet ID
-                    type: integer
-                  quantity:
-                    type: integer
-                    minimum: 1
-                  shipDate:
-                    description: Estimated ship date
-                    type: string
-                    format: date-time
-                  status:
-                    description: Order Status
-                    type: string
-                    enum:
-                      - placed
-                      - approved
-                      - delivered
-                  complete:
-                    description: Indicates whenever order was completed or not
-                    type: boolean
-                required:
-                  - id
-                  - petId
-                  - quantity
-                  - shipDate
-                  - status
-                  - complete
-                additionalProperties: false
-            application/xml:
-              x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
-                quantity: number::integer::min(1)
-                shipDate: string::date-time
-                status:
-                  - placed
-                  - approved
-                  - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
+                complete: boolean
+                requestId: string
                 $descriptions:
                   id: Order ID
                   petId: Pet ID
@@ -2196,20 +1306,20 @@ paths:
         content:
           application/json:
             x-type:
-              id:
-                $readonly: number::integer
-              petId:
-                $readonly: number::integer
+              $omit:
+                - id
+                - petId
+                - complete
+              id: number::integer
+              petId: number::integer
               quantity: number::integer::min(1)
               shipDate: string::date-time
               status:
                 - placed
                 - approved
                 - delivered
-              complete:
-                $readonly: boolean
-              requestId:
-                $writeonly: string
+              complete: boolean
+              requestId: string
               $descriptions:
                 id: Order ID
                 petId: Pet ID
@@ -2268,77 +1378,18 @@ paths:
           content:
             application/json:
               x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
+                $omit:
+                  - requestId
+                id: number::integer
+                petId: number::integer
                 quantity: number::integer::min(1)
                 shipDate: string::date-time
                 status:
                   - placed
                   - approved
                   - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
-                $descriptions:
-                  id: Order ID
-                  petId: Pet ID
-                  shipDate: Estimated ship date
-                  status: Order Status
-                  complete: Indicates whenever order was completed or not
-                  requestId: Unique Request Id
-              schema:
-                type: object
-                properties:
-                  id:
-                    description: Order ID
-                    type: integer
-                  petId:
-                    description: Pet ID
-                    type: integer
-                  quantity:
-                    type: integer
-                    minimum: 1
-                  shipDate:
-                    description: Estimated ship date
-                    type: string
-                    format: date-time
-                  status:
-                    description: Order Status
-                    type: string
-                    enum:
-                      - placed
-                      - approved
-                      - delivered
-                  complete:
-                    description: Indicates whenever order was completed or not
-                    type: boolean
-                required:
-                  - id
-                  - petId
-                  - quantity
-                  - shipDate
-                  - status
-                  - complete
-                additionalProperties: false
-            application/xml:
-              x-type:
-                id:
-                  $readonly: number::integer
-                petId:
-                  $readonly: number::integer
-                quantity: number::integer::min(1)
-                shipDate: string::date-time
-                status:
-                  - placed
-                  - approved
-                  - delivered
-                complete:
-                  $readonly: boolean
-                requestId:
-                  $writeonly: string
+                complete: boolean
+                requestId: string
                 $descriptions:
                   id: Order ID
                   petId: Pet ID
@@ -2491,24 +1542,6 @@ paths:
                         - timestamp
                         - status
                       additionalProperties: false
-                  application/xml:
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
-                    x-type:
-                      orderId: string
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                      required:
-                        - orderId
-                      additionalProperties: false
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -2585,24 +1618,6 @@ paths:
                         - orderId
                         - timestamp
                         - status
-                      additionalProperties: false
-                  application/xml:
-                    example: |
-                      <?xml version="1.0" encoding="UTF-8"?>
-                      <root>
-                        <orderId>123</orderId>
-                        <status>inProgress</status>
-                        <timestamp>2018-10-19T16:46:45Z</timestamp>
-                      </root>
-                    x-type:
-                      orderId: string
-                    schema:
-                      type: object
-                      properties:
-                        orderId:
-                          type: string
-                      required:
-                        - orderId
                       additionalProperties: false
               responses:
                 '200':
@@ -2697,8 +1712,9 @@ paths:
         content:
           application/json:
             x-type:
-              id:
-                $readonly: number::integer
+              $omit:
+                - id
+              id: number::integer
               pet:
                 - $ref: '#/components/x-types/Pet'
                 - $ref: '#/components/x-types/Tag'
@@ -2724,10 +1740,16 @@ paths:
                   anyOf:
                     - type: object
                       properties:
+                        id: # wrong, should be avoided in requests
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -2743,6 +1765,7 @@ paths:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id # wrong, should be avoided
                             - name
                             - sub
                           additionalProperties: false
@@ -2758,10 +1781,16 @@ paths:
                         friend:
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Pet ID
+                              type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
+                                id: # wrong, should be avoided
+                                  description: Category ID
+                                  type: integer
                                 name:
                                   description: Category name
                                   type: string
@@ -2777,6 +1806,7 @@ paths:
                                     - prop1
                                   additionalProperties: false
                               required:
+                                - id # wrong, should be avoided
                                 - name
                                 - sub
                               additionalProperties: false
@@ -2792,10 +1822,16 @@ paths:
                             friend:
                               type: object
                               properties:
+                                id: # wrong, should be avoided
+                                  description: Pet ID
+                                  type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
+                                    id: # wrong, should be avoided
+                                      description: Category ID
+                                      type: integer
                                     name:
                                       description: Category name
                                       type: string
@@ -2811,6 +1847,7 @@ paths:
                                         - prop1
                                       additionalProperties: false
                                   required:
+                                    - id # wrong, should be avoided
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -2830,11 +1867,15 @@ paths:
                                   items:
                                     type: object
                                     properties:
+                                      id: # wrong, should be avoided
+                                        description: Tag ID
+                                        type: integer
                                       name:
                                         description: Tag name
                                         type: string
                                         minLength: 1
                                     required:
+                                      - id # wrong, should be avoided
                                       - name
                                     additionalProperties: false
                                 status:
@@ -2863,11 +1904,15 @@ paths:
                               items:
                                 type: object
                                 properties:
+                                  id: # wrong, should be avoided
+                                    description: Tag ID
+                                    type: integer
                                   name:
                                     description: Tag name
                                     type: string
                                     minLength: 1
                                 required:
+                                  - id # wrong, should be avoided
                                   - name
                                 additionalProperties: false
                             status:
@@ -2896,11 +1941,15 @@ paths:
                           items:
                             type: object
                             properties:
+                              id: # wrong, should be avoided
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id # wrong, should be avoided
                               - name
                             additionalProperties: false
                         status:
@@ -2925,11 +1974,15 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id # wrong, should be avoided
                         - name
                       additionalProperties: false
                 username:
@@ -2994,324 +2047,7 @@ paths:
           content:
             application/json:
               x-type:
-                id:
-                  $readonly: number::integer
-                pet:
-                  - $ref: '#/components/x-types/Pet'
-                  - $ref: '#/components/x-types/Tag'
-                username: string::min(4)
-                firstName: string::min(1)
-                lastName: string::min(1)
-                email: string::email
-                password: string::password::pattern(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/)::min(8)
-                phone: string::pattern(/^\+(?:[0-9]-?){6,14}[0-9]$/)
-                userStatus: number::integer
-                $descriptions:
-                  username: User supplied username
-                  firstName: User first name
-                  lastName: User last name
-                  email: User email address
-                  password: User password, MUST contain a mix of upper and lower case letters, as well as digits
-                  phone: User phone number in international format
-                  userStatus: User status
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  pet:
-                    anyOf:
-                      - type: object
-                        properties:
-                          id:
-                            description: Pet ID
-                            type: integer
-                          category:
-                            description: Categories this pet belongs to
-                            type: object
-                            properties:
-                              id:
-                                description: Category ID
-                                type: integer
-                              name:
-                                description: Category name
-                                type: string
-                                minLength: 1
-                              sub:
-                                description: Test Sub Category
-                                type: object
-                                properties:
-                                  prop1:
-                                    description: Dumb Property
-                                    type: string
-                                required:
-                                  - prop1
-                                additionalProperties: false
-                            required:
-                              - id
-                              - name
-                              - sub
-                            additionalProperties: false
-                          name:
-                            description: The name given to a pet
-                            type: string
-                          photoUrls:
-                            description: The list of URL to a cute photos featuring pet
-                            type: array
-                            items:
-                              type: string
-                              format: url
-                          friend:
-                            type: object
-                            properties:
-                              id:
-                                description: Pet ID
-                                type: integer
-                              category:
-                                description: Categories this pet belongs to
-                                type: object
-                                properties:
-                                  id:
-                                    description: Category ID
-                                    type: integer
-                                  name:
-                                    description: Category name
-                                    type: string
-                                    minLength: 1
-                                  sub:
-                                    description: Test Sub Category
-                                    type: object
-                                    properties:
-                                      prop1:
-                                        description: Dumb Property
-                                        type: string
-                                    required:
-                                      - prop1
-                                    additionalProperties: false
-                                required:
-                                  - id
-                                  - name
-                                  - sub
-                                additionalProperties: false
-                              name:
-                                description: The name given to a pet
-                                type: string
-                              photoUrls:
-                                description: The list of URL to a cute photos featuring pet
-                                type: array
-                                items:
-                                  type: string
-                                  format: url
-                              friend:
-                                type: object
-                                properties:
-                                  id:
-                                    description: Pet ID
-                                    type: integer
-                                  category:
-                                    description: Categories this pet belongs to
-                                    type: object
-                                    properties:
-                                      id:
-                                        description: Category ID
-                                        type: integer
-                                      name:
-                                        description: Category name
-                                        type: string
-                                        minLength: 1
-                                      sub:
-                                        description: Test Sub Category
-                                        type: object
-                                        properties:
-                                          prop1:
-                                            description: Dumb Property
-                                            type: string
-                                        required:
-                                          - prop1
-                                        additionalProperties: false
-                                    required:
-                                      - id
-                                      - name
-                                      - sub
-                                    additionalProperties: false
-                                  name:
-                                    description: The name given to a pet
-                                    type: string
-                                  photoUrls:
-                                    description: The list of URL to a cute photos featuring pet
-                                    type: array
-                                    items:
-                                      type: string
-                                      format: url
-                                  friend: {}
-                                  tags:
-                                    description: Tags attached to the pet
-                                    type: array
-                                    items:
-                                      type: object
-                                      properties:
-                                        id:
-                                          description: Tag ID
-                                          type: integer
-                                        name:
-                                          description: Tag name
-                                          type: string
-                                          minLength: 1
-                                      required:
-                                        - id
-                                        - name
-                                      additionalProperties: false
-                                  status:
-                                    description: Pet status in the store
-                                    type: string
-                                    enum:
-                                      - available
-                                      - pending
-                                      - sold
-                                  petType:
-                                    description: Type of a pet
-                                    type: string
-                                required:
-                                  - name
-                                  - photoUrls
-                                additionalProperties: false
-                                discriminator:
-                                  propertyName: petType
-                                  mapping:
-                                    cat: '#/components/schemas/Cat'
-                                    dog: '#/components/schemas/Dog'
-                                    bee: '#/components/schemas/HoneyBee'
-                              tags:
-                                description: Tags attached to the pet
-                                type: array
-                                items:
-                                  type: object
-                                  properties:
-                                    id:
-                                      description: Tag ID
-                                      type: integer
-                                    name:
-                                      description: Tag name
-                                      type: string
-                                      minLength: 1
-                                  required:
-                                    - id
-                                    - name
-                                  additionalProperties: false
-                              status:
-                                description: Pet status in the store
-                                type: string
-                                enum:
-                                  - available
-                                  - pending
-                                  - sold
-                              petType:
-                                description: Type of a pet
-                                type: string
-                            required:
-                              - name
-                              - photoUrls
-                            additionalProperties: false
-                            discriminator:
-                              propertyName: petType
-                              mapping:
-                                cat: '#/components/schemas/Cat'
-                                dog: '#/components/schemas/Dog'
-                                bee: '#/components/schemas/HoneyBee'
-                          tags:
-                            description: Tags attached to the pet
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                id:
-                                  description: Tag ID
-                                  type: integer
-                                name:
-                                  description: Tag name
-                                  type: string
-                                  minLength: 1
-                              required:
-                                - id
-                                - name
-                              additionalProperties: false
-                          status:
-                            description: Pet status in the store
-                            type: string
-                            enum:
-                              - available
-                              - pending
-                              - sold
-                          petType:
-                            description: Type of a pet
-                            type: string
-                        required:
-                          - name
-                          - photoUrls
-                        additionalProperties: false
-                        discriminator:
-                          propertyName: petType
-                          mapping:
-                            cat: '#/components/schemas/Cat'
-                            dog: '#/components/schemas/Dog'
-                            bee: '#/components/schemas/HoneyBee'
-                      - type: object
-                        properties:
-                          id:
-                            description: Tag ID
-                            type: integer
-                          name:
-                            description: Tag name
-                            type: string
-                            minLength: 1
-                        required:
-                          - id
-                          - name
-                        additionalProperties: false
-                  username:
-                    description: User supplied username
-                    type: string
-                    minLength: 4
-                  firstName:
-                    description: User first name
-                    type: string
-                    minLength: 1
-                  lastName:
-                    description: User last name
-                    type: string
-                    minLength: 1
-                  email:
-                    description: User email address
-                    type: string
-                    format: email
-                  password:
-                    description: User password, MUST contain a mix of upper and lower case letters, as well as digits
-                    type: string
-                    format: password
-                    pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/
-                    minLength: 8
-                  phone:
-                    description: User phone number in international format
-                    type: string
-                    pattern: /^\+(?:[0-9]-?){6,14}[0-9]$/
-                  userStatus:
-                    description: User status
-                    type: integer
-                required:
-                  - id
-                  - pet
-                  - username
-                  - firstName
-                  - lastName
-                  - email
-                  - password
-                  - phone
-                  - userStatus
-                additionalProperties: false
-            application/xml:
-              x-type:
-                id:
-                  $readonly: number::integer
+                id: number::integer
                 pet:
                   - $ref: '#/components/x-types/Pet'
                   - $ref: '#/components/x-types/Tag'
@@ -3651,8 +2387,9 @@ paths:
         content:
           application/json:
             x-type:
-              id:
-                $readonly: number::integer
+              $omit:
+                - id
+              id: number::integer
               pet:
                 - $ref: '#/components/x-types/Pet'
                 - $ref: '#/components/x-types/Tag'
@@ -3678,10 +2415,16 @@ paths:
                   anyOf:
                     - type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -3697,6 +2440,7 @@ paths:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id # wrong, should be avoided
                             - name
                             - sub
                           additionalProperties: false
@@ -3712,10 +2456,16 @@ paths:
                         friend:
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Pet ID
+                              type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
+                                id: # wrong, should be avoided
+                                  description: Category ID
+                                  type: integer
                                 name:
                                   description: Category name
                                   type: string
@@ -3731,6 +2481,7 @@ paths:
                                     - prop1
                                   additionalProperties: false
                               required:
+                                - id # wrong, should be avoided
                                 - name
                                 - sub
                               additionalProperties: false
@@ -3746,10 +2497,16 @@ paths:
                             friend:
                               type: object
                               properties:
+                                id: # wrong, should be avoided
+                                  description: Pet ID
+                                  type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
+                                    id: # wrong, should be avoided
+                                      description: Category ID
+                                      type: integer
                                     name:
                                       description: Category name
                                       type: string
@@ -3765,6 +2522,7 @@ paths:
                                         - prop1
                                       additionalProperties: false
                                   required:
+                                    - id # wrong, should be avoided
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -3784,11 +2542,15 @@ paths:
                                   items:
                                     type: object
                                     properties:
+                                      id: # wrong, should be avoided
+                                        description: Tag ID
+                                        type: integer
                                       name:
                                         description: Tag name
                                         type: string
                                         minLength: 1
                                     required:
+                                      - id # wrong, should be avoided
                                       - name
                                     additionalProperties: false
                                 status:
@@ -3817,11 +2579,15 @@ paths:
                               items:
                                 type: object
                                 properties:
+                                  id: # wrong, should be avoided
+                                    description: Tag ID
+                                    type: integer
                                   name:
                                     description: Tag name
                                     type: string
                                     minLength: 1
                                 required:
+                                  - id # wrong, should be avoided
                                   - name
                                 additionalProperties: false
                             status:
@@ -3850,11 +2616,15 @@ paths:
                           items:
                             type: object
                             properties:
+                              id: # wrong, should be avoided
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id # wrong, should be avoided
                               - name
                             additionalProperties: false
                         status:
@@ -3879,11 +2649,15 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id # wrong, should be avoided
                         - name
                       additionalProperties: false
                 username:
@@ -4049,6 +2823,8 @@ x-webhooks:
         content:
           application/json:
             x-type:
+              $omit:
+                - id
               id:
                 - $ref: '#/components/x-types/Id'
                 - undefined
@@ -4094,6 +2870,9 @@ x-webhooks:
                   description: Categories this pet belongs to
                   type: object
                   properties:
+                    id: # wrong, should be avoided
+                      description: Category ID
+                      type: integer
                     name:
                       description: Category name
                       type: string
@@ -4109,6 +2888,7 @@ x-webhooks:
                         - prop1
                       additionalProperties: false
                   required:
+                    - id # wrong, should be avoided
                     - name
                     - sub
                   additionalProperties: false
@@ -4124,10 +2904,16 @@ x-webhooks:
                 friend:
                   type: object
                   properties:
+                    id: # wrong, should be avoided
+                      description: Pet ID
+                      type: integer
                     category:
                       description: Categories this pet belongs to
                       type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Category ID
+                          type: integer
                         name:
                           description: Category name
                           type: string
@@ -4143,6 +2929,7 @@ x-webhooks:
                             - prop1
                           additionalProperties: false
                       required:
+                        - id # wrong, should be avoided
                         - name
                         - sub
                       additionalProperties: false
@@ -4158,10 +2945,16 @@ x-webhooks:
                     friend:
                       type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -4177,6 +2970,7 @@ x-webhooks:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id # wrong, should be avoided
                             - name
                             - sub
                           additionalProperties: false
@@ -4196,11 +2990,15 @@ x-webhooks:
                           items:
                             type: object
                             properties:
+                              id: # wrong, should be avoided
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id # wrong, should be avoided
                               - name
                             additionalProperties: false
                         status:
@@ -4229,11 +3027,15 @@ x-webhooks:
                       items:
                         type: object
                         properties:
+                          id: # wrong, should be avoided
+                            description: Tag ID
+                            type: integer
                           name:
                             description: Tag name
                             type: string
                             minLength: 1
                         required:
+                          - id
                           - name
                         additionalProperties: false
                     status:
@@ -4262,11 +3064,15 @@ x-webhooks:
                   items:
                     type: object
                     properties:
+                      id: # wrong, should be avoided
+                        description: Tag ID
+                        type: integer
                       name:
                         description: Tag name
                         type: string
                         minLength: 1
                     required:
+                      - id
                       - name
                     additionalProperties: false
                 status:
@@ -4537,9 +3343,46 @@ components:
       content:
         application/json:
           x-type:
-            $and:
-              - any
+            $omit:
+              - id
+            id:
+              - $ref: '#/components/x-types/Id'
+              - undefined
+            category:
+              - $ref: '#/components/x-types/Category'
+              - undefined
+            name: string
+            photoUrls:
+              $array: string::url
+            friend:
               - $ref: '#/components/x-types/Pet'
+              - undefined
+            tags:
+              - $array:
+                  $ref: '#/components/x-types/Tag'
+              - undefined
+            status:
+              - - available
+                - pending
+                - sold
+              - undefined
+            petType:
+              - string
+              - undefined
+            $discriminator:
+              propertyName: petType
+              mapping:
+                cat: '#/components/schemas/Cat'
+                dog: '#/components/schemas/Dog'
+                bee: '#/components/schemas/HoneyBee'
+            $descriptions:
+              id: Pet ID
+              category: Categories this pet belongs to
+              name: The name given to a pet
+              photoUrls: The list of URL to a cute photos featuring pet
+              tags: Tags attached to the pet
+              status: Pet status in the store
+              petType: Type of a pet
           schema:
             type: object
             properties:
@@ -4547,6 +3390,9 @@ components:
                 description: Categories this pet belongs to
                 type: object
                 properties:
+                  id: # wrong, should be avoided
+                    description: Category ID
+                    type: integer
                   name:
                     description: Category name
                     type: string
@@ -4562,6 +3408,7 @@ components:
                       - prop1
                     additionalProperties: false
                 required:
+                  - id
                   - name
                   - sub
                 additionalProperties: false
@@ -4577,10 +3424,16 @@ components:
               friend:
                 type: object
                 properties:
+                  id: # wrong, should be avoided
+                    description: Pet ID
+                    type: integer
                   category:
                     description: Categories this pet belongs to
                     type: object
                     properties:
+                      id: # wrong, should be avoided
+                        description: Category ID
+                        type: integer
                       name:
                         description: Category name
                         type: string
@@ -4596,6 +3449,7 @@ components:
                           - prop1
                         additionalProperties: false
                     required:
+                      - id
                       - name
                       - sub
                     additionalProperties: false
@@ -4611,10 +3465,16 @@ components:
                   friend:
                     type: object
                     properties:
+                      id: # wrong, should be avoided
+                        description: Pet ID
+                        type: integer
                       category:
                         description: Categories this pet belongs to
                         type: object
                         properties:
+                          id: # wrong, should be avoided
+                            description: Category ID
+                            type: integer
                           name:
                             description: Category name
                             type: string
@@ -4630,6 +3490,7 @@ components:
                               - prop1
                             additionalProperties: false
                         required:
+                          - id
                           - name
                           - sub
                         additionalProperties: false
@@ -4649,11 +3510,15 @@ components:
                         items:
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Tag ID
+                              type: integer
                             name:
                               description: Tag name
                               type: string
                               minLength: 1
                           required:
+                            - id
                             - name
                           additionalProperties: false
                       status:
@@ -4682,11 +3547,15 @@ components:
                     items:
                       type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id
                         - name
                       additionalProperties: false
                   status:
@@ -4715,11 +3584,15 @@ components:
                 items:
                   type: object
                   properties:
+                    id: # wrong, should be avoided
+                      description: Tag ID
+                      type: integer
                     name:
                       description: Tag name
                       type: string
                       minLength: 1
                   required:
+                    - id
                     - name
                   additionalProperties: false
               status:
@@ -4742,29 +3615,14 @@ components:
                 cat: '#/components/schemas/Cat'
                 dog: '#/components/schemas/Dog'
                 bee: '#/components/schemas/HoneyBee'
-        application/xml:
-          x-type:
-            name: string
-            $descriptions:
-              name: hooray
-          schema:
-            type: object
-            properties:
-              name:
-                description: hooray
-                type: string
-            required:
-              - name
-            additionalProperties: false
-      description: Pet object that needs to be added to the store
-      required: true
     UserArray:
       content:
         application/json:
           x-type:
             $array:
-              id:
-                $readonly: number::integer
+              $omit:
+                - id
+              id: number::integer
               pet:
                 - $ref: '#/components/x-types/Pet'
                 - $ref: '#/components/x-types/Tag'
@@ -4792,10 +3650,16 @@ components:
                   anyOf:
                     - type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Pet ID
+                          type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Category ID
+                              type: integer
                             name:
                               description: Category name
                               type: string
@@ -4811,6 +3675,7 @@ components:
                                 - prop1
                               additionalProperties: false
                           required:
+                            - id
                             - name
                             - sub
                           additionalProperties: false
@@ -4826,10 +3691,16 @@ components:
                         friend:
                           type: object
                           properties:
+                            id: # wrong, should be avoided
+                              description: Pet ID
+                              type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
+                                id: # wrong, should be avoided
+                                  description: Category ID
+                                  type: integer
                                 name:
                                   description: Category name
                                   type: string
@@ -4845,6 +3716,7 @@ components:
                                     - prop1
                                   additionalProperties: false
                               required:
+                                - id
                                 - name
                                 - sub
                               additionalProperties: false
@@ -4860,10 +3732,16 @@ components:
                             friend:
                               type: object
                               properties:
+                                id: # wrong, should be avoided
+                                  description: Pet ID
+                                  type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
+                                    id: # wrong, should be avoided
+                                      description: Category ID
+                                      type: integer
                                     name:
                                       description: Category name
                                       type: string
@@ -4879,6 +3757,7 @@ components:
                                         - prop1
                                       additionalProperties: false
                                   required:
+                                    - id
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -4898,11 +3777,15 @@ components:
                                   items:
                                     type: object
                                     properties:
+                                      id: # wrong, should be avoided
+                                        description: Tag ID
+                                        type: integer
                                       name:
                                         description: Tag name
                                         type: string
                                         minLength: 1
                                     required:
+                                      - id
                                       - name
                                     additionalProperties: false
                                 status:
@@ -4931,11 +3814,15 @@ components:
                               items:
                                 type: object
                                 properties:
+                                  id: # wrong, should be avoided
+                                    description: Tag ID
+                                    type: integer
                                   name:
                                     description: Tag name
                                     type: string
                                     minLength: 1
                                 required:
+                                  - id
                                   - name
                                 additionalProperties: false
                             status:
@@ -4964,11 +3851,15 @@ components:
                           items:
                             type: object
                             properties:
+                              id: # wrong, should be avoided
+                                description: Tag ID
+                                type: integer
                               name:
                                 description: Tag name
                                 type: string
                                 minLength: 1
                             required:
+                              - id
                               - name
                             additionalProperties: false
                         status:
@@ -4993,11 +3884,15 @@ components:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
+                        id: # wrong, should be avoided
+                          description: Tag ID
+                          type: integer
                         name:
                           description: Tag name
                           type: string
                           minLength: 1
                       required:
+                        - id
                         - name
                       additionalProperties: false
                 username:
@@ -5082,8 +3977,7 @@ components:
           $descriptions:
             huntingSkill: The measured skill for hunting
     Category:
-      id:
-        $readonly: number::integer
+      id: number::integer
       name: string::min(1)
       sub:
         prop1: string
@@ -5105,23 +3999,18 @@ components:
         - honeyPerDay: number
           $descriptions:
             honeyPerDay: Average amount of honey produced per day in ounces
-    Id:
-      $readonly: number::integer
+    Id: number::integer
     Order:
-      id:
-        $readonly: number::integer
-      petId:
-        $readonly: number::integer
+      id: number::integer
+      petId: number::integer
       quantity: number::integer::min(1)
       shipDate: string::date-time
       status:
         - placed
         - approved
         - delivered
-      complete:
-        $readonly: boolean
-      requestId:
-        $writeonly: string
+      complete: boolean
+      requestId: string
       $descriptions:
         id: Order ID
         petId: Pet ID
@@ -5169,15 +4058,13 @@ components:
         status: Pet status in the store
         petType: Type of a pet
     Tag:
-      id:
-        $readonly: number::integer
+      id: number::integer
       name: string::min(1)
       $descriptions:
         id: Tag ID
         name: Tag name
     User:
-      id:
-        $readonly: number::integer
+      id: number::integer
       pet:
         - $ref: '#/components/x-types/Pet'
         - $ref: '#/components/x-types/Tag'
