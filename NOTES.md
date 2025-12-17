@@ -171,6 +171,8 @@ x-type:
     baz: number
 ```
 
+(`oneOf` vs `anyOf` confusion)
+
 ---
 
 It's easy to get confused when composing objects/arrays with properties named like the type JSON Schema keywords, for instance:

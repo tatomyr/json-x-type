@@ -1,9 +1,9 @@
 # JSON X-Type
 
-**JSON X-Type** is a type notation for describing JSON data with an emphasis on being intuitive to write and easy to read.
-Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type** definition.
+**JSON X-Type** (or **X-Type** for short) is a type notation for describing JSON data with an emphasis on being intuitive to write and easy to read.
+Any [valid JSON](https://www.json.org/) can be validated against a **X-Type** definition.
 
-**JSON X-Type** can be described by itself ([🔗](./x-type.yaml)).
+**X-Type** can be described by itself ([🔗](./x-type.yaml)).
 
 ## Primitive types and literals
 
@@ -15,7 +15,7 @@ Any [valid JSON](https://www.json.org/) can be validated against a **JSON X-Type
 | undefined | Indicates that the value is not set. |
 | any       | Any value (not validated).           |
 
-Primitive types are the basic building blocks of **JSON X-Type** and can be used in JSON values.
+Primitive types are the basic building blocks of **X-Type** and can be used in JSON values.
 Any other primitive values (strings, numbers, booleans, or `null`) are considered literals.
 Note: To use a reserved keyword as a literal (rather than its special meaning), escape it with the [$literal:](#literals-escaping) prefix.
 
@@ -116,7 +116,7 @@ Another option is to use something in the middle:
 
 ## References
 
-Use `$ref` to refer to other **JSON X-Types** via [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901):
+Use `$ref` to refer to other **X-Types** via [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901):
 
 ```json
 {
@@ -148,7 +148,7 @@ Array literals define multiple options, one of which is applicable:
 ["string", "undefined"]
 ```
 
-This defines an optional string.
+This defines an optional string type.
 
 TypeScript analogy: `A | B`.
 
@@ -183,9 +183,9 @@ Intersection of incompatible types (e.g., strings and booleans) must result in t
 
 TypeScript analogy: `A & B`.
 
-### Omit
+### Omitting properties
 
-Omits specific properties from a referenced type:
+To omit specific properties from a referenced type, use the `$omit` keyword alongside `$ref`:
 
 ```json
 {
@@ -197,6 +197,47 @@ Omits specific properties from a referenced type:
 The resulting type is the resolved type from `user.json` without the `id` and `createdAt` properties.
 
 Note: `$omit` applies to the final type resolved from the reference.
+
+Using `$omit` removes properties completely, allowing them to be redefined.
+In contrast, intersecting with the undefined type locks the expected property value to `undefined`.
+
+With `$omit`, the property can be redefined:
+
+```json
+{
+  "$and": [
+    {
+      "$ref": "user.json",
+      "$omit": ["id"]
+    },
+    {
+      "id": "number"
+    }
+  ]
+}
+```
+
+Result: `{ "id": "number", ... }`
+
+Without `$omit`, intersection yields the narrower type:
+
+```json
+{
+  "$and": [
+    {
+      "$ref": "user.json"
+    },
+    {
+      "id": "undefined"
+    },
+    {
+      "id": "number"
+    }
+  ]
+}
+```
+
+Result: `{ "id": "undefined", ... }`
 
 <!-- Consider adding $partial at the same level as $omit -->
 
