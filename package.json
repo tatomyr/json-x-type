@@ -1,6 +1,6 @@
 {
   "name": "json-x-type",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "description": "JSON X-Type is a JSON data type type notation with an emphasis on being intuitive to write and easy to read.",
   "scripts": {

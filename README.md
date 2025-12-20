@@ -77,6 +77,12 @@ Arrays can be defined using special `$array` keyword:
 
 This defines an array of strings.
 
+Note: In JSON, arrays cannot contain the `undefined` value.
+Therefore, `{"$array": "undefined"}` can only be satisfied by an empty array.
+Similarly, arrays cannot contain optional types like `{"$array": ["string", "undefined"]}`:
+such a definition yields an array of strings only, or an empty array.
+Such definitions generally do not make much sense and should be avoided.
+
 TypeScript analogy: `Array<T>` or `T[]`.
 
 <!--
