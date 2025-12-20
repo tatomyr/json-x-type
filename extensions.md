@@ -7,7 +7,7 @@ Main use cases include describing OpenAPI-compatible types.
 
 Type suffixes specify formats or modifiers for basic types.
 They are denoted by the double colon notation (`::`).
-A type can have at most one format suffix, but multiple modifier suffixes can be chained sequentially.
+A type can have at most one format suffix, but multiple modifier suffixes can be chained sequentially (they must not contradict each other).
 
 ### String formats and modifiers
 
@@ -27,19 +27,19 @@ The corresponding values are passed in parentheses:
 "string::min(3)::max(30)::pattern([A-Za-z]+)"
 ```
 
-<!-- FIXME: remove the following here and from the code: -->
-
-The `pattern` modifier can also be used with the `$record` keyword to constrain dynamic object property names.
-
 ### Number formats and modifiers
 
-For number types, the `integer` format suffix can be used to restrict values to whole numbers.
+For number types, `integer` or `int64` format suffixes can be used to restrict values to whole numbers.
 The number modifiers are: `min`, `max`, `x-min` (for exclusive minimum), and `x-max` (for exclusive maximum).
 All range modifiers require a number value in parentheses:
 
 ```json
 "number::integer::min(18)"
 ```
+
+### Record keys constraints (under consideration)
+
+The `pattern` modifier can be used with the `$record` keyword to constrain dynamic object property names.
 
 <!-- TODO: consider this syntax:
 {"$array::min(1)": "any"}
@@ -73,6 +73,8 @@ Represents the OpenAPI [discriminator](https://spec.openapis.org/oas/latest.html
 Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
 The discriminator object should contain the `propertyName` field and, optionally, the `mapping` field.
 The `mapping` field must contain links to the corresponding schemas (not to **X-Types**).
+
+<!-- TODO: convert components/schemas to components/x-types ? -->
 
 <!--
 

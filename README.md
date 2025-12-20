@@ -1,7 +1,8 @@
 # JSON X-Type
 
 **JSON X-Type** (or **X-Type** for short) is a type notation for describing JSON data with an emphasis on being intuitive to write and easy to read.
-Any [valid JSON](https://www.json.org/) can be validated against a **X-Type** definition.
+
+Any [valid JSON](https://www.json.org/) can be validated against an **X-Type** definition.
 
 **X-Type** can be described by itself ([🔗](./x-type.yaml)).
 
@@ -17,7 +18,7 @@ Any [valid JSON](https://www.json.org/) can be validated against a **X-Type** de
 
 Primitive types are the basic building blocks of **X-Type** and can be used in JSON values.
 Any other primitive values (strings, numbers, booleans, or `null`) are considered literals.
-Note: To use a reserved keyword as a literal (rather than its special meaning), escape it with the [$literal:](#literals-escaping) prefix.
+Note: To use a reserved keyword as a literal (rather than its special meaning), escape it with the [$literal](#literals-escaping) prefix.
 
 ## Structural types
 
@@ -35,7 +36,7 @@ Object literals define object-like structures:
 The example above defines an object with two required properties.
 
 Any `$`-prefixed keys in object literals are reserved for special keywords.
-To use a literal key that starts with `$`, escape it with the [$literal:](#literals-escaping) prefix.
+To use a literal key that starts with `$`, escape it with the [$literal](#literals-escaping) prefix.
 
 ### Records
 
@@ -99,8 +100,7 @@ OR
 }
 ```
 
-The first one contradicts the exclusive use of arrays for unions.
-while the second is less intuitive.
+The first form contradicts the exclusive use of arrays for unions, while the second is less intuitive.
 
 Another option is to use something in the middle:
 
@@ -136,7 +136,7 @@ The `UserList` uses a reference to the `User` type for describing an array of us
 
 References resolve relative to the file they appear in.
 If a reference cannot be resolved, it should be treated as `any`.
-Any other properties alongside the `$ref` must be ignored, except for [$omit](#omitting-properties).
+Any other properties alongside `$ref` must be ignored, except for explicitly mentioned ones in this document.
 
 ## Type composition
 
@@ -251,7 +251,7 @@ Whenever there is a need to use a literal string value or key instead of a reser
 }
 ```
 
-This checks for an object with the `$record` key of a `boolean` value, e.g.:
+This validates an object with the `$record` key having a boolean value, e.g.:
 
 ```json
 {
@@ -275,4 +275,4 @@ See available [extensions](./extensions.md).
 ## Credits
 
 Thanks to [JSON Schema](https://json-schema.org/) for inspiration to use JSON-like syntax for type definitions,
-and to [TypeScript](https://www.typescriptlang.org/) for inspiring good types design.
+and to [TypeScript](https://www.typescriptlang.org/) for inspiring good type design.

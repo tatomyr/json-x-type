@@ -25,7 +25,9 @@ Also, it's possible to make `readOnly` and `writeOnly` true at the same time, wh
 
 ---
 
-Consider this schema:
+### A story about `oneOf`
+
+Consider this schema (is it allOf or oneOf?):
 
 ```yaml
 schema:
@@ -87,6 +89,58 @@ schema:
 
 ---
 
+Let's consider this schema:
+
+```yaml
+schema:
+  type: object
+  oneOf:
+    - properties:
+        foo:
+          type: string
+    - properties:
+        bar:
+          type: string
+```
+
+You might expect that it allows an object with either `foo` or `bar` property, but actually no object will pass this validation, including `{"foo": "some string"}` because it will be valid against MORE THEN ONE subschema.
+
+What you can actually do, is to change it to `anyOf`, but then any object will pass validation, including `{"foo": true}`.
+The reason is that it checks the first subschema, sees that `foo` is not a string, considers it invalid, then checks the second subschema, sees that `bar` is not present (which is valid since properties are optional by default), sees that it has an additional property `foo` (which is not prohibited since any schema is open by default), and finally considers the whole object valid. Which is most likely not what you want.
+
+To actually enforce the correct behaviour, it should look like this:
+
+```yaml
+schema:
+  type: object
+  oneOf: # or anyOf, now it doesn't matter
+    - properties:
+        foo:
+          type: string
+      required:
+        - foo # should be explicitly required
+      additionalProperties: false # should be explicitly closed
+    - properties:
+        bar:
+          type: string
+      required:
+        - bar
+      additionalProperties: false
+```
+
+Let's agree, this is not the most intuitive way to express such a simple requirement.
+In X-Type, it would look just like this:
+
+```yaml
+x-type:
+  - foo: string
+  - bar: string
+```
+
+Boom. That's it.
+
+---
+
 It's possible to mix up things that are not allowed together, like this:
 
 ```yaml
@@ -102,7 +156,7 @@ In JSON Schema you can mix `allOf` and `oneOf` in one object, like this:
 ```yaml
 schema:
   allOf:
-    - properties: # this could be a reference
+    - properties: # this might be a reference
         foo:
           type: string
     - properties:
@@ -145,13 +199,13 @@ schema:
   oneOf:
     - type: object
       properties:
-        foo:
+        foo: # overlapping property
           type: string
         bar:
           type: boolean
     - type: object
       properties:
-        foo:
+        foo: # overlapping property
           type: string
         baz:
           type: number
