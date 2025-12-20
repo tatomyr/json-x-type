@@ -44,7 +44,7 @@ describe('lint', () => {
     expect(stderr).toMatchSnapshot()
   })
 
-  test('x-types described with x-types themselves', () => {
+  test('x-type described with x-type itself', () => {
     const {stderr} = runCommand(
       'redocly lint applications/resources/x-types-described-with-x-type.yaml  --config=applications/x-redocly.yaml'
     )

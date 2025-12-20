@@ -689,7 +689,7 @@ run \`redocly lint --generate-ignore-file\` to add all problems to the ignore fi
 "
 `;
 
-exports[`lint > x-types described with x-types themselves 1`] = `
+exports[`lint > x-type described with x-type itself 1`] = `
 "validating applications/resources/x-types-described-with-x-type.yaml...
 WARNING! Circular reference detected: #/Or
 WARNING! Circular reference detected: #/Or

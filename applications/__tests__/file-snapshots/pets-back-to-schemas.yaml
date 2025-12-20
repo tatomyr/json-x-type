@@ -1740,14 +1740,14 @@ paths:
                   anyOf:
                     - type: object
                       properties:
-                        id: # wrong, should be avoided in requests
+                        id: # wrong, should be omitted in requests
                           description: Pet ID
                           type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Category ID
                               type: integer
                             name:
@@ -1765,7 +1765,7 @@ paths:
                                 - prop1
                               additionalProperties: false
                           required:
-                            - id # wrong, should be avoided
+                            - id # wrong, should be omitted
                             - name
                             - sub
                           additionalProperties: false
@@ -1781,14 +1781,14 @@ paths:
                         friend:
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Pet ID
                               type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
-                                id: # wrong, should be avoided
+                                id: # wrong, should be omitted
                                   description: Category ID
                                   type: integer
                                 name:
@@ -1806,7 +1806,7 @@ paths:
                                     - prop1
                                   additionalProperties: false
                               required:
-                                - id # wrong, should be avoided
+                                - id # wrong, should be omitted
                                 - name
                                 - sub
                               additionalProperties: false
@@ -1822,14 +1822,14 @@ paths:
                             friend:
                               type: object
                               properties:
-                                id: # wrong, should be avoided
+                                id: # wrong, should be omitted
                                   description: Pet ID
                                   type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
-                                    id: # wrong, should be avoided
+                                    id: # wrong, should be omitted
                                       description: Category ID
                                       type: integer
                                     name:
@@ -1847,7 +1847,7 @@ paths:
                                         - prop1
                                       additionalProperties: false
                                   required:
-                                    - id # wrong, should be avoided
+                                    - id # wrong, should be omitted
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -1867,7 +1867,7 @@ paths:
                                   items:
                                     type: object
                                     properties:
-                                      id: # wrong, should be avoided
+                                      id: # wrong, should be omitted
                                         description: Tag ID
                                         type: integer
                                       name:
@@ -1875,7 +1875,7 @@ paths:
                                         type: string
                                         minLength: 1
                                     required:
-                                      - id # wrong, should be avoided
+                                      - id # wrong, should be omitted
                                       - name
                                     additionalProperties: false
                                 status:
@@ -1904,7 +1904,7 @@ paths:
                               items:
                                 type: object
                                 properties:
-                                  id: # wrong, should be avoided
+                                  id: # wrong, should be omitted
                                     description: Tag ID
                                     type: integer
                                   name:
@@ -1912,7 +1912,7 @@ paths:
                                     type: string
                                     minLength: 1
                                 required:
-                                  - id # wrong, should be avoided
+                                  - id # wrong, should be omitted
                                   - name
                                 additionalProperties: false
                             status:
@@ -1941,7 +1941,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id: # wrong, should be avoided
+                              id: # wrong, should be omitted
                                 description: Tag ID
                                 type: integer
                               name:
@@ -1949,7 +1949,7 @@ paths:
                                 type: string
                                 minLength: 1
                             required:
-                              - id # wrong, should be avoided
+                              - id # wrong, should be omitted
                               - name
                             additionalProperties: false
                         status:
@@ -1974,7 +1974,7 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Tag ID
                           type: integer
                         name:
@@ -1982,7 +1982,7 @@ paths:
                           type: string
                           minLength: 1
                       required:
-                        - id # wrong, should be avoided
+                        - id # wrong, should be omitted
                         - name
                       additionalProperties: false
                 username:
@@ -2415,14 +2415,14 @@ paths:
                   anyOf:
                     - type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Pet ID
                           type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Category ID
                               type: integer
                             name:
@@ -2440,7 +2440,7 @@ paths:
                                 - prop1
                               additionalProperties: false
                           required:
-                            - id # wrong, should be avoided
+                            - id # wrong, should be omitted
                             - name
                             - sub
                           additionalProperties: false
@@ -2456,14 +2456,14 @@ paths:
                         friend:
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Pet ID
                               type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
-                                id: # wrong, should be avoided
+                                id: # wrong, should be omitted
                                   description: Category ID
                                   type: integer
                                 name:
@@ -2481,7 +2481,7 @@ paths:
                                     - prop1
                                   additionalProperties: false
                               required:
-                                - id # wrong, should be avoided
+                                - id # wrong, should be omitted
                                 - name
                                 - sub
                               additionalProperties: false
@@ -2497,14 +2497,14 @@ paths:
                             friend:
                               type: object
                               properties:
-                                id: # wrong, should be avoided
+                                id: # wrong, should be omitted
                                   description: Pet ID
                                   type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
-                                    id: # wrong, should be avoided
+                                    id: # wrong, should be omitted
                                       description: Category ID
                                       type: integer
                                     name:
@@ -2522,7 +2522,7 @@ paths:
                                         - prop1
                                       additionalProperties: false
                                   required:
-                                    - id # wrong, should be avoided
+                                    - id # wrong, should be omitted
                                     - name
                                     - sub
                                   additionalProperties: false
@@ -2542,7 +2542,7 @@ paths:
                                   items:
                                     type: object
                                     properties:
-                                      id: # wrong, should be avoided
+                                      id: # wrong, should be omitted
                                         description: Tag ID
                                         type: integer
                                       name:
@@ -2550,7 +2550,7 @@ paths:
                                         type: string
                                         minLength: 1
                                     required:
-                                      - id # wrong, should be avoided
+                                      - id # wrong, should be omitted
                                       - name
                                     additionalProperties: false
                                 status:
@@ -2579,7 +2579,7 @@ paths:
                               items:
                                 type: object
                                 properties:
-                                  id: # wrong, should be avoided
+                                  id: # wrong, should be omitted
                                     description: Tag ID
                                     type: integer
                                   name:
@@ -2587,7 +2587,7 @@ paths:
                                     type: string
                                     minLength: 1
                                 required:
-                                  - id # wrong, should be avoided
+                                  - id # wrong, should be omitted
                                   - name
                                 additionalProperties: false
                             status:
@@ -2616,7 +2616,7 @@ paths:
                           items:
                             type: object
                             properties:
-                              id: # wrong, should be avoided
+                              id: # wrong, should be omitted
                                 description: Tag ID
                                 type: integer
                               name:
@@ -2624,7 +2624,7 @@ paths:
                                 type: string
                                 minLength: 1
                             required:
-                              - id # wrong, should be avoided
+                              - id # wrong, should be omitted
                               - name
                             additionalProperties: false
                         status:
@@ -2649,7 +2649,7 @@ paths:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Tag ID
                           type: integer
                         name:
@@ -2657,7 +2657,7 @@ paths:
                           type: string
                           minLength: 1
                       required:
-                        - id # wrong, should be avoided
+                        - id # wrong, should be omitted
                         - name
                       additionalProperties: false
                 username:
@@ -2870,7 +2870,7 @@ x-webhooks:
                   description: Categories this pet belongs to
                   type: object
                   properties:
-                    id: # wrong, should be avoided
+                    id: # wrong, should be omitted
                       description: Category ID
                       type: integer
                     name:
@@ -2888,7 +2888,7 @@ x-webhooks:
                         - prop1
                       additionalProperties: false
                   required:
-                    - id # wrong, should be avoided
+                    - id # wrong, should be omitted
                     - name
                     - sub
                   additionalProperties: false
@@ -2904,14 +2904,14 @@ x-webhooks:
                 friend:
                   type: object
                   properties:
-                    id: # wrong, should be avoided
+                    id: # wrong, should be omitted
                       description: Pet ID
                       type: integer
                     category:
                       description: Categories this pet belongs to
                       type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Category ID
                           type: integer
                         name:
@@ -2929,7 +2929,7 @@ x-webhooks:
                             - prop1
                           additionalProperties: false
                       required:
-                        - id # wrong, should be avoided
+                        - id # wrong, should be omitted
                         - name
                         - sub
                       additionalProperties: false
@@ -2945,14 +2945,14 @@ x-webhooks:
                     friend:
                       type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Pet ID
                           type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Category ID
                               type: integer
                             name:
@@ -2970,7 +2970,7 @@ x-webhooks:
                                 - prop1
                               additionalProperties: false
                           required:
-                            - id # wrong, should be avoided
+                            - id # wrong, should be omitted
                             - name
                             - sub
                           additionalProperties: false
@@ -2990,7 +2990,7 @@ x-webhooks:
                           items:
                             type: object
                             properties:
-                              id: # wrong, should be avoided
+                              id: # wrong, should be omitted
                                 description: Tag ID
                                 type: integer
                               name:
@@ -2998,7 +2998,7 @@ x-webhooks:
                                 type: string
                                 minLength: 1
                             required:
-                              - id # wrong, should be avoided
+                              - id # wrong, should be omitted
                               - name
                             additionalProperties: false
                         status:
@@ -3027,7 +3027,7 @@ x-webhooks:
                       items:
                         type: object
                         properties:
-                          id: # wrong, should be avoided
+                          id: # wrong, should be omitted
                             description: Tag ID
                             type: integer
                           name:
@@ -3064,7 +3064,7 @@ x-webhooks:
                   items:
                     type: object
                     properties:
-                      id: # wrong, should be avoided
+                      id: # wrong, should be omitted
                         description: Tag ID
                         type: integer
                       name:
@@ -3390,7 +3390,7 @@ components:
                 description: Categories this pet belongs to
                 type: object
                 properties:
-                  id: # wrong, should be avoided
+                  id: # wrong, should be omitted
                     description: Category ID
                     type: integer
                   name:
@@ -3424,14 +3424,14 @@ components:
               friend:
                 type: object
                 properties:
-                  id: # wrong, should be avoided
+                  id: # wrong, should be omitted
                     description: Pet ID
                     type: integer
                   category:
                     description: Categories this pet belongs to
                     type: object
                     properties:
-                      id: # wrong, should be avoided
+                      id: # wrong, should be omitted
                         description: Category ID
                         type: integer
                       name:
@@ -3465,14 +3465,14 @@ components:
                   friend:
                     type: object
                     properties:
-                      id: # wrong, should be avoided
+                      id: # wrong, should be omitted
                         description: Pet ID
                         type: integer
                       category:
                         description: Categories this pet belongs to
                         type: object
                         properties:
-                          id: # wrong, should be avoided
+                          id: # wrong, should be omitted
                             description: Category ID
                             type: integer
                           name:
@@ -3510,7 +3510,7 @@ components:
                         items:
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Tag ID
                               type: integer
                             name:
@@ -3547,7 +3547,7 @@ components:
                     items:
                       type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Tag ID
                           type: integer
                         name:
@@ -3584,7 +3584,7 @@ components:
                 items:
                   type: object
                   properties:
-                    id: # wrong, should be avoided
+                    id: # wrong, should be omitted
                       description: Tag ID
                       type: integer
                     name:
@@ -3650,14 +3650,14 @@ components:
                   anyOf:
                     - type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Pet ID
                           type: integer
                         category:
                           description: Categories this pet belongs to
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Category ID
                               type: integer
                             name:
@@ -3691,14 +3691,14 @@ components:
                         friend:
                           type: object
                           properties:
-                            id: # wrong, should be avoided
+                            id: # wrong, should be omitted
                               description: Pet ID
                               type: integer
                             category:
                               description: Categories this pet belongs to
                               type: object
                               properties:
-                                id: # wrong, should be avoided
+                                id: # wrong, should be omitted
                                   description: Category ID
                                   type: integer
                                 name:
@@ -3732,14 +3732,14 @@ components:
                             friend:
                               type: object
                               properties:
-                                id: # wrong, should be avoided
+                                id: # wrong, should be omitted
                                   description: Pet ID
                                   type: integer
                                 category:
                                   description: Categories this pet belongs to
                                   type: object
                                   properties:
-                                    id: # wrong, should be avoided
+                                    id: # wrong, should be omitted
                                       description: Category ID
                                       type: integer
                                     name:
@@ -3777,7 +3777,7 @@ components:
                                   items:
                                     type: object
                                     properties:
-                                      id: # wrong, should be avoided
+                                      id: # wrong, should be omitted
                                         description: Tag ID
                                         type: integer
                                       name:
@@ -3814,7 +3814,7 @@ components:
                               items:
                                 type: object
                                 properties:
-                                  id: # wrong, should be avoided
+                                  id: # wrong, should be omitted
                                     description: Tag ID
                                     type: integer
                                   name:
@@ -3851,7 +3851,7 @@ components:
                           items:
                             type: object
                             properties:
-                              id: # wrong, should be avoided
+                              id: # wrong, should be omitted
                                 description: Tag ID
                                 type: integer
                               name:
@@ -3884,7 +3884,7 @@ components:
                           bee: '#/components/schemas/HoneyBee'
                     - type: object
                       properties:
-                        id: # wrong, should be avoided
+                        id: # wrong, should be omitted
                           description: Tag ID
                           type: integer
                         name:

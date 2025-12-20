@@ -71,7 +71,7 @@ describe('adapter', () => {
     })
   })
 
-  test('string formats and modifiers', () => {
+  test('string and $record formats and modifiers', () => {
     expect(translateXTypeToSchema('string::date-time')).toEqual({
       type: 'string',
       format: 'date-time',
