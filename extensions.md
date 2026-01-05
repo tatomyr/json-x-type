@@ -29,7 +29,7 @@ The corresponding values are passed in parentheses:
 
 ### Number formats and modifiers
 
-For number types, `integer` or `int64` format suffixes can be used to restrict values to whole numbers.
+For number types, `float`, `double`, `integer`, `int32`, or `int64` format suffixes can be used to restrict values.
 The number modifiers are: `min`, `max`, `x-min` (for exclusive minimum), and `x-max` (for exclusive maximum).
 All range modifiers require a number value in parentheses:
 

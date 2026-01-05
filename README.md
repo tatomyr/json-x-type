@@ -61,9 +61,11 @@ Note: Literal properties can be combined with dynamic ones, although this approa
 }
 ```
 
-This defines an object with a required `name` property of type string, plus any number of additional properties of any type.
+This defines an object with a required `name` property of type 'string', plus any number of additional properties of 'any' type.
 
 The `$record` key puts constraints on all properties, including defined ones.
+
+Note: `{"$record": "undefined"}` defines an object that cannot have any properties (an empty object).
 
 ### Array type
 
@@ -122,7 +124,7 @@ Another option is to use something in the middle:
 
 ## References
 
-Use `$ref` to refer to other **X-Types** via [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901):
+Use `$ref` to refer to other **X-Types** via [URI-reference](https://datatracker.ietf.org/doc/html/rfc3986#section-4.1) and [JSON Pointer](https://datatracker.ietf.org/doc/html/rfc6901):
 
 ```json
 {
@@ -154,7 +156,7 @@ Array literals define multiple options, one of which is applicable:
 ["string", "undefined"]
 ```
 
-This defines an optional string type.
+This defines an optional 'string' type.
 
 TypeScript analogy: `A | B`.
 
@@ -185,7 +187,7 @@ The result is an object that includes all properties from every member:
 ```
 
 Intersection of a wider and a narrower type results in the narrower one.
-Intersection of incompatible types (e.g., strings and booleans) must result in the undefined type.
+Intersection of incompatible types (e.g., strings and booleans) must result in the 'undefined' type.
 
 TypeScript analogy: `A & B`.
 
@@ -205,7 +207,7 @@ The resulting type is the resolved type from `user.json` without the `id` and `c
 Note: `$omit` applies to the final type resolved from the reference.
 
 Using `$omit` removes properties completely, allowing them to be redefined.
-In contrast, intersecting with the undefined type locks the expected property value to `undefined`.
+In contrast, intersecting with the 'undefined' type locks the expected property value to `undefined`.
 
 With `$omit`, the property can be redefined:
 
