@@ -145,6 +145,33 @@ components:
         - 42.1
       $literal:$record: $literal:number
       string: $record
+  schemas:
+    Foo:
+      type: number
+    Bar:
+      type: object
+      properties:
+        somekey:
+          anyOf:
+            - type: boolean
+              enum:
+                - true
+            - type: number
+              enum:
+                - 42.1
+        $record:
+          type: string
+          enum:
+            - number
+        string:
+          type: string
+          enum:
+            - $record
+      required:
+        - somekey
+        - $record
+        - string
+      additionalProperties: false
 "
 `;
 
@@ -249,6 +276,18 @@ components:
       ReferencedAgain: string
       $descriptions:
         ReferencedAgain: Referenced inside the ref.
+  schemas:
+    Referenced:
+      type: string
+    NestedReferenced:
+      type: object
+      properties:
+        ReferencedAgain:
+          description: Referenced inside the ref.
+          type: string
+      required:
+        - ReferencedAgain
+      additionalProperties: false
 "
 `;
 
@@ -353,24 +392,6 @@ paths:
                 $omit:
                   - password
 components:
-  schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        password:
-          type: string
-          writeOnly: true
-        createdAt:
-          $ref: '#/components/schemas/Date'
-    Date:
-      type: string
-      format: date-time
-      readOnly: true
   x-types:
     User:
       id: number::integer
@@ -552,6 +573,52 @@ components:
       best_friend:
         - $ref: '#/components/x-types/Person'
         - undefined
+  schemas:
+    Person:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: number
+        best_friend:
+          type: object
+          properties:
+            name:
+              type: string
+            age:
+              type: number
+            best_friend:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: number
+                best_friend:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    age:
+                      type: number
+                    best_friend: {}
+                  required:
+                    - name
+                    - age
+                  additionalProperties: false
+              required:
+                - name
+                - age
+              additionalProperties: false
+          required:
+            - name
+            - age
+          additionalProperties: false
+      required:
+        - name
+        - age
+      additionalProperties: false
 "
 `;
 
@@ -629,6 +696,111 @@ components:
         - friend:
             - $ref: '#/components/x-types/ReadonlyUser'
             - null
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+        friend:
+          anyOf:
+            - type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+                friend:
+                  anyOf:
+                    - type: object
+                      properties:
+                        name:
+                          type: string
+                        password:
+                          type: string
+                        friend:
+                          anyOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                password:
+                                  type: string
+                                friend:
+                                  anyOf:
+                                    - {}
+                                    - type: 'null'
+                              required:
+                                - name
+                                - password
+                                - friend
+                              additionalProperties: false
+                            - type: 'null'
+                      required:
+                        - name
+                        - password
+                        - friend
+                      additionalProperties: false
+                    - type: 'null'
+              required:
+                - name
+                - password
+                - friend
+              additionalProperties: false
+            - type: 'null'
+      required:
+        - name
+        - password
+        - friend
+      additionalProperties: false
+    ReadonlyUser:
+      type: object
+      properties:
+        name:
+          type: string
+        friend:
+          anyOf:
+            - type: object
+              properties:
+                name:
+                  type: string
+                friend:
+                  anyOf:
+                    - type: object
+                      properties:
+                        name:
+                          type: string
+                        friend:
+                          anyOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                friend:
+                                  anyOf:
+                                    - {}
+                                    - type: 'null'
+                              required:
+                                - name
+                                - friend
+                              additionalProperties: false
+                            - type: 'null'
+                      required:
+                        - name
+                        - friend
+                      additionalProperties: false
+                    - type: 'null'
+              required:
+                - name
+                - friend
+              additionalProperties: false
+            - type: 'null'
+      required:
+        - name
+        - friend
+      additionalProperties: false
 "
 `;
 
@@ -733,32 +905,71 @@ components:
           type: string
         vidh:
           type: number
+      required:
+        - bukh
+        - vidh
+      additionalProperties: false
       discriminator:
         propertyName: bukh
         mapping:
           glagol: '#/components/schemas/Glagol'
           dobro: '#/components/schemas/Dobro'
     Glagol:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToGlagol:
-              type: boolean
+      type: object
+      properties:
+        bukh:
+          type: string
+        vidh:
+          type: number
+        specificToGlagol:
+          type: boolean
+      required:
+        - bukh
+        - vidh
+        - specificToGlagol
+      additionalProperties: false
+      discriminator:
+        propertyName: bukh
+        mapping:
+          glagol: '#/components/schemas/Glagol'
+          dobro: '#/components/schemas/Dobro'
     Dobro:
-      allOf:
-        - $ref: '#/components/schemas/Az'
+      type: object
+      properties:
+        bukh:
+          type: string
+        vidh:
+          type: number
+        specificToDobro:
+          type: integer
+        discriminator:
+          type: string
+          enum:
+            - for test
+      required:
+        - bukh
+        - vidh
+        - specificToDobro
+        - discriminator
+      additionalProperties: false
+      discriminator:
+        propertyName: bukh
+        mapping:
+          glagol: '#/components/schemas/Glagol'
+          dobro: '#/components/schemas/Dobro'
+    Zelo:
+      anyOf:
         - type: object
           properties:
-            specificToDobro:
-              type: integer
-            discriminator:
+            ludh:
+              type: number
+            kako:
               type: string
               enum:
-                - for test
-    Zelo:
-      oneOf:
-        - $ref: '#/components/schemas/H'
+                - for_H
+          required:
+            - kako
+          additionalProperties: false
         - type: object
           properties:
             mhslite:
@@ -773,8 +984,7 @@ components:
                 - for test
           required:
             - kako
-      discriminator:
-        propertyName: kako
+          additionalProperties: false
     H:
       type: object
       properties:
@@ -786,6 +996,7 @@ components:
             - for_H
       required:
         - kako
+      additionalProperties: false
   x-types:
     Az:
       bukh: string
@@ -857,67 +1068,6 @@ paths:
               x-type:
                 $ref: '#/components/x-types/Zelo'
 components:
-  schemas:
-    Az:
-      type: object
-      properties:
-        bukh:
-          type: string
-        vidh:
-          type: number
-      discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToGlagol:
-              type: boolean
-    Dobro:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToDobro:
-              type: integer
-            discriminator:
-              type: string
-              enum:
-                - for test
-    Zelo:
-      oneOf:
-        - $ref: '#/components/schemas/H'
-        - type: object
-          properties:
-            mhslite:
-              type: boolean
-            kako:
-              type: string
-              enum:
-                - for_mhslite
-            discriminator:
-              type: string
-              enum:
-                - for test
-          required:
-            - kako
-      discriminator:
-        propertyName: kako
-    H:
-      type: object
-      properties:
-        ludh:
-          type: number
-        kako:
-          type: string
-          enum:
-            - for_H
-      required:
-        - kako
   x-types:
     Az:
       bukh: string
@@ -1029,6 +1179,21 @@ components:
       id: number::integer
       name: string
       password: string
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - name
+        - password
+      additionalProperties: false
 "
 `;
 
@@ -1115,6 +1280,18 @@ components:
       $and:
         - foo: boolean
         - bar: number
+  schemas:
+    CorrectAnd:
+      type: object
+      properties:
+        foo:
+          type: boolean
+        bar:
+          type: number
+      required:
+        - foo
+        - bar
+      additionalProperties: false
 "
 `;
 
@@ -1227,6 +1404,19 @@ components:
       $array:
         - az
         - bukh
+  schemas:
+    Foo:
+      type: string
+      enum:
+        - az
+        - bukh
+    Bar:
+      type: array
+      items:
+        type: string
+        enum:
+          - az
+          - bukh
 "
 `;
 
@@ -1330,6 +1520,7 @@ components:
       example: true
       schema:
         type: string
+  schemas: {}
 "
 `;
 
@@ -1418,5 +1609,15 @@ components:
     Conditional:
       - vidh
       - undefined
+  schemas:
+    Or:
+      type: string
+      enum:
+        - az
+        - bukh
+    Conditional:
+      type: string
+      enum:
+        - vidh
 "
 `;

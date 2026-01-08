@@ -398,6 +398,7 @@ run \`redocly lint --generate-ignore-file\` to add all problems to the ignore fi
 exports[`lint > openapi with circular refs 1`] = `
 "validating applications/resources/openapi-with-circular-refs.yaml...
 WARNING! Circular reference detected: #/components/x-types/Person
+WARNING! Circular reference detected: #/components/x-types/Person
 [1] applications/resources/openapi-with-circular-refs.yaml:26:26 at #/paths/~1test/get/responses/200/content/application~1json/examples/Incorrect/value/age
 
 Example value must conform to the schema: \`age\` property type must be number.
