@@ -8,8 +8,10 @@
     "test": "vitest run --coverage",
     "prettier:check": "npx prettier --check \"**/*.{js,html,yaml,css,md,json}\"",
     "prettier": "npx prettier --write \"**/*.{js,html,yaml,css,md,json}\"",
-    "pets:to-x-types": "redocly bundle applications/resources/pets.yaml --config ./applications/generate-x-types-redocly.yaml -o applications/__tests__/file-snapshots/pets-to-x-types.yaml",
-    "pets:back-to-schemas": "redocly bundle applications/__tests__/file-snapshots/pets-to-x-types.yaml --config ./applications/x-redocly.yaml -o applications/__tests__/file-snapshots/pets-back-to-schemas.yaml"
+    "pets:to-x-types": "redocly bundle applications/resources/pets.yaml --config ./applications/generate-x-types.redocly.yaml -o applications/__tests__/file-snapshots/pets-to-x-types.yaml",
+    "pets:back-to-schemas": "redocly bundle applications/__tests__/file-snapshots/pets-to-x-types.yaml --config ./applications/x-type.redocly.yaml -o applications/__tests__/file-snapshots/pets-back-to-schemas.yaml",
+    "cafe:to-x-types": "redocly bundle applications/resources/cafe.yaml --config ./applications/generate-x-types.redocly.yaml -o applications/resources/cafe.x-type.yaml",
+    "cafe:back-to-schemas": "redocly bundle applications/resources/cafe.x-type.yaml --config ./applications/x-type.redocly.yaml -o applications/resources/cafe.yaml && redocly bundle applications/resources/cafe.yaml --config ./applications/remove-x-types.redocly.yaml -o applications/resources/cafe.yaml"
   },
   "repository": {
     "type": "git",

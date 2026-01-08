@@ -1,9 +1,11 @@
 import {isRef} from '@redocly/openapi-core/lib/ref-utils.js'
 import {
   generateSchemas,
+  generateNamedSchemas,
   generateXTypes,
   generateNamedXTypes,
   removeXTypes,
+  removeSchemas,
 } from './x-types-decorators.js'
 import {noRefNeighbors, noUndefinedDescriptions} from './x-types-rules.js'
 import {isObject} from './x-types-utils.js'
@@ -96,7 +98,9 @@ export default () => ({
   decorators: {
     oas3: {
       'remove-x-types': removeXTypes,
+      'remove-schemas': removeSchemas,
       'generate-schemas': generateSchemas,
+      'generate-named-schemas': generateNamedSchemas,
       'generate-x-types': generateXTypes,
       'generate-named-x-types': generateNamedXTypes,
     },

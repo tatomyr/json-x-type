@@ -11,6 +11,7 @@ const SUFFIXES = {
     [/^byte$/, () => ({format: 'byte'})],
     [/^password$/, () => ({format: 'password'})],
     [/^uri$/, () => ({format: 'uri'})],
+    [/^uri-reference$/, () => ({format: 'uri-reference'})],
     [/^url$/, () => ({format: 'url'})],
     [/^uuid$/, () => ({format: 'uuid'})],
 
@@ -26,6 +27,8 @@ const SUFFIXES = {
   ],
   number: [
     [/^integer$/, () => ({type: 'integer'})],
+    [/^int32$/, () => ({type: 'integer', format: 'int32'})],
+    [/^int64$/, () => ({type: 'integer', format: 'int64'})],
     [/^min\((?<value>[0-9]+)\)$/, match => ({minimum: +match?.groups?.value})],
     [/^max\((?<value>[0-9]+)\)$/, match => ({maximum: +match?.groups?.value})],
     [
@@ -75,7 +78,7 @@ export const translateXTypeToSchema = xType => {
       return {type: 'string', ...modifiers}
     }
 
-    throw new Error(`Unsupported string format: ${xType}.`)
+    console.error(`Unsupported string format: ${xType}.`)
   }
 
   if (xType === 'number') {
@@ -96,7 +99,7 @@ export const translateXTypeToSchema = xType => {
       return {type: 'number', ...modifiers}
     }
 
-    throw new Error(`Unsupported number format: ${xType}.`)
+    console.error(`Unsupported number format: ${xType}.`)
   }
 
   if (xType === 'boolean') {

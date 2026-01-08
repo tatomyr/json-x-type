@@ -10,3 +10,4 @@ preprocessors:
 
 decorators:
   x-types/generate-x-types: {}
+  x-types/remove-schemas: on

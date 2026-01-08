@@ -11,4 +11,5 @@ plugins:
   - x-types-plugin.js
 
 preprocessors:
+  x-types/generate-named-schemas: on
   x-types/generate-schemas: on

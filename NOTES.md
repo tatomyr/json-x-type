@@ -22,6 +22,55 @@ However, it means that `id` is optional in responses.
 If we put `id` in the `required` section, it will require it in the requests also? (NOT SURE)
 
 Also, it's possible to make `readOnly` and `writeOnly` true at the same time, which makes no sense.
+Also, it's possible to make `readOnly` or `writeOnly` false, which makes no impact but creates more options to confuse people.
+
+One more issue with `readOnly` and `writeOnly` when we want to reuse schemas.
+Let's imagine we have a component named `OrderStatus`, but in a specific place we want it to be read-only.
+If we compose it with `allOf`, it's not obvious if it takes effect since `allOf` don't merge subschemas, only validates against all of them:
+
+```yaml
+schema:
+  orderStatus:
+    allOf:
+      - $ref: '#/components/schemas/OrderStatus'
+      - readOnly: true
+```
+
+Actually, in Redoc, it does render as read-only, but it's not guaranteed that all tools will interpret it the same way.
+To really make it read-only, we have to make an ugly workaround (because `allOf` is not intended for this purpose) like this:
+
+```yaml
+schemas:
+  Order:
+    ...
+    orderStatus:
+      allOf:
+        - $ref: '#/components/schemas/OrderStatus'
+      readOnly: true
+```
+
+Since X-Type keeps type description separate from OpenAPI modifiers, it's as easy as using `$omit` alongside `$ref`:
+
+```yaml
+requestBody:
+  content:
+    application/json:
+      x-type:
+        $ref: '#/components/x-types/Order'
+        $omit:
+          - orderStatus
+```
+
+<!--
+Or, if we use the $readonly extension:
+
+```yaml
+x-type:
+  orderStatus: OrderStatus
+  $readonly:
+    - orderStatus
+```
+-->
 
 ---
 

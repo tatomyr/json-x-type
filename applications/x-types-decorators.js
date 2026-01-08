@@ -3,6 +3,33 @@ import {translateXTypeToSchema} from './x-types-adapter.js'
 import {resolveAndMerge} from './x-types-resolver.js'
 import {translateJSONSchemaToXType} from './json-schema-adapter.js'
 
+export const generateNamedSchemas = opts => {
+  const namedSchemas = {}
+  return {
+    Components: {
+      enter(components, ctx) {
+        const xTypes = components['x-types'] || {}
+        for (const key in xTypes) {
+          const xType = xTypes[key]
+
+          const resolvedXType = resolveAndMerge(xType, {
+            ...ctx,
+            _circularRefsMaxDepth: opts?.depth,
+          })
+          const schema = cleanupSchema(translateXTypeToSchema(resolvedXType))
+          namedSchemas[key] = schema
+        }
+      },
+      leave(components) {
+        components['schemas'] = {
+          ...components['schemas'],
+          ...namedSchemas,
+        }
+      },
+    },
+  }
+}
+
 export const generateSchemas = opts => {
   return {
     RequestBody: {
@@ -154,6 +181,16 @@ export const removeXTypes = opts => {
       // },
       enter(components) {
         delete components['x-types']
+      },
+    },
+  }
+}
+
+export const removeSchemas = opts => {
+  return {
+    Components: {
+      enter(components) {
+        delete components['schemas']
       },
     },
   }

@@ -1,0 +1,8 @@
+extends:
+  - x-types/all
+
+plugins:
+  - x-types-plugin.js
+
+decorators:
+  x-types/remove-x-types: {}
