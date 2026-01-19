@@ -1,0 +1,10 @@
+extends:
+  - x-types/all
+
+plugins:
+  - x-types-plugin.js
+
+preprocessors:
+  x-types/generate-named-schemas: on
+  x-types/generate-schemas:
+    depth: 1
