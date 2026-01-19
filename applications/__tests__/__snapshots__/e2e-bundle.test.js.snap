@@ -804,236 +804,9 @@ components:
 "
 `;
 
-exports[`bundle > openapi with discriminators converted to schemas 1`] = `
-"openapi: 3.1.0
-info:
-  title: Test
-  version: 1.0.0
-paths:
-  /test:
-    get:
-      responses:
-        '200':
-          description: Test discriminators.
-          content:
-            application/inheritance+json:
-              x-type:
-                bukh: string
-                vidh: number
-                $discriminator:
-                  propertyName: bukh
-                  mapping:
-                    glagol: '#/components/schemas/Glagol'
-                    dobro: '#/components/schemas/Dobro'
-              schema:
-                type: object
-                properties:
-                  bukh:
-                    type: string
-                  vidh:
-                    type: number
-                required:
-                  - bukh
-                  - vidh
-                additionalProperties: false
-                discriminator:
-                  propertyName: bukh
-                  mapping:
-                    glagol: '#/components/schemas/Glagol'
-                    dobro: '#/components/schemas/Dobro'
-              examples:
-                Correct:
-                  value:
-                    bukh: glagol
-                    vidh: 1
-                    specificToGlagol: false
-                Incorrect:
-                  value:
-                    bukh: dobro
-            application/polymorphism+json:
-              x-type:
-                - $ref: '#/components/x-types/H'
-                - mhslite:
-                    - boolean
-                    - undefined
-                  kako: for_mhslite
-                  discriminator:
-                    - for test
-                    - undefined
-              schema:
-                anyOf:
-                  - type: object
-                    properties:
-                      ludh:
-                        type: number
-                      kako:
-                        type: string
-                        enum:
-                          - for_H
-                    required:
-                      - kako
-                    additionalProperties: false
-                  - type: object
-                    properties:
-                      mhslite:
-                        type: boolean
-                      kako:
-                        type: string
-                        enum:
-                          - for_mhslite
-                      discriminator:
-                        type: string
-                        enum:
-                          - for test
-                    required:
-                      - kako
-                    additionalProperties: false
-              examples:
-                Correct:
-                  value:
-                    kako: for_H
-                    ludh: 1
-                Incorrect:
-                  value:
-                    kako: wrong
-components:
-  schemas:
-    Az:
-      type: object
-      properties:
-        bukh:
-          type: string
-        vidh:
-          type: number
-      required:
-        - bukh
-        - vidh
-      additionalProperties: false
-      discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      type: object
-      properties:
-        bukh:
-          type: string
-        vidh:
-          type: number
-        specificToGlagol:
-          type: boolean
-      required:
-        - bukh
-        - vidh
-        - specificToGlagol
-      additionalProperties: false
-      discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Dobro:
-      type: object
-      properties:
-        bukh:
-          type: string
-        vidh:
-          type: number
-        specificToDobro:
-          type: integer
-        discriminator:
-          type: string
-          enum:
-            - for test
-      required:
-        - bukh
-        - vidh
-        - specificToDobro
-        - discriminator
-      additionalProperties: false
-      discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Zelo:
-      anyOf:
-        - type: object
-          properties:
-            ludh:
-              type: number
-            kako:
-              type: string
-              enum:
-                - for_H
-          required:
-            - kako
-          additionalProperties: false
-        - type: object
-          properties:
-            mhslite:
-              type: boolean
-            kako:
-              type: string
-              enum:
-                - for_mhslite
-            discriminator:
-              type: string
-              enum:
-                - for test
-          required:
-            - kako
-          additionalProperties: false
-    H:
-      type: object
-      properties:
-        ludh:
-          type: number
-        kako:
-          type: string
-          enum:
-            - for_H
-      required:
-        - kako
-      additionalProperties: false
-  x-types:
-    Az:
-      bukh: string
-      vidh: number
-      $discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      $and:
-        - $ref: '#/components/x-types/Az'
-        - specificToGlagol: boolean
-    Dobro:
-      $and:
-        - $ref: '#/components/x-types/Az'
-        - specificToDobro: number::integer
-          discriminator: for test
-    Zelo:
-      - $ref: '#/components/x-types/H'
-      - mhslite:
-          - boolean
-          - undefined
-        kako: for_mhslite
-        discriminator:
-          - for test
-          - undefined
-    H:
-      ludh:
-        - number
-        - undefined
-      kako: for_H
-"
-`;
-
 exports[`bundle > openapi with discriminators converted to x-types 1`] = `
-"openapi: 3.1.0
+"# Already a x-type $ref: #/components/x-types/Base_Az
+openapi: 3.1.0
 info:
   title: Test
   version: 1.0.0
@@ -1069,23 +842,23 @@ paths:
                 $ref: '#/components/x-types/Zelo'
 components:
   x-types:
-    Az:
-      bukh: string
-      vidh: number
-      $discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
     Glagol:
       $and:
-        - $ref: '#/components/x-types/Az'
+        - $ref: '#/components/x-types/Base_Az'
         - specificToGlagol: boolean
+        - bukh: glagol
+    Az:
+      - $ref: '#/components/x-types/Glagol'
+      - $ref: '#/components/x-types/Dobro'
+    Base_Az:
+      bukh: string
+      vidh: number
     Dobro:
       $and:
-        - $ref: '#/components/x-types/Az'
+        - $ref: '#/components/x-types/Base_Az'
         - specificToDobro: number::integer
           discriminator: for test
+        - bukh: dobro
     Zelo:
       - $ref: '#/components/x-types/H'
       - mhslite:

@@ -2,18 +2,20 @@ import {isRef} from '@redocly/openapi-core/lib/ref-utils.js'
 import {isObject, mergeAll} from './x-types-utils.js'
 
 const omit = (maybeObj, keys) => {
-  if (!isObject(maybeObj)) {
-    console.error(
-      `Cannot omit keys (${keys.join(', ')}) from non-object: ${JSON.stringify(maybeObj)}.`
-    )
-    return maybeObj
+  if (isObject(maybeObj)) {
+    const obj = {...maybeObj}
+    for (const key of keys) {
+      delete obj[key]
+    }
+    return obj
+  } else if (Array.isArray(maybeObj)) {
+    return maybeObj.map(item => omit(item, keys))
   }
 
-  const obj = {...maybeObj}
-  for (const key of keys) {
-    delete obj[key]
-  }
-  return obj
+  console.error(
+    `Cannot omit keys (${keys.join(', ')}) from non-object: ${JSON.stringify(maybeObj)}.`
+  )
+  return maybeObj
 }
 
 export const resolveAndMerge = (xType, ctx, parents = []) => {

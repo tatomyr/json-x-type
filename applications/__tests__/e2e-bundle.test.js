@@ -122,13 +122,6 @@ describe('bundle', () => {
     expect(stdout).toMatchSnapshot()
   })
 
-  test('openapi with discriminators converted to schemas', () => {
-    const {stdout} = runCommand(
-      'redocly bundle applications/resources/openapi-with-discriminators.yaml --config=applications/x-type.redocly.yaml'
-    )
-    expect(stdout).toMatchSnapshot()
-  })
-
   test('openapi with discriminators converted to x-types', () => {
     const {stdout} = runCommand(
       'redocly bundle applications/resources/openapi-with-discriminators.yaml --config=applications/generate-x-types.redocly.yaml'

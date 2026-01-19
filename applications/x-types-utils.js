@@ -1,3 +1,11 @@
+export const RESERVED_KEYWORDS = [
+  'string',
+  'number',
+  'boolean',
+  'any',
+  'undefined',
+]
+
 export const isObject = obj =>
   obj && typeof obj === 'object' && !Array.isArray(obj)
 
@@ -34,11 +42,39 @@ const deepMergeTwo = (first, second) => {
   if (second === 'any') {
     return first
   }
+
   if (first === second) {
     return first
   }
 
+  if (first === 'undefined' || second === 'undefined') {
+    return 'undefined'
+  }
+
+  if (Array.isArray(first) && (isObject(second) || isPrimitive(second))) {
+    return first.map(item => deepMergeTwo(item, second))
+  }
+  if (Array.isArray(second) && (isObject(first) || isPrimitive(first))) {
+    return second.map(item => deepMergeTwo(first, item))
+  }
+
   if (isPrimitive(first) || isPrimitive(second)) {
+    // Handle strings
+    if (
+      first === 'string' &&
+      typeof second === 'string' &&
+      !RESERVED_KEYWORDS.includes(second)
+    ) {
+      return second
+    }
+    if (
+      second === 'string' &&
+      typeof first === 'string' &&
+      !RESERVED_KEYWORDS.includes(first)
+    ) {
+      return first
+    }
+
     console.error(
       `ERROR! Merging primitives is not allowed: '${first}' & '${second}'.`
     )
@@ -60,13 +96,7 @@ const deepMergeTwo = (first, second) => {
     return mergeAll(...second.$and, first)
   }
 
-  if (Array.isArray(first) && isObject(second)) {
-    return first.map(item => deepMergeTwo(item, second))
-  }
-  if (isObject(first) && Array.isArray(second)) {
-    return second.map(item => deepMergeTwo(item, first))
-  }
-
+  // TODO: investigate if it's still needed
   if (Array.isArray(first) && Array.isArray(second)) {
     return product(first, second).map(([a, b]) => deepMergeTwo(a, b))
   }

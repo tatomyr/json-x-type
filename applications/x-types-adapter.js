@@ -218,7 +218,6 @@ export const translateXTypeToSchema = xType => {
       required,
       additionalProperties,
       ...(isNotEmptyObject(patternProperties) && {patternProperties}),
-      ...($discriminator && {discriminator: $discriminator}),
     }
   }
 

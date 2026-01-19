@@ -589,6 +589,9 @@ components:
         limit: Value showing how many items are in the page limit.
         total: Count of items across all pages.
     MenuItem:
+      - $ref: '#/components/x-types/Beverage'
+      - $ref: '#/components/x-types/Dessert'
+    Base_MenuItem:
       createdAt: string::date-time
       updatedAt: string::date-time
       id: string::pattern(^prd_[0-9abcdefghjkmnpqrstvwxyz]{26}$)
@@ -606,11 +609,6 @@ components:
       category:
         - beverage
         - dessert
-      $discriminator:
-        propertyName: category
-        mapping:
-          beverage: '#/components/schemas/Beverage'
-          dessert: '#/components/schemas/Dessert'
       $descriptions:
         createdAt: Created date.
         updatedAt: Updated date.
@@ -622,7 +620,7 @@ components:
         category: Menu item category.
     Beverage:
       $and:
-        - $ref: '#/components/x-types/MenuItem'
+        - $ref: '#/components/x-types/Base_MenuItem'
         - size: number::x-min(0)
           sizeType:
             - ml
@@ -632,12 +630,14 @@ components:
           $descriptions:
             size: Size of the beverage.
             containsCaffeine: Indicates if the beverage contains caffeine.
+        - category: beverage
     Dessert:
       $and:
-        - $ref: '#/components/x-types/MenuItem'
+        - $ref: '#/components/x-types/Base_MenuItem'
         - calories: number::x-min(0)
           $descriptions:
             calories: Amount of calories.
+        - category: dessert
     MenuItemList:
       object: list
       page:
@@ -670,14 +670,25 @@ components:
       - completed
       - canceled
     Order:
-      id: string
-      object: string
+      id:
+        - string
+        - undefined
+      object:
+        - order
+        - undefined
       customerName: string::pattern(^[A-Za-z]+(?:[\s'-][A-Za-z]+)*$)::min(1)::max(100)
       status:
-        $ref: '#/components/x-types/OrderStatus'
-      totalPrice: number::integer::min(0)
-      createdAt: string::date-time
-      updatedAt: string::date-time
+        - $ref: '#/components/x-types/OrderStatus'
+        - undefined
+      totalPrice:
+        - number::integer::min(0)
+        - undefined
+      createdAt:
+        - string::date-time
+        - undefined
+      updatedAt:
+        - string::date-time
+        - undefined
       orderItems:
         $array:
           menuItemId: string

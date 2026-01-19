@@ -2,6 +2,7 @@ import {cleanupSchema} from './x-types-utils.js'
 import {translateXTypeToSchema} from './x-types-adapter.js'
 import {resolveAndMerge} from './x-types-resolver.js'
 import {translateJSONSchemaToXType} from './json-schema-adapter.js'
+import {isRef} from '@redocly/openapi-core'
 
 export const generateNamedSchemas = opts => {
   const namedSchemas = {}
@@ -89,15 +90,65 @@ export const generateSchemas = opts => {
 // TODO: WIP
 export const generateNamedXTypes = opts => {
   const namedXTypes = {}
+  let rootComponents
   return {
     Components: {
       leave(components, ctx) {
         components['x-types'] = namedXTypes
       },
+      enter(components, ctx) {
+        rootComponents = components
+      },
       NamedSchemas: {
         Schema: {
           enter(schema, ctx) {
             namedXTypes[ctx.key] = translateJSONSchemaToXType(schema, ctx)
+            const mapping = namedXTypes[ctx.key]._mapping
+            const propertyName = namedXTypes[ctx.key]._propertyName
+
+            if (!mapping || !propertyName) {
+              return // Skip if there's no discriminator mapping or propertyName
+            }
+
+            namedXTypes['Base_' + ctx.key] = namedXTypes[ctx.key]._baseObject
+            for (const [discriminatorValue, $ref] of Object.entries(mapping)) {
+              const componentName = $ref.split('/').at(-1)
+
+              const schemaComponent = rootComponents.schemas[componentName]
+              if (Array.isArray(schemaComponent?.allOf)) {
+                for (const item of schemaComponent.allOf) {
+                  if (
+                    isRef(item) &&
+                    item.$ref === '#/components/schemas/' + ctx.key
+                  ) {
+                    item.$ref = '#/components/x-types/Base_' + ctx.key
+                  }
+                }
+                // Inject discriminator property into the schema component
+                schemaComponent.allOf.push({
+                  type: 'object',
+                  properties: {
+                    [propertyName]: {type: 'string', const: discriminatorValue},
+                  },
+                })
+              }
+
+              const xTypeComponent = namedXTypes[componentName]
+              if (Array.isArray(xTypeComponent?.$and)) {
+                for (const item of xTypeComponent.$and) {
+                  if (
+                    isRef(item) &&
+                    item.$ref === '#/components/x-types/' + ctx.key
+                  ) {
+                    item.$ref = '#/components/x-types/Base_' + ctx.key
+                  }
+                }
+                // Inject discriminator property into the x-type component
+                xTypeComponent.$and.push({
+                  [propertyName]: discriminatorValue,
+                })
+              }
+            }
           },
         },
       },
