@@ -19,4 +19,4 @@ export const runCommand = cmd => {
   return {stderr, stdout}
 }
 
-export const stripCWD = str => str.replace(process.cwd(), '.')
+export const stripCWD = str => str?.replace(process.cwd(), '.') ?? str

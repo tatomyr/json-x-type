@@ -1,12 +1,12 @@
 import {describe, expect, test} from 'vitest'
-import {runCommand, stripCWD} from './e2e-utils'
+import {runCommand, stripCWD} from './e2e-utils.js'
 
 describe('lint', () => {
   test('general openapi case (using preprocessors to transform)', () => {
     const {stdout} = runCommand(
       'redocly lint applications/resources/openapi.yaml --config=applications/x-type.redocly.yaml'
     )
-    expect(stdout).toMatchSnapshot()
+    expect(stripCWD(stdout)).toMatchSnapshot()
   })
 
   test('openapi with mixed types', () => {
@@ -27,21 +27,21 @@ describe('lint', () => {
     const {stdout} = runCommand(
       'redocly lint applications/resources/openapi-with-x-types-inside-parameters.yaml --config=applications/x-type.redocly.yaml'
     )
-    expect(stdout).toMatchSnapshot()
+    expect(stripCWD(stdout)).toMatchSnapshot()
   })
 
   test('openapi with ORs (including nested and referenced)', () => {
     const {stdout} = runCommand(
       'redocly lint applications/resources/openapi-or.yaml --config=applications/x-type.redocly.yaml'
     )
-    expect(stdout).toMatchSnapshot()
+    expect(stripCWD(stdout)).toMatchSnapshot()
   })
 
   test('distribytivity in x-types', () => {
     const {stdout} = runCommand(
       'redocly lint applications/resources/openapi-with-nested-ors-in-ands.yaml --config=applications/x-type.redocly.yaml'
     )
-    expect(stdout).toMatchSnapshot()
+    expect(stripCWD(stdout)).toMatchSnapshot()
   })
 
   test('x-type described with x-type itself', () => {

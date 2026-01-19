@@ -1192,7 +1192,7 @@ components:
           - bukh
 [1] applications/resources/openapi-with-refs.yaml:61:19 at #/paths/~1test/get/responses/404/content/application~1json/x-type/AWrongRef
 
-Can't resolve $ref: ENOENT: no such file or directory '/Users/andrewtatomyr/Personal/json-types/applications/resources/wrong-file.yaml'
+Can't resolve $ref: ENOENT: no such file or directory './applications/resources/wrong-file.yaml'
 
 59 | x-type:
 60 |   AWrongRef:
