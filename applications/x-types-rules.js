@@ -1,4 +1,4 @@
-import {isNotEmptyObject} from '@redocly/openapi-core/lib/utils.js'
+import {isNotEmptyObject} from '@redocly/openapi-core'
 
 export const noRefNeighbors = () => {
   return {

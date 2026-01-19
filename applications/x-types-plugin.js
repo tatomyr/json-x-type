@@ -1,4 +1,4 @@
-import {isRef} from '@redocly/openapi-core/lib/ref-utils.js'
+import {isRef} from '@redocly/openapi-core'
 import {
   generateSchemas,
   generateNamedSchemas,

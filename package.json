@@ -29,8 +29,8 @@
   "homepage": "https://github.com/tatomyr/json-x-type#readme",
   "devDependencies": {
     "@hyperjump/json-schema": "^1.9.9",
-    "@redocly/cli": "1.25.5",
-    "@redocly/openapi-core": "1.25.5",
+    "@redocly/cli": "^2.14.5",
+    "@redocly/openapi-core": "^2.14.5",
     "@vitest/coverage-v8": "^1.4.0",
     "eslint": "^8.57.0",
     "prettier": "^3.2.5",
