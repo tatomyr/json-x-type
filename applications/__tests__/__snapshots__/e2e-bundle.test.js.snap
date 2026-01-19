@@ -805,7 +805,7 @@ components:
 `;
 
 exports[`bundle > openapi with discriminators converted to x-types 1`] = `
-"# Already a x-type $ref: #/components/x-types/Base_Az
+"# Already an x-type $ref: #/components/x-types/Base_Az
 openapi: 3.1.0
 info:
   title: Test

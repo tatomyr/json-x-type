@@ -13,7 +13,6 @@ const SUFFIXES = {
     [/^uri$/, () => ({format: 'uri'})],
     [/^uri-reference$/, () => ({format: 'uri-reference'})],
     [/^url$/, () => ({format: 'url'})],
-    [/^uuid$/, () => ({format: 'uuid'})],
 
     [/^pattern\((?<value>.+)\)$/, match => ({pattern: match?.groups?.value})],
     [
@@ -175,7 +174,7 @@ export const translateXTypeToSchema = xType => {
     let properties = {}
     let patternProperties = {}
     let required = []
-    const {$record, $descriptions, $discriminator, ...props} = xType
+    const {$record, $descriptions, ...props} = xType
 
     const additionalProperties =
       typeof $record === 'undefined' ? false : translateXTypeToSchema($record)

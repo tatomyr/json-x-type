@@ -5,6 +5,9 @@ import {isPlainObject, isEmptyObject} from '@redocly/openapi-core/lib/utils.js'
 import {RESERVED_KEYWORDS} from './x-types-utils.js'
 
 const escapeReserved = value => {
+  if (Array.isArray(value)) {
+    return value.map(escapeReserved)
+  }
   if (RESERVED_KEYWORDS.includes(value)) {
     return `$literal:${value}`
   }
@@ -129,7 +132,7 @@ export function translateJSONSchemaToXType(schema, ctx) {
         $omit,
       }
     } else if (schema.$ref.startsWith('#/components/x-types/')) {
-      console.log('# Already a x-type $ref:', schema.$ref)
+      console.log('# Already an x-type $ref:', schema.$ref)
       return schema
     }
 
