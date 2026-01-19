@@ -81,7 +81,6 @@ paths:
         schema:
           type: string
           default: en-AU
-        x-type: string
       - name: cookieParam
         in: cookie
         description: Some cookie
@@ -89,7 +88,6 @@ paths:
         schema:
           type: integer
           format: int64
-        x-type: number::integer
     post:
       tags:
         - pet
@@ -182,7 +180,6 @@ paths:
           schema:
             type: integer
             format: int64
-          x-type: number::integer
       responses:
         '200':
           description: successful operation
@@ -190,9 +187,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
-              x-type:
-                $ref: '#/components/x-types/Pet'
-
         '400':
           description: Invalid ID supplied
         '404':
@@ -213,7 +207,6 @@ paths:
           schema:
             type: integer
             format: int64
-          x-type: number::integer
       responses:
         '405':
           description: Invalid input
@@ -233,12 +226,6 @@ paths:
                 status:
                   description: Updated status of the pet
                   type: string
-            x-type:
-              name: string
-              status: string
-              $descriptions:
-                name: Updated name of the pet
-                status: Updated status of the pet
     delete:
       tags:
         - pet
@@ -251,7 +238,6 @@ paths:
           required: false
           schema:
             type: string
-          x-type: string
           example: Bearer <TOKEN>
         - name: petId
           in: path
@@ -260,7 +246,6 @@ paths:
           schema:
             type: integer
             format: int64
-          x-type: number::integer
       responses:
         '400':
           description: Invalid pet value
@@ -283,7 +268,6 @@ paths:
           schema:
             type: integer
             format: int64
-          x-type: number::integer
       responses:
         '200':
           description: successful operation
@@ -291,8 +275,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponse'
-              x-type:
-                $ref: '#/components/x-types/ApiResponse'
       security:
         - petstore_auth:
             - write:pets
@@ -303,7 +285,6 @@ paths:
             schema:
               type: string
               format: binary
-            x-type: string::binary
   /pet/findByStatusPut:
     get:
       tags:
@@ -328,11 +309,6 @@ paths:
                 - pending
                 - sold
               default: available
-          x-type:
-            $array:
-              - available
-              - pending
-              - sold
       responses:
         '200':
           description: successful operation
@@ -342,9 +318,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
-              x-type:
-                $array:
-                  $ref: '#/components/x-types/Pet'
         '400':
           description: Invalid status value
       security:
@@ -369,8 +342,6 @@ paths:
             type: array
             items:
               type: string
-          x-type:
-            $array: string
       responses:
         '200':
           description: successful operation
@@ -380,9 +351,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
-              x-type:
-                $array:
-                  $ref: '#/components/x-types/Pet'
         '400':
           description: Invalid tag value
       security:
@@ -406,8 +374,6 @@ paths:
                 additionalProperties:
                   type: integer
                   format: int32
-              x-type:
-                $record: number::integer
       security:
         - api_key: []
   /store/order:
@@ -424,10 +390,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-              x-type:
-                $ref: '#/components/x-types/Order'
-                $omit:
-                  - requestId
         '400':
           description: Invalid Order
           content:
@@ -440,12 +402,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Order'
-            x-type:
-              $ref: '#/components/x-types/Order'
-              $omit:
-                - id
-                - petId
-                - complete
         description: order placed for purchasing the pet
         required: true
   /store/order/{orderId}:
@@ -465,7 +421,6 @@ paths:
             format: int64
             minimum: 1
             maximum: 5
-          x-type: number::integer::min(1)::max(5)
       responses:
         '200':
           description: successful operation
@@ -473,10 +428,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Order'
-              x-type:
-                $ref: '#/components/x-types/Order'
-                $omit:
-                  - requestId
         '400':
           description: Invalid ID supplied
         '404':
@@ -495,7 +446,6 @@ paths:
           schema:
             type: string
             minimum: 1
-          x-type: string::min(1)
       responses:
         '400':
           description: Invalid ID supplied
@@ -529,15 +479,6 @@ paths:
               required:
                 - callbackUrl
                 - eventName
-            x-type:
-              callbackUrl: string::uri
-              eventName:
-                - orderInProgress
-                - orderShipped
-                - orderDelivered
-              $descriptions:
-                callbackUrl: This URL will be called by the server when the desired event will occur
-                eventName: Event name for the subscription
       responses:
         '201':
           description: Subscription added
@@ -549,8 +490,6 @@ paths:
                   subscriptionId:
                     type: string
                     example: AAA-123-BBB-456
-              x-type:
-                subscriptionId: string
       callbacks:
         orderInProgress:
           '{$request.body#/callbackUrl}?event={$request.body#/eventName}':
@@ -581,10 +520,6 @@ paths:
                         status:
                           type: string
                           example: inProgress
-                    x-type:
-                      orderId: string
-                      timestamp: string::date-time
-                      status: string
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -596,11 +531,6 @@ paths:
                           someProp:
                             type: string
                             example: '123'
-                      x-type:
-                        someProp: string
-                        $descriptions:
-                          someProp: |
-                            Example: `123`
                 '299':
                   description: Response for cancelling subscription
                 '500':
@@ -657,10 +587,6 @@ paths:
                         status:
                           type: string
                           example: inProgress
-                    x-type:
-                      orderId: string
-                      timestamp: string::date-time
-                      status: string
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -672,8 +598,6 @@ paths:
                           someProp:
                             type: string
                             example: '123'
-                      x-type:
-                        someProp: string
         orderShipped:
           '{$request.body#/callbackUrl}?event={$request.body#/eventName}':
             post:
@@ -702,10 +626,6 @@ paths:
                           type: string
                           format: date-time
                           example: '2018-11-11T16:00:00Z'
-                    x-type:
-                      orderId: string
-                      timestamp: string::date-time
-                      estimatedDeliveryDate: string::date-time
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -728,9 +648,6 @@ paths:
                           type: string
                           format: date-time
                           example: '2018-10-19T16:46:45Z'
-                    x-type:
-                      orderId: string
-                      timestamp: string::date-time
               responses:
                 '200':
                   description: Callback successfully processed and no retries will be performed
@@ -749,8 +666,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-            x-type:
-              $ref: '#/components/x-types/WriteonlyUser'
         description: Created user object
         required: true
   /user/{username}:
@@ -767,7 +682,6 @@ paths:
           required: true
           schema:
             type: string
-          x-type: string
       responses:
         '200':
           description: successful operation
@@ -775,8 +689,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-              x-type:
-                $ref: '#/components/x-types/User'
         '400':
           description: Invalid username supplied
         '404':
@@ -794,7 +706,6 @@ paths:
           required: true
           schema:
             type: string
-          x-type: string
       responses:
         '400':
           description: Invalid user supplied
@@ -805,8 +716,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/User'
-            x-type:
-              $ref: '#/components/x-types/WriteonlyUser'
         description: Updated user object
         required: true
     delete:
@@ -822,7 +731,6 @@ paths:
           required: true
           schema:
             type: string
-          x-type: string
       responses:
         '400':
           description: Invalid username supplied
@@ -866,14 +774,12 @@ paths:
           required: true
           schema:
             type: string
-          x-type: string
         - name: password
           in: query
           description: The password for login in clear text
           required: true
           schema:
             type: string
-          x-type: string
       responses:
         '200':
           description: successful operation
@@ -895,14 +801,12 @@ paths:
               examples:
                 response:
                   value: OK
-              x-type: string
             application/xml:
               schema:
                 type: string
               examples:
                 response:
                   value: <Message> OK </Message>
-              x-type: string
             text/plain:
               examples:
                 response:
@@ -932,8 +836,6 @@ x-webhooks:
           application/json:
             schema:
               $ref: '#/components/schemas/Pet'
-            x-type:
-              $ref: '#/components/x-types/WriteonlyPet'
       responses:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
@@ -1183,8 +1085,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Pet'
-          x-type:
-            $ref: '#/components/x-types/WriteonlyPet'
     UserArray:
       content:
         application/json:
@@ -1192,9 +1092,6 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/User'
-          x-type:
-            $array:
-              $ref: '#/components/x-types/WriteonlyUser'
       description: List of user object
       required: true
   securitySchemes:
@@ -1222,154 +1119,6 @@ components:
         shipDate: '2018-10-19T16:46:45Z'
         status: placed
         complete: false
-  x-types:
-    ApiResponse:
-      code: number::integer
-      type: string
-      message: string
-    Cat:
-      $and:
-        - $ref: '#/components/x-types/Pet'
-        - huntingSkill:
-            - clueless
-            - lazy
-            - adventurous
-            - aggressive
-          $descriptions:
-            huntingSkill: The measured skill for hunting
-    Category:
-      id: number::integer
-      name: string::min(1)
-      sub:
-        prop1: string
-        $descriptions:
-          prop1: Dumb Property
-      $descriptions:
-        id: Category ID
-        name: Category name
-        sub: Test Sub Category
-    Dog:
-      $and:
-        - $ref: '#/components/x-types/Pet'
-        - packSize: number::integer::min(1)
-          $descriptions:
-            packSize: The size of the pack the dog is from
-    HoneyBee:
-      $and:
-        - $ref: '#/components/x-types/Pet'
-        - honeyPerDay: number
-          $descriptions:
-            honeyPerDay: Average amount of honey produced per day in ounces
-    Id: number::integer # Read-only
-    Order:
-      id: number::integer # Read-only
-      petId: number::integer # Read-only
-      quantity: number::integer::min(1)
-      shipDate: string::date-time
-      status:
-        - placed
-        - approved
-        - delivered
-      complete: boolean # Read-only
-      requestId: string # Write-only
-      $descriptions:
-        id: Order ID
-        petId: Pet ID
-        shipDate: Estimated ship date
-        status: Order Status
-        complete: Indicates whenever order was completed or not
-        requestId: Unique Request Id
-    Pet:
-      id: # Read-only
-        - $ref: '#/components/x-types/Id'
-        - undefined
-      category:
-        - $ref: '#/components/x-types/Category'
-        - undefined
-      name: string
-      photoUrls:
-        $array: string::url
-      friend:
-        - $ref: '#/components/x-types/Pet'
-        - undefined
-      tags:
-        - $array:
-            $ref: '#/components/x-types/Tag'
-        - undefined
-      status:
-        - - available
-          - pending
-          - sold
-        - undefined
-      petType:
-        - string
-        - undefined
-      $discriminator:
-        propertyName: petType
-        mapping:
-          cat: '#/components/schemas/Cat'
-          dog: '#/components/schemas/Dog'
-          bee: '#/components/schemas/HoneyBee'
-      $descriptions:
-        id: Pet ID
-        category: Categories this pet belongs to
-        name: The name given to a pet
-        photoUrls: The list of URL to a cute photos featuring pet
-        tags: Tags attached to the pet
-        status: Pet status in the store
-        petType: Type of a pet
-    WriteonlyPet:
-      $and:
-        - $ref: '#/components/x-types/Pet'
-          $omit:
-            - id
-            - friend # TODO: is it required to omit?
-            - tags # TODO: is it required to omit?
-        - friend:
-            - $ref: '#/components/x-types/WriteonlyPet'
-            - undefined
-          tags:
-            - $array:
-                $ref: '#/components/x-types/WriteonlyTag'
-            - undefined
-    Tag:
-      id: number::integer # Read-only
-      name: string::min(1)
-      $descriptions:
-        id: Tag ID
-        name: Tag name
-    WriteonlyTag:
-      $ref: '#/components/x-types/Tag'
-      $omit: id
-    User:
-      id: number::integer # Read-only
-      pet:
-        - $ref: '#/components/x-types/Pet'
-        - $ref: '#/components/x-types/Tag'
-      username: string::min(4)
-      firstName: string::min(1)
-      lastName: string::min(1)
-      email: string::email
-      password: string::password::pattern(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/)::min(8)
-      phone: string::pattern(/^\+(?:[0-9]-?){6,14}[0-9]$/)
-      userStatus: number::integer
-      $descriptions:
-        username: User supplied username
-        firstName: User first name
-        lastName: User last name
-        email: User email address
-        password: User password, MUST contain a mix of upper and lower case letters, as well as digits
-        phone: User phone number in international format
-        userStatus: User status
-    WriteonlyUser:
-      $and:
-        - $ref: '#/components/x-types/User'
-          $omit:
-            - id
-            - pet
-        - pet:
-            - $ref: '#/components/x-types/WriteonlyPet'
-            - $ref: '#/components/x-types/WriteonlyTag'
 x-tagGroups:
   - name: General
     tags:
