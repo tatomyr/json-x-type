@@ -83,7 +83,7 @@ paths:
         in: cookie
         description: Some cookie
         required: true
-        x-type: number::integer
+        x-type: number::int64
     post:
       tags:
         - pet
@@ -173,7 +173,7 @@ paths:
           description: ID of pet to return
           required: true
           deprecated: true
-          x-type: number::integer
+          x-type: number::int64
       responses:
         '200':
           description: successful operation
@@ -198,7 +198,7 @@ paths:
           in: path
           description: ID of pet that needs to be updated
           required: true
-          x-type: number::integer
+          x-type: number::int64
       responses:
         '405':
           description: Invalid input
@@ -231,7 +231,7 @@ paths:
           in: path
           description: Pet id to delete
           required: true
-          x-type: number::integer
+          x-type: number::int64
       responses:
         '400':
           description: Invalid pet value
@@ -251,7 +251,7 @@ paths:
           in: path
           description: ID of pet to update
           required: true
-          x-type: number::integer
+          x-type: number::int64
       responses:
         '200':
           description: successful operation
@@ -342,7 +342,7 @@ paths:
           content:
             application/json:
               x-type:
-                $record: number::integer
+                $record: number::int32
       security:
         - api_key: []
   /store/order:
@@ -391,7 +391,7 @@ paths:
           in: path
           description: ID of pet that needs to be fetched
           required: true
-          x-type: number::integer::min(1)::max(5)
+          x-type: number::int64::min(1)::max(5)
       responses:
         '200':
           description: successful operation
@@ -753,245 +753,6 @@ x-webhooks:
         '200':
           description: Return a 200 status to indicate that the data was received successfully
 components:
-  schemas:
-    ApiResponse:
-      type: object
-      properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
-    Cat:
-      description: A representation of a cat
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            huntingSkill:
-              type: string
-              description: The measured skill for hunting
-              default: lazy
-              example: adventurous
-              enum:
-                - clueless
-                - lazy
-                - adventurous
-                - aggressive
-          required:
-            - huntingSkill
-    Category:
-      type: object
-      properties:
-        id:
-          description: Category ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        name:
-          description: Category name
-          type: string
-          minLength: 1
-        sub:
-          description: Test Sub Category
-          type: object
-          properties:
-            prop1:
-              type: string
-              description: Dumb Property
-      xml:
-        name: Category
-    Dog:
-      description: A representation of a dog
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            packSize:
-              type: integer
-              format: int32
-              description: The size of the pack the dog is from
-              default: 1
-              minimum: 1
-          required:
-            - packSize
-    HoneyBee:
-      description: A representation of a honey bee
-      allOf:
-        - $ref: '#/components/schemas/Pet'
-        - type: object
-          properties:
-            honeyPerDay:
-              type: number
-              description: Average amount of honey produced per day in ounces
-              example: 3.14
-              multipleOf: 0.01
-          required:
-            - honeyPerDay
-    Id:
-      type: integer
-      format: int64
-      readOnly: true
-    Order:
-      type: object
-      properties:
-        id:
-          description: Order ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        petId:
-          description: Pet ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        quantity:
-          type: integer
-          format: int32
-          minimum: 1
-          default: 1
-        shipDate:
-          description: Estimated ship date
-          type: string
-          format: date-time
-        status:
-          type: string
-          description: Order Status
-          enum:
-            - placed
-            - approved
-            - delivered
-        complete:
-          description: Indicates whenever order was completed or not
-          type: boolean
-          default: false
-          readOnly: true
-        requestId:
-          description: Unique Request Id
-          type: string
-          writeOnly: true
-      xml:
-        name: Order
-    Pet:
-      type: object
-      required:
-        - name
-        - photoUrls
-      discriminator:
-        propertyName: petType
-        mapping:
-          cat: '#/components/schemas/Cat'
-          dog: '#/components/schemas/Dog'
-          bee: '#/components/schemas/HoneyBee'
-      properties:
-        id:
-          externalDocs:
-            description: Find more info here
-            url: https://example.com
-          description: Pet ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        category:
-          description: Categories this pet belongs to
-          allOf:
-            - $ref: '#/components/schemas/Category'
-        name:
-          description: The name given to a pet
-          type: string
-          example: Guru
-        photoUrls:
-          description: The list of URL to a cute photos featuring pet
-          type: array
-          maxItems: 20
-          xml:
-            name: photoUrl
-            wrapped: true
-          items:
-            type: string
-            format: url
-        friend:
-          allOf:
-            - $ref: '#/components/schemas/Pet'
-        tags:
-          description: Tags attached to the pet
-          type: array
-          minItems: 1
-          xml:
-            name: tag
-            wrapped: true
-          items:
-            $ref: '#/components/schemas/Tag'
-        status:
-          type: string
-          description: Pet status in the store
-          enum:
-            - available
-            - pending
-            - sold
-        petType:
-          description: Type of a pet
-          type: string
-      xml:
-        name: Pet
-    Tag:
-      type: object
-      properties:
-        id:
-          description: Tag ID
-          allOf:
-            - $ref: '#/components/schemas/Id'
-        name:
-          description: Tag name
-          type: string
-          minLength: 1
-      xml:
-        name: Tag
-    User:
-      type: object
-      properties:
-        id:
-          $ref: '#/components/schemas/Id'
-        pet:
-          oneOf:
-            - $ref: '#/components/schemas/Pet'
-            - $ref: '#/components/schemas/Tag'
-        username:
-          description: User supplied username
-          type: string
-          minLength: 4
-          example: John78
-        firstName:
-          description: User first name
-          type: string
-          minLength: 1
-          example: John
-        lastName:
-          description: User last name
-          type: string
-          minLength: 1
-          example: Smith
-        email:
-          description: User email address
-          type: string
-          format: email
-          example: john.smith@example.com
-        password:
-          type: string
-          description: User password, MUST contain a mix of upper and lower case letters, as well as digits
-          format: password
-          minLength: 8
-          pattern: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/
-          example: drowssaP123
-        phone:
-          description: User phone number in international format
-          type: string
-          pattern: /^\+(?:[0-9]-?){6,14}[0-9]$/
-          example: +1-202-555-0192
-        userStatus:
-          description: User status
-          type: integer
-          format: int32
-      xml:
-        name: User
   requestBodies:
     Pet:
       content:
@@ -1037,12 +798,12 @@ components:
         complete: false
   x-types:
     ApiResponse:
-      code: number::integer
+      code: number::int32
       type: string
       message: string
     Cat:
       $and:
-        - $ref: '#/components/x-types/Pet'
+        - $ref: '#/components/x-types/Base_Pet'
         - huntingSkill:
             - clueless
             - lazy
@@ -1050,8 +811,9 @@ components:
             - aggressive
           $descriptions:
             huntingSkill: The measured skill for hunting
+        - petType: cat
     Category:
-      id: number::integer
+      id: number::int64
       name: string::min(1)
       sub:
         prop1: string
@@ -1063,21 +825,23 @@ components:
         sub: Test Sub Category
     Dog:
       $and:
-        - $ref: '#/components/x-types/Pet'
-        - packSize: number::integer::min(1)
+        - $ref: '#/components/x-types/Base_Pet'
+        - packSize: number::int32::min(1)
           $descriptions:
             packSize: The size of the pack the dog is from
+        - petType: dog
     HoneyBee:
       $and:
-        - $ref: '#/components/x-types/Pet'
+        - $ref: '#/components/x-types/Base_Pet'
         - honeyPerDay: number
           $descriptions:
             honeyPerDay: Average amount of honey produced per day in ounces
-    Id: number::integer
+        - petType: bee
+    Id: number::int64
     Order:
-      id: number::integer
-      petId: number::integer
-      quantity: number::integer::min(1)
+      id: number::int64
+      petId: number::int64
+      quantity: number::int32::min(1)
       shipDate: string::date-time
       status:
         - placed
@@ -1093,6 +857,10 @@ components:
         complete: Indicates whenever order was completed or not
         requestId: Unique Request Id
     Pet:
+      - $ref: '#/components/x-types/Cat'
+      - $ref: '#/components/x-types/Dog'
+      - $ref: '#/components/x-types/HoneyBee'
+    Base_Pet:
       id:
         - $ref: '#/components/x-types/Id'
         - undefined
@@ -1117,12 +885,6 @@ components:
       petType:
         - string
         - undefined
-      $discriminator:
-        propertyName: petType
-        mapping:
-          cat: '#/components/schemas/Cat'
-          dog: '#/components/schemas/Dog'
-          bee: '#/components/schemas/HoneyBee'
       $descriptions:
         id: Pet ID
         category: Categories this pet belongs to
@@ -1132,13 +894,13 @@ components:
         status: Pet status in the store
         petType: Type of a pet
     Tag:
-      id: number::integer
+      id: number::int64
       name: string::min(1)
       $descriptions:
         id: Tag ID
         name: Tag name
     User:
-      id: number::integer
+      id: number::int64
       pet:
         - $ref: '#/components/x-types/Pet'
         - $ref: '#/components/x-types/Tag'
@@ -1148,7 +910,7 @@ components:
       email: string::email
       password: string::password::pattern(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/)::min(8)
       phone: string::pattern(/^\+(?:[0-9]-?){6,14}[0-9]$/)
-      userStatus: number::integer
+      userStatus: number::int32
       $descriptions:
         username: User supplied username
         firstName: User first name

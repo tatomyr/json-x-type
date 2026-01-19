@@ -67,12 +67,14 @@ It must be an object at the same level as the fields it describes, mapping field
 
 Descriptions are propagated to the OpenAPI schema as the `description` fields of the corresponding properties.
 
+<!--
 ### $discriminator
 
 Represents the OpenAPI [discriminator](https://spec.openapis.org/oas/latest.html#discriminator-object).
 Its use is generally discouraged, and it is included mainly for compatibility with existing schemas.
 The discriminator object should contain the `propertyName` field and, optionally, the `mapping` field.
 The `mapping` field must contain links to the corresponding schemas (not to **X-Types**).
+-->
 
 <!-- TODO: convert components/schemas to components/x-types ? -->
 

@@ -145,6 +145,33 @@ components:
         - 42.1
       $literal:$record: $literal:number
       string: $record
+  schemas:
+    Foo:
+      type: number
+    Bar:
+      type: object
+      properties:
+        somekey:
+          anyOf:
+            - type: boolean
+              enum:
+                - true
+            - type: number
+              enum:
+                - 42.1
+        $record:
+          type: string
+          enum:
+            - number
+        string:
+          type: string
+          enum:
+            - $record
+      required:
+        - somekey
+        - $record
+        - string
+      additionalProperties: false
 "
 `;
 
@@ -249,6 +276,18 @@ components:
       ReferencedAgain: string
       $descriptions:
         ReferencedAgain: Referenced inside the ref.
+  schemas:
+    Referenced:
+      type: string
+    NestedReferenced:
+      type: object
+      properties:
+        ReferencedAgain:
+          description: Referenced inside the ref.
+          type: string
+      required:
+        - ReferencedAgain
+      additionalProperties: false
 "
 `;
 
@@ -353,24 +392,6 @@ paths:
                 $omit:
                   - password
 components:
-  schemas:
-    User:
-      type: object
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-        password:
-          type: string
-          writeOnly: true
-        createdAt:
-          $ref: '#/components/schemas/Date'
-    Date:
-      type: string
-      format: date-time
-      readOnly: true
   x-types:
     User:
       id: number::integer
@@ -552,6 +573,52 @@ components:
       best_friend:
         - $ref: '#/components/x-types/Person'
         - undefined
+  schemas:
+    Person:
+      type: object
+      properties:
+        name:
+          type: string
+        age:
+          type: number
+        best_friend:
+          type: object
+          properties:
+            name:
+              type: string
+            age:
+              type: number
+            best_friend:
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: number
+                best_friend:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    age:
+                      type: number
+                    best_friend: {}
+                  required:
+                    - name
+                    - age
+                  additionalProperties: false
+              required:
+                - name
+                - age
+              additionalProperties: false
+          required:
+            - name
+            - age
+          additionalProperties: false
+      required:
+        - name
+        - age
+      additionalProperties: false
 "
 `;
 
@@ -629,200 +696,117 @@ components:
         - friend:
             - $ref: '#/components/x-types/ReadonlyUser'
             - null
-"
-`;
-
-exports[`bundle > openapi with discriminators converted to schemas 1`] = `
-"openapi: 3.1.0
-info:
-  title: Test
-  version: 1.0.0
-paths:
-  /test:
-    get:
-      responses:
-        '200':
-          description: Test discriminators.
-          content:
-            application/inheritance+json:
-              x-type:
-                bukh: string
-                vidh: number
-                $discriminator:
-                  propertyName: bukh
-                  mapping:
-                    glagol: '#/components/schemas/Glagol'
-                    dobro: '#/components/schemas/Dobro'
-              schema:
-                type: object
-                properties:
-                  bukh:
-                    type: string
-                  vidh:
-                    type: number
-                required:
-                  - bukh
-                  - vidh
-                additionalProperties: false
-                discriminator:
-                  propertyName: bukh
-                  mapping:
-                    glagol: '#/components/schemas/Glagol'
-                    dobro: '#/components/schemas/Dobro'
-              examples:
-                Correct:
-                  value:
-                    bukh: glagol
-                    vidh: 1
-                    specificToGlagol: false
-                Incorrect:
-                  value:
-                    bukh: dobro
-            application/polymorphism+json:
-              x-type:
-                - $ref: '#/components/x-types/H'
-                - mhslite:
-                    - boolean
-                    - undefined
-                  kako: for_mhslite
-                  discriminator:
-                    - for test
-                    - undefined
-              schema:
-                anyOf:
-                  - type: object
-                    properties:
-                      ludh:
-                        type: number
-                      kako:
-                        type: string
-                        enum:
-                          - for_H
-                    required:
-                      - kako
-                    additionalProperties: false
-                  - type: object
-                    properties:
-                      mhslite:
-                        type: boolean
-                      kako:
-                        type: string
-                        enum:
-                          - for_mhslite
-                      discriminator:
-                        type: string
-                        enum:
-                          - for test
-                    required:
-                      - kako
-                    additionalProperties: false
-              examples:
-                Correct:
-                  value:
-                    kako: for_H
-                    ludh: 1
-                Incorrect:
-                  value:
-                    kako: wrong
-components:
   schemas:
-    Az:
+    User:
       type: object
       properties:
-        bukh:
+        name:
           type: string
-        vidh:
-          type: number
-      discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToGlagol:
-              type: boolean
-    Dobro:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToDobro:
-              type: integer
-            discriminator:
-              type: string
-              enum:
-                - for test
-    Zelo:
-      oneOf:
-        - $ref: '#/components/schemas/H'
-        - type: object
-          properties:
-            mhslite:
-              type: boolean
-            kako:
-              type: string
-              enum:
-                - for_mhslite
-            discriminator:
-              type: string
-              enum:
-                - for test
-          required:
-            - kako
-      discriminator:
-        propertyName: kako
-    H:
-      type: object
-      properties:
-        ludh:
-          type: number
-        kako:
+        password:
           type: string
-          enum:
-            - for_H
+        friend:
+          anyOf:
+            - type: object
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+                friend:
+                  anyOf:
+                    - type: object
+                      properties:
+                        name:
+                          type: string
+                        password:
+                          type: string
+                        friend:
+                          anyOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                password:
+                                  type: string
+                                friend:
+                                  anyOf:
+                                    - {}
+                                    - type: 'null'
+                              required:
+                                - name
+                                - password
+                                - friend
+                              additionalProperties: false
+                            - type: 'null'
+                      required:
+                        - name
+                        - password
+                        - friend
+                      additionalProperties: false
+                    - type: 'null'
+              required:
+                - name
+                - password
+                - friend
+              additionalProperties: false
+            - type: 'null'
       required:
-        - kako
-  x-types:
-    Az:
-      bukh: string
-      vidh: number
-      $discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      $and:
-        - $ref: '#/components/x-types/Az'
-        - specificToGlagol: boolean
-    Dobro:
-      $and:
-        - $ref: '#/components/x-types/Az'
-        - specificToDobro: number::integer
-          discriminator: for test
-    Zelo:
-      - $ref: '#/components/x-types/H'
-      - mhslite:
-          - boolean
-          - undefined
-        kako: for_mhslite
-        discriminator:
-          - for test
-          - undefined
-    H:
-      ludh:
-        - number
-        - undefined
-      kako: for_H
+        - name
+        - password
+        - friend
+      additionalProperties: false
+    ReadonlyUser:
+      type: object
+      properties:
+        name:
+          type: string
+        friend:
+          anyOf:
+            - type: object
+              properties:
+                name:
+                  type: string
+                friend:
+                  anyOf:
+                    - type: object
+                      properties:
+                        name:
+                          type: string
+                        friend:
+                          anyOf:
+                            - type: object
+                              properties:
+                                name:
+                                  type: string
+                                friend:
+                                  anyOf:
+                                    - {}
+                                    - type: 'null'
+                              required:
+                                - name
+                                - friend
+                              additionalProperties: false
+                            - type: 'null'
+                      required:
+                        - name
+                        - friend
+                      additionalProperties: false
+                    - type: 'null'
+              required:
+                - name
+                - friend
+              additionalProperties: false
+            - type: 'null'
+      required:
+        - name
+        - friend
+      additionalProperties: false
 "
 `;
 
 exports[`bundle > openapi with discriminators converted to x-types 1`] = `
-"openapi: 3.1.0
+"# Already an x-type $ref: #/components/x-types/Base_Az
+openapi: 3.1.0
 info:
   title: Test
   version: 1.0.0
@@ -857,85 +841,24 @@ paths:
               x-type:
                 $ref: '#/components/x-types/Zelo'
 components:
-  schemas:
-    Az:
-      type: object
-      properties:
-        bukh:
-          type: string
-        vidh:
-          type: number
-      discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToGlagol:
-              type: boolean
-    Dobro:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToDobro:
-              type: integer
-            discriminator:
-              type: string
-              enum:
-                - for test
-    Zelo:
-      oneOf:
-        - $ref: '#/components/schemas/H'
-        - type: object
-          properties:
-            mhslite:
-              type: boolean
-            kako:
-              type: string
-              enum:
-                - for_mhslite
-            discriminator:
-              type: string
-              enum:
-                - for test
-          required:
-            - kako
-      discriminator:
-        propertyName: kako
-    H:
-      type: object
-      properties:
-        ludh:
-          type: number
-        kako:
-          type: string
-          enum:
-            - for_H
-      required:
-        - kako
   x-types:
+    Glagol:
+      $and:
+        - $ref: '#/components/x-types/Base_Az'
+        - specificToGlagol: boolean
+        - bukh: glagol
     Az:
+      - $ref: '#/components/x-types/Glagol'
+      - $ref: '#/components/x-types/Dobro'
+    Base_Az:
       bukh: string
       vidh: number
-      $discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      $and:
-        - $ref: '#/components/x-types/Az'
-        - specificToGlagol: boolean
     Dobro:
       $and:
-        - $ref: '#/components/x-types/Az'
+        - $ref: '#/components/x-types/Base_Az'
         - specificToDobro: number::integer
           discriminator: for test
+        - bukh: dobro
     Zelo:
       - $ref: '#/components/x-types/H'
       - mhslite:
@@ -1029,6 +952,21 @@ components:
       id: number::integer
       name: string
       password: string
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        password:
+          type: string
+      required:
+        - id
+        - name
+        - password
+      additionalProperties: false
 "
 `;
 
@@ -1115,6 +1053,18 @@ components:
       $and:
         - foo: boolean
         - bar: number
+  schemas:
+    CorrectAnd:
+      type: object
+      properties:
+        foo:
+          type: boolean
+        bar:
+          type: number
+      required:
+        - foo
+        - bar
+      additionalProperties: false
 "
 `;
 
@@ -1227,6 +1177,19 @@ components:
       $array:
         - az
         - bukh
+  schemas:
+    Foo:
+      type: string
+      enum:
+        - az
+        - bukh
+    Bar:
+      type: array
+      items:
+        type: string
+        enum:
+          - az
+          - bukh
 "
 `;
 
@@ -1330,6 +1293,7 @@ components:
       example: true
       schema:
         type: string
+  schemas: {}
 "
 `;
 
@@ -1418,5 +1382,15 @@ components:
     Conditional:
       - vidh
       - undefined
+  schemas:
+    Or:
+      type: string
+      enum:
+        - az
+        - bukh
+    Conditional:
+      type: string
+      enum:
+        - vidh
 "
 `;

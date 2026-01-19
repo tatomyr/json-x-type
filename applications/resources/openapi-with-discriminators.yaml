@@ -39,7 +39,14 @@ paths:
                     kako: wrong
 components:
   schemas:
-    Az:
+    Glagol:
+      allOf:
+        - $ref: '#/components/schemas/Az'
+        - type: object
+          properties:
+            specificToGlagol:
+              type: boolean
+    Az: # moved between Glagol and Dobro to cover cases when the discriminated sub-schemas could be above or below the discriminator itself
       type: object
       properties:
         bukh:
@@ -51,13 +58,6 @@ components:
         mapping:
           glagol: '#/components/schemas/Glagol'
           dobro: '#/components/schemas/Dobro'
-    Glagol:
-      allOf:
-        - $ref: '#/components/schemas/Az'
-        - type: object
-          properties:
-            specificToGlagol:
-              type: boolean
     Dobro:
       allOf:
         - $ref: '#/components/schemas/Az'
@@ -99,35 +99,3 @@ components:
             - for_H
       required:
         - kako
-  x-types:
-    Az:
-      bukh: string
-      vidh: number
-      $discriminator:
-        propertyName: bukh
-        mapping:
-          glagol: '#/components/schemas/Glagol'
-          dobro: '#/components/schemas/Dobro'
-    Glagol:
-      $and:
-        - $ref: '#/components/x-types/Az'
-        - specificToGlagol: boolean
-    Dobro:
-      $and:
-        - $ref: '#/components/x-types/Az'
-        - specificToDobro: number::integer
-          discriminator: for test
-    Zelo:
-      - $ref: '#/components/x-types/H'
-      - mhslite:
-          - boolean
-          - undefined
-        kako: for_mhslite
-        discriminator:
-          - for test
-          - undefined
-    H:
-      ludh:
-        - number
-        - undefined
-      kako: for_H
