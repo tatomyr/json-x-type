@@ -1,5 +1,5 @@
 rules:
-  spec: error
+  struct: error
   no-unresolved-refs: error
   no-invalid-media-type-examples: error
   no-invalid-parameter-examples: error

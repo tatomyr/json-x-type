@@ -13,9 +13,10 @@ export const runCommand = cmd => {
     })
     stdout = out.toString('utf-8')
   } catch (err) {
-    stderr = err.stderr.toString('utf-8')
+    stdout = err.stdout?.toString('utf-8') || ''
+    stderr = err.stderr?.toString('utf-8') || ''
   }
   return {stderr, stdout}
 }
 
-export const stripCWD = str => str.replace(process.cwd(), '.')
+export const stripCWD = str => str?.replace(process.cwd(), '.') ?? str

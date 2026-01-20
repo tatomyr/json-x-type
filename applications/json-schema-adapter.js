@@ -1,7 +1,6 @@
 // Experimental feature
 
-import {isRef} from '@redocly/openapi-core'
-import {isPlainObject, isEmptyObject} from '@redocly/openapi-core/lib/utils.js'
+import {isRef, isPlainObject, isEmptyObject} from '@redocly/openapi-core'
 import {RESERVED_KEYWORDS} from './x-types-utils.js'
 
 const escapeReserved = value => {

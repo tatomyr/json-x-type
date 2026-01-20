@@ -1,4 +1,4 @@
-import {isNotEmptyObject} from '@redocly/openapi-core/lib/utils.js'
+import {isNotEmptyObject} from '@redocly/openapi-core'
 import {isObject} from './x-types-utils.js'
 
 const SUFFIXES = {
